@@ -116,6 +116,35 @@ PPO 收敛结果来自 4 个 seed，各自 100 个**全新种子**回合（20000
 | 3 | 93 % | 288.08 | 78.62 |
 | **池化 400 回合** | **96.8 %** | **299.65** | — |
 
+### 训练成果（渲染回放）
+
+![三策略并排对比](runs/env_007/videos/comparison_seed20018.gif)
+
+同一 episode 种子下的并排回放：
+
+| seed | 随机策略 | 手写启发式 | 训练后 PPO |
+|---|---|---|---|
+| 20000 | 失败（400 步超时，距泊位 4.50 m） | 失败（400 步超时，0.31 m） | **成功，158 步，0.065 m** |
+| 20018 | 失败（400 步超时，4.06 m） | 成功，314 步 | **成功，148 步，0.020 m** |
+
+30 个种子上的成功率：**PPO 29/30，启发式 7/30**。
+
+值得注意：不少启发式"失败"的回合终点距泊位其实只有 0.06–0.09 m（**货箱已经进入泊位**），
+但没能满足"连续 10 步、速度 < 0.05 m/s"的保持条件 —— 这正是
+「缺少低速约束 → 高速冲入后弹出」那一类奖励缺陷的实测表现。
+
+视频产物（`runs/env_007/videos/`）：
+
+| 文件 | 内容 |
+|---|---|
+| `comparison_seed{20000,20018}.mp4` | 三宫格并排对比（主展示） |
+| `comparison_seed{20000,20018}.gif` | GIF 预览版（前 6 秒、缩放） |
+| `ppo_seed*.mp4` / `heuristic_seed*.mp4` / `random_seed*.mp4` | 各策略单独回放 |
+| `comparison_seed*_final.png` | 末帧静图 |
+| `render_results.json` | 每个回放的回报/步数/结束原因 |
+
+回放 HUD 实时显示步数、货箱到泊位距离、货箱速度与接触状态，结束时定格显示结果。
+
 ---
 
 ## 4. 标定结论（重要）
@@ -199,6 +228,9 @@ python run_fragilecargo_baseline.py --trace
 
 # 冒烟测试（20 万步 + 5 回合）
 python run_fragilecargo_baseline.py --quick
+
+# 渲染训练后模型的回放视频（MP4 + GIF + 静图，无需显示器）
+python record_fragilecargo_policies.py --seeds 20000,20018 --keep-frames
 ```
 
 `--policies` 可取 `random` / `heuristic` / `ppo` 的任意组合。全部 PPO 超参均可通过命令行覆盖（`--gamma --learning-rate --ent-coef --n-steps --batch-size --net-arch --activation --normalize-reward` 等）。
@@ -214,6 +246,7 @@ python run_fragilecargo_baseline.py --quick
 ├── README.md
 ├── requirements.txt
 ├── run_fragilecargo_baseline.py          # 基线程序 / 标定工具
+├── record_fragilecargo_policies.py       # 回放渲染（MP4 / GIF / 静图）
 ├── custom_envs/
 │   ├── __init__.py
 │   ├── registration.py                   # 集中式环境注册（供入口 import）
@@ -228,7 +261,8 @@ python run_fragilecargo_baseline.py --quick
     ├── baseline/                         # 随机 + 手写控制器结果
     ├── calib_g99|g995|g999|g999n/        # 第一轮超参扫描
     ├── ac3_s0..s3/                       # 最终标定模型 + 学习曲线 + 结果
-    └── confirm_s0..s3/                   # 100 回合确认评估
+    ├── confirm_s0..s3/                   # 100 回合确认评估
+    └── videos/                           # 训练成果渲染回放（MP4 / GIF / PNG）
 ```
 
 ---
@@ -241,6 +275,8 @@ python run_fragilecargo_baseline.py --quick
    - 原 `gentle_contact = +0.02/步` 的接触奖励造成**陷阱局部最优**：货箱顶到隔墙推不动后，小车"赖着不动"每步拿 0.02，250 步 ≈ +5，正好凑出恒为 **+6.5** 的卡死平台（4 个 seed 中 2 个中招）。改为冲量比例的**粗糙度惩罚**后陷阱消失。
    - 但修掉后探索崩了（4 个 seed 在 225 万步内 3 个完全不动），暴露出缺少引导信号。补上势函数形式的 `approach_cargo` 后，同样 75 万步预算下成功率从 **0/0/0/0 %** 变为 **90/30/80/100 %**。
 4. **环境是确定性的**：固定 seed + 固定动作序列下两次回报逐位相同；所有随机化走 `self.np_random`（不是全局 `random`），保证 `SubprocVecEnv` 子进程间可复现。
+5. **渲染必须应用刚体旋转**。最初 `render()` 用 `shape.vertices[2]` 取半宽半高再画**轴对齐矩形**，把 41° 斜置的导流挡板画成了水平横条，几何完全失真。现在改为取 fixture 真实顶点、按 `body.angle` 旋转后再画多边形。另外 pybox2d 的 `shape.vertices` 返回的是**普通元组** `(x, y)` 而非 `b2Vec2`，`v.x` 会抛 `AttributeError`。
+6. **视频编码**：环境里默认只有 `imageio` 没有编码器，需额外装 `imageio-ffmpeg`（自带 ffmpeg 二进制）才能写 MP4；渲染用 `SDL_VIDEODRIVER=dummy` 即可无显示器运行。
 
 ---
 

@@ -654,23 +654,32 @@ class FragileCargoDockEnv(gym.Env):
                                      int(2 * FIELD_HALF_W * scale),
                                      int(2 * FIELD_HALF_H * scale)), 2)
 
-        # Dock
-        dock_rect = pygame.Rect(0, 0, int(2 * DOCK_HALF * scale), int(2 * DOCK_HALF * scale))
-        dock_rect.center = to_px(DOCK_X, DOCK_Y)
-        pygame.draw.rect(canvas, (150, 220, 150), dock_rect, 2)
+        # Dock: filled bay plus outline.
+        dock_pts = [to_px(DOCK_X + dx, DOCK_Y + dy)
+                    for dx, dy in ((-DOCK_HALF, -DOCK_HALF), (DOCK_HALF, -DOCK_HALF),
+                                   (DOCK_HALF, DOCK_HALF), (-DOCK_HALF, DOCK_HALF))]
+        overlay = pygame.Surface((width, height), pygame.SRCALPHA)
+        pygame.draw.polygon(overlay, (120, 210, 130, 70), dock_pts)
+        pygame.draw.polygon(overlay, (86, 172, 98, 255), dock_pts, 3)
+        canvas.blit(overlay, (0, 0))
 
-        # Static bodies
+        # Static obstacles: draw the *transformed* fixture vertices. Using an
+        # axis-aligned bounding rectangle here would flatten the 41-degree guide
+        # rails into horizontal bars and misrepresent the geometry.
         for body in self._static_bodies:
             for fixture in body.fixtures:
-                shape = fixture.shape
-                try:
-                    hw, hh = shape.vertices[2]
-                except Exception:
+                verts = getattr(fixture.shape, "vertices", None)
+                if not verts:
                     continue
-                cx, cy = body.position
-                rect = pygame.Rect(0, 0, int(2 * hw * scale), int(2 * hh * scale))
-                rect.center = to_px(cx, cy)
-                pygame.draw.rect(canvas, (90, 90, 110), rect)
+                ca, sa = math.cos(body.angle), math.sin(body.angle)
+                bx, by = float(body.position.x), float(body.position.y)
+                pts = []
+                for v in verts:
+                    # pybox2d exposes polygon vertices as plain (x, y) tuples
+                    vx, vy = (float(v.x), float(v.y)) if hasattr(v, "x") else (float(v[0]), float(v[1]))
+                    pts.append(to_px(bx + vx * ca - vy * sa, by + vx * sa + vy * ca))
+                pygame.draw.polygon(canvas, (96, 96, 116), pts)
+                pygame.draw.polygon(canvas, (58, 58, 76), pts, 2)
 
         # Cargo
         cargo = self._cargo_body
@@ -683,6 +692,7 @@ class FragileCargoDockEnv(gym.Env):
             ry = cy + dx * math.sin(cargo.angle) + dy * math.cos(cargo.angle)
             pts.append(to_px(rx, ry))
         pygame.draw.polygon(canvas, (205, 150, 70), pts)
+        pygame.draw.polygon(canvas, (140, 96, 34), pts, 2)
 
         # Cart
         robot = self._robot_body
@@ -694,6 +704,7 @@ class FragileCargoDockEnv(gym.Env):
             py = ry + dx * math.sin(robot.angle) + dy * math.cos(robot.angle)
             pts.append(to_px(px, py))
         pygame.draw.polygon(canvas, (70, 110, 200), pts)
+        pygame.draw.polygon(canvas, (30, 58, 128), pts, 2)
 
         if self.render_mode == "human":
             self._surface.blit(canvas, (0, 0))
