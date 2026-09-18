@@ -1,0 +1,112 @@
+env_id: Env_007
+env_name: null
+environment_name_policy:
+  hide_true_name: true
+  do_not_mention_known_benchmark_name: true
+  do_not_mention_gym_or_gymnasium_id: true
+
+task_description: |
+  This anonymous environment is a top-down (bird's-eye) warehouse manipulation
+  task with continuous control, rigid-body contact and a staged objective.
+
+  A wheeled cart drives on a flat warehouse floor. The cart can apply a
+  longitudinal force (throttle / reverse) and a steering torque; it has no
+  brakes of its own and no gripper. A single freely-moving square crate sits on
+  the floor. The crate is FRAGILE: it must be handled gently.
+
+  The warehouse is divided by an interior partition wall that has one narrow
+  opening. The cart starts on the near side together with the crate. The
+  delivery dock is a marked rectangular bay on the far side of the wall.
+  The cart can only move the crate by driving into it and pushing it.
+
+  The task is complete when the crate has been delivered into the dock and is
+  resting there: the crate must be fully inside the dock rectangle, its heading
+  must be aligned with the dock, and it must be nearly stationary, and those
+  conditions must hold continuously for a short settling period. Simply
+  touching the dock region is not sufficient.
+
+  The crate must not be handled roughly: repeated hard impacts damage it and
+  end the episode in failure. Leaving the warehouse floor also ends the episode
+  in failure. Running out of time ends the episode as a truncation (not a
+  success).
+
+  Note that the crate keeps gliding after the cart stops pushing it, because of
+  floor drag only; the cart cannot slow the crate down from behind.
+
+action_space:
+  type: Box
+  shape: [2]
+  continuous: true
+  bounds: "[-1.0, 1.0] per channel"
+  actions:
+    0:
+      name: drive
+      meaning: "longitudinal force command along the cart heading; +1 drives forward, -1 reverses"
+    1:
+      name: steer
+      meaning: "steering torque command; +1 turns left (counter-clockwise), -1 turns right"
+
+observation_space:
+  type: Box
+  shape: [19]
+  dtype: float32
+  bounds: "all entries are clipped to [-2.0, 2.0]"
+  fields:
+    - {index: 0,  name: cart_x,                 meaning: "cart x position divided by warehouse half-width (0 = centre line, +1 = far wall)"}
+    - {index: 1,  name: cart_y,                 meaning: "cart y position divided by warehouse half-height (0 = centre line)"}
+    - {index: 2,  name: cart_cos_heading,       meaning: "cosine of the cart heading angle"}
+    - {index: 3,  name: cart_sin_heading,       meaning: "sine of the cart heading angle"}
+    - {index: 4,  name: cart_forward_speed,     meaning: "cart speed along its own heading, divided by 3.0 (m/s)"}
+    - {index: 5,  name: cart_yaw_rate,          meaning: "cart angular velocity divided by 8.0 (rad/s)"}
+    - {index: 6,  name: crate_rel_x_body,       meaning: "crate position relative to the cart, expressed in the cart body frame, x component divided by 3.0 (m)"}
+    - {index: 7,  name: crate_rel_y_body,       meaning: "crate position relative to the cart, expressed in the cart body frame, y component divided by 3.0 (m)"}
+    - {index: 8,  name: crate_vx,               meaning: "crate linear velocity x in world frame, divided by 3.0 (m/s)"}
+    - {index: 9,  name: crate_vy,               meaning: "crate linear velocity y in world frame, divided by 3.0 (m/s)"}
+    - {index: 10, name: crate_cos_heading,      meaning: "cosine of the crate heading angle"}
+    - {index: 11, name: crate_sin_heading,      meaning: "sine of the crate heading angle"}
+    - {index: 12, name: crate_to_dock_x,        meaning: "signed x offset from the crate centre to the dock centre, divided by warehouse half-width"}
+    - {index: 13, name: crate_to_dock_y,        meaning: "signed y offset from the crate centre to the dock centre, divided by warehouse half-height"}
+    - {index: 14, name: cart_crate_contact,     meaning: "1.0 if the cart and the crate are currently in contact, otherwise 0.0"}
+    - {index: 15, name: sensor_front,           meaning: "proximity of the nearest static obstacle ahead of the cart, 0 = clear within range, 1 = touching"}
+    - {index: 16, name: sensor_left,            meaning: "proximity of the nearest static obstacle to the cart's left, 0 = clear within range, 1 = touching"}
+    - {index: 17, name: sensor_right,           meaning: "proximity of the nearest static obstacle to the cart's right, 0 = clear within range, 1 = touching"}
+    - {index: 18, name: time_fraction,          meaning: "fraction of the episode time budget already consumed, in [0, 1]"}
+
+termination_conditions:
+  - docked_success:
+      description: "the crate is fully inside the dock, its heading error is below 30 degrees and its speed is below 0.05 m/s, held continuously for 10 environment steps"
+  - crate_out_of_bounds:
+      description: "the crate centre leaves the warehouse floor rectangle"
+  - cart_out_of_bounds:
+      description: "the cart centre leaves the warehouse floor rectangle"
+  - crate_damaged:
+      description: "the crate has taken 3 or more hard impacts; a hard impact is a cart-crate contact whose peak normal impulse exceeds the fragility threshold"
+  - time_limit:
+      description: "the episode reaches its fixed step budget; reported as truncation, not as task success"
+
+interface_constraints:
+  official_reward_masked: true
+  allowed_info_fields: []
+  forbidden_info_fields:
+    - is_success
+    - cargo_goal_distance
+    - cargo_angle_error
+    - cargo_speed
+    - robot_cargo_distance
+    - contact_impulse
+    - hard_collision_count
+    - stagnation_steps
+    - action_energy
+    - component_returns
+    - official_reward_terms
+    - termination_reason
+    - cargo_inside_dock
+    - stable_steps
+  notes:
+    - The environment's own reward function is hidden; the generated reward must be built only from the observation vector and the action.
+    - The cart cannot brake the crate. The crate only slows because of floor drag, so reward designs that require pushing until the very end will fail the low-speed settling condition.
+    - Distances are not given directly, but they are exactly recoverable from the observation. For example, the crate position in world coordinates is obtained by rotating (obs[6]*3.0, obs[7]*3.0) by the cart heading and adding the cart position (obs[0]*5.0, obs[1]*4.0).
+    - The crate-to-dock offset is available directly at obs[12] and obs[13], scaled by the warehouse half-extents (5.0 in x, 4.0 in y).
+    - Crate axial speed is sqrt((obs[8]*3.0)^2 + (obs[9]*3.0)^2). Crate heading error is atan2(obs[11], obs[10]).
+    - The interior partition with its opening is a hard static obstacle; the crate and the cart can both collide with it.
+    - info exposes internal diagnostics for logging only. Do not read them in the generated reward.

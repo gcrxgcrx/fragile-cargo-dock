@@ -1,0 +1,140 @@
+experiment:
+  env_id: Env_007
+  run_root: runs/env_007
+  run_name: null
+  seed: 0
+
+llm:
+  provider: deepseek
+  base_url: https://api.deepseek.com
+  api_key_env: DEEPSEEK_API_KEY
+  model_env: deepseek-v4-pro
+  model_reward: deepseek-v4-pro
+  model_reflection: deepseek-v4-pro
+  model_investigator: deepseek-v4-pro
+  temperature_environment_analyzer: 0.0
+  temperature_reward_generator: 0.15
+  max_tokens_env: 4096
+  max_tokens_reward: 8192
+
+inputs:
+  task_spec_path: envs/env_007/task_spec_anonymized.yaml
+  masked_step_path: envs/env_007/masked_step_source.py
+
+prompts:
+  environment_analyzer: prompts/01_environment_analyzer_prompt.md
+  reward_generator: prompts/02_reward_generator_prompt.md
+  reward_revision: prompts/03_reward_revision_prompt.md
+
+rag:
+  route_catalog_path: knowledge_base/stage_generation/route_catalog_03.json
+  skeleton_catalog_path: knowledge_base/stage_generation/skeleton_catalog_02.json
+  generation_chunks_path: knowledge_base/stage_generation/generation_chunks_02_03_exact.jsonl
+  generation_table_chunks_path: knowledge_base/stage_generation/table_chunks_02_03.jsonl
+  reward_misalignment_cards_path: knowledge_base/iteration/reward_misalignment_cards.md
+
+context:
+  include_masked_step_in_reward_generator: false
+  max_expert_context_chars: 6500
+
+reward_generation:
+  function_signature: "def compute_reward(obs, action, next_obs, original_reward, info, training_progress=0.0):"
+  forbidden_info_fields_for_reward:
+    - original_reward
+    - official_reward
+    - is_success
+    - cargo_goal_distance
+    - cargo_angle_error
+    - cargo_speed
+    - robot_cargo_distance
+    - contact_impulse
+    - hard_collision_count
+    - stagnation_steps
+    - action_energy
+    - component_returns
+    - official_reward_terms
+    - termination_reason
+
+subagent_investigator:
+  enabled: true
+  max_turns: 3
+
+multi_seed:
+  enabled: true
+  start_seed: 0
+  num_seeds: 3
+
+iteration:
+  total_rounds: 10
+  experiment_prefix: fragilecargo_v1
+  experiment_root: runs/env_007/experiments
+  memory_path: runs/env_007/memory/reward_memory.md
+  reset_memory_at_start: true
+  cards_top_k: 4
+  stop_on_invalid_reward: true
+  use_mock_llm: false
+  # Calibrated by run_fragilecargo_baseline.py; see runs/env_007/CALIBRATION.md.
+  #   random policy          -> native return   -1.1   ( 0% delivery)
+  #   heuristic push policy  -> native return  158.4   (50% delivery)
+  #   converged PPO baseline -> native return  299.7   (96.8% delivery, 400 episodes)
+  # Native return is approximately 10 + 300 * delivery_rate, so one extra
+  # success out of `training.eval_episodes` is worth 300/eval_episodes points.
+  # 250 corresponds to roughly an 80% delivery rate: above the heuristic
+  # controller and below the converged ceiling, so the search keeps headroom.
+  target_score: 250.0
+  save_best_artifacts: true
+  stop_after_solved_drop: true
+  stop_when_solved_and_identical: true
+  no_improvement_patience_after_solved: 2
+  no_improvement_patience_unsolved: 3
+  min_meaningful_improvement: 15.0
+  retry_identical_when_unsolved: true
+  max_identical_revision_retries: 2
+  use_reflection_agent: true
+
+training:
+  runner_env_id: FragileCargoDock-v0
+  # SB3 PPO parameters; Box2D is CPU bound so the device stays on cpu.
+  #
+  # gamma / normalize_reward were calibrated with run_fragilecargo_baseline.py
+  # (1.2M-step sweep, 5 envs, seed 0):
+  #   gamma=0.99,  norm_reward=False ->   0% success, mean native return   6.2
+  #   gamma=0.995, norm_reward=False ->  40% success, unstable (10%..60%)
+  #   gamma=0.999, norm_reward=False ->   0% success, mean native return  -0.9
+  #   gamma=0.999, norm_reward=True  ->  80% success, mean native return 250.0
+  # Reward normalisation is what makes the sparse +300 terminal bonus
+  # learnable at a 400-step horizon; without it the value function diverges.
+  # With gamma=0.999 + normalisation all four seeds (0-3) reach >=90% delivery
+  # by 1.75M steps and stay there; 3M steps is the recommended budget.
+  normalize_obs: true
+  normalize_reward: true
+  clip_obs: 10.0
+  policy: MlpPolicy
+  # n_envs=6 matches the exact configuration the convergence numbers were
+  # measured with; 8 also works but was not calibrated.
+  n_envs: 6
+  total_timesteps: 3000000
+  eval_episodes: 20
+  eval_seed_offset: 10000
+  n_steps: 2048
+  batch_size: 128
+  gae_lambda: 0.95
+  gamma: 0.999
+  n_epochs: 10
+  ent_coef: 0.005
+  learning_rate: 0.0003
+  clip_range: 0.2
+  max_grad_norm: 0.5
+  vf_coef: 0.5
+  policy_kwargs:
+    ortho_init: true
+    activation_fn: Tanh
+    net_arch:
+      pi: [128, 128]
+      vf: [128, 128]
+  device: cpu
+  seed: 0
+  max_training_steps_for_progress: 3000000
+  save_dir: runs/env_007/training_runs
+  run_name: ppo_reward_v1_007
+  tensorboard_log: runs/env_007/tensorboard

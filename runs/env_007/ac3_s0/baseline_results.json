@@ -1,0 +1,72 @@
+{
+  "config": {
+    "env_id": "FragileCargoDock-v0",
+    "policies": "ppo",
+    "episodes": 30,
+    "eval_seed_offset": 10000,
+    "n_envs": 6,
+    "seed": 0,
+    "device": "cpu",
+    "out_dir": "runs/env_007/ac3_s0",
+    "tag": null,
+    "total_timesteps": 3000000,
+    "gamma": 0.999,
+    "gae_lambda": 0.95,
+    "learning_rate": 0.0003,
+    "n_steps": 2048,
+    "batch_size": 128,
+    "n_epochs": 10,
+    "clip_range": 0.2,
+    "ent_coef": 0.005,
+    "vf_coef": 0.5,
+    "max_grad_norm": 0.5,
+    "net_arch": "128,128",
+    "activation": "tanh",
+    "no_ortho_init": false,
+    "normalize_reward": true,
+    "eval_every": 250000,
+    "train_eval_episodes": 10,
+    "load_model": null,
+    "load_vecnormalize": null,
+    "quick": false,
+    "trace": false,
+    "skip_contract_check": true
+  },
+  "summaries": [
+    {
+      "policy": "ppo_native_reward",
+      "episodes": 30,
+      "mean_return": 299.615433813425,
+      "stdev_return": 54.08665678601412,
+      "min_return": 8.35464020921435,
+      "max_return": 310.56580167317196,
+      "success_rate": 0.9666666666666667,
+      "successes": 29,
+      "dock_rate": 1.0,
+      "mean_steps": 187.16666666666666,
+      "mean_final_goal_distance": 0.03227484245658543,
+      "mean_final_angle_error": 0.19254338359460235,
+      "mean_final_cargo_speed": 0.02553160326630394,
+      "mean_hard_collisions": 0,
+      "terminations": {
+        "success": 29,
+        "time_limit": 1
+      }
+    }
+  ],
+  "convergence": {
+    "checkpoints": 12,
+    "best_success_rate": 1.0,
+    "best_mean_return": 309.6103863604569,
+    "first_timesteps_at_or_above_half_of_best": 750000,
+    "last_timesteps_below_half_of_best": 1000002,
+    "final_checkpoint": {
+      "timesteps": 3000000,
+      "mean_return": 309.5026431202114,
+      "success_rate": 1.0,
+      "dock_rate": 1.0,
+      "mean_steps": 177.4,
+      "mean_final_goal_distance": 0.03853016913616111
+    }
+  }
+}
