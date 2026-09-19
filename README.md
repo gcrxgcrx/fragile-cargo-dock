@@ -133,6 +133,15 @@ PPO 收敛结果来自 4 个 seed，各自 100 个**全新种子**回合（20000
 但没能满足"连续 10 步、速度 < 0.05 m/s"的保持条件 —— 这正是
 「缺少低速约束 → 高速冲入后弹出」那一类奖励缺陷的实测表现。
 
+### 奖励搜索实验
+
+在本环境上做过一次 **CREATE vs EUREKA-style 种群搜索**的同预算对照实验
+（同为 `deepseek-flash`、同 3000 万步、官方奖励对两者均隐藏）。
+完整结果与报告见 **[`experiments/README.md`](experiments/README.md)**。
+
+结论摘要：两个方法都**没有解出任务**（各 20 个评估回合 0 次成功入库，最优分数 +4.86 vs +5.13），
+但 CREATE 的结构化诊断做出了可核对的结构修复；详见报告。
+
 视频产物（`runs/env_007/videos/`）：
 
 | 文件 | 内容 |
@@ -256,6 +265,10 @@ python record_fragilecargo_policies.py --seeds 20000,20018 --keep-frames
 │   └── masked_step_source.py             # 脱敏 step 源码（官方奖励被 mask）
 ├── configs/
 │   └── env007_fragilecargo_eureka.yaml   # CREATE 主管线配置（已写入标定结论）
+├── experiments/                          # CREATE vs EUREKA 对照实验（结果 + 报告）
+│   ├── README.md                         #   实验报告
+│   ├── create_rounds.csv                 #   逐轮分数 / 组件份额 / 激活率
+│   └── eureka_generations.csv            #   逐候选分数 / 血缘
 └── runs/env_007/
     ├── CALIBRATION.md                    # 完整标定报告
     ├── baseline/                         # 随机 + 手写控制器结果
