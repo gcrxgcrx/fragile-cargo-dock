@@ -1,0 +1,1921 @@
+{
+  "runner_env_id": "FragileCargoDock-v0",
+  "reward_path": "runs\\env_007\\terminal_rule_pilot\\seed_0\\gen_00\\cand_03\\reward_v1.py",
+  "reward_source": "generated_function",
+  "run_name": "gen_00/cand_03/training",
+  "n_envs": 6,
+  "total_timesteps": 1200000,
+  "reward_clip": 600.0,
+  "error_fallback": "zero",
+  "ppo_args": {
+    "policy": "MlpPolicy",
+    "verbose": "1",
+    "device": "cpu",
+    "seed": "0",
+    "learning_rate": "0.0003",
+    "n_steps": "2048",
+    "batch_size": "128",
+    "gae_lambda": "0.95",
+    "gamma": "0.999",
+    "n_epochs": "10",
+    "ent_coef": "0.005",
+    "clip_range": "0.2",
+    "max_grad_norm": "0.5",
+    "vf_coef": "0.5",
+    "policy_kwargs": "{'ortho_init': True, 'activation_fn': <class 'torch.nn.modules.activation.Tanh'>, 'net_arch': {'pi': [128, 128], 'vf': [128, 128]}}",
+    "tensorboard_log": "runs/env_007/tensorboard"
+  },
+  "model_path": "runs\\env_007\\terminal_rule_pilot_clip600\\seed_0\\gen_00\\cand_03\\training\\model.zip",
+  "monitor_dir": "runs\\env_007\\terminal_rule_pilot_clip600\\seed_0\\gen_00\\cand_03\\training\\monitor",
+  "tensorboard_log": "runs/env_007/tensorboard",
+  "normalization": {
+    "normalize_obs": true,
+    "normalize_reward": true,
+    "clip_obs": 10.0,
+    "clip_normalized_reward": 10.0,
+    "vecnormalize_path": "runs\\env_007\\terminal_rule_pilot_clip600\\seed_0\\gen_00\\cand_03\\training\\vecnormalize.pkl"
+  },
+  "external_eval": {
+    "eval_episodes": 20,
+    "eval_seed_offset": 10000,
+    "eval_seeds": [
+      10000,
+      10001,
+      10002,
+      10003,
+      10004,
+      10005,
+      10006,
+      10007,
+      10008,
+      10009,
+      10010,
+      10011,
+      10012,
+      10013,
+      10014,
+      10015,
+      10016,
+      10017,
+      10018,
+      10019
+    ],
+    "episode_rewards": [
+      9.235299404165033,
+      9.116850837648675,
+      9.19742573646555,
+      9.40148050937796,
+      3.856356608029591,
+      9.587799754495935,
+      9.426245947732975,
+      -101.47924469739914,
+      9.291289362980518,
+      9.202312267808606,
+      1.505598402079259,
+      4.727717732238903,
+      9.60285195375902,
+      9.197150014428576,
+      9.445203161385502,
+      9.101442396519728,
+      9.48168543267197,
+      9.09381495398501,
+      9.377046039924457,
+      9.347272829376445
+    ],
+    "episode_lengths": [
+      400,
+      400,
+      400,
+      400,
+      400,
+      400,
+      400,
+      346,
+      400,
+      400,
+      400,
+      400,
+      400,
+      400,
+      400,
+      400,
+      400,
+      400,
+      400,
+      400
+    ],
+    "episode_terminated": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      true,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
+    ],
+    "mean_eval_reward": 2.8857799323837288,
+    "mean_episode_length": 397.3,
+    "min_eval_reward": -101.47924469739914,
+    "max_eval_reward": 9.60285195375902,
+    "termination_breakdown": {
+      "terminated": 1,
+      "truncated": 19
+    },
+    "final_policy_component_evaluation": {
+      "action_smooth": {
+        "episode_sum_mean": -2.307907596281525,
+        "episode_abs_sum_mean": 2.307907596281525,
+        "signed_contribution_share": -0.00029592122532712495,
+        "magnitude_share": 0.00029592122532712495,
+        "active_rate": 1.0
+      },
+      "crate_align": {
+        "episode_sum_mean": 197.39709362317808,
+        "episode_abs_sum_mean": 197.39709362317808,
+        "signed_contribution_share": 0.02531036767464175,
+        "magnitude_share": 0.02531036767464175,
+        "active_rate": 0.3637050088094639
+      },
+      "crate_progress": {
+        "episode_sum_mean": 46.55630279481411,
+        "episode_abs_sum_mean": 46.87133857011795,
+        "signed_contribution_share": 0.005969475637559921,
+        "magnitude_share": 0.00600986970394282,
+        "active_rate": 0.8537628995721117
+      },
+      "crate_speed_pen": {
+        "episode_sum_mean": -11.259276051935739,
+        "episode_abs_sum_mean": 11.259276051935739,
+        "signed_contribution_share": -0.001443670782553613,
+        "magnitude_share": 0.001443670782553613,
+        "active_rate": 0.12522023659702997
+      },
+      "dock_event": {
+        "episode_sum_mean": 7500.0,
+        "episode_abs_sum_mean": 7500.0,
+        "signed_contribution_share": 0.9616542679305377,
+        "magnitude_share": 0.9616542679305377,
+        "active_rate": 0.031462371004278886
+      },
+      "out_of_bounds": {
+        "episode_sum_mean": -0.23564915359020233,
+        "episode_abs_sum_mean": 0.23564915359020233,
+        "signed_contribution_share": -3.021506857123158e-05,
+        "magnitude_share": 3.021506857123158e-05,
+        "active_rate": 0.0022652907123080794
+      },
+      "soft_contact": {
+        "episode_sum_mean": -40.989426681399344,
+        "episode_abs_sum_mean": 40.989426681399344,
+        "signed_contribution_share": -0.005255687614425805,
+        "magnitude_share": 0.005255687614425805,
+        "active_rate": 0.49370752579914423
+      }
+    },
+    "final_policy_component_error_count": 0
+  },
+  "train_duration_sec": 704.7,
+  "component_summary": {
+    "steps_seen": 1204224,
+    "reward_error_count_max": 0,
+    "component_stats": {
+      "component.action_smooth": {
+        "count": 1204224,
+        "mean": -0.02933253433637608,
+        "abs_mean": 0.02933253433637608,
+        "nonzero_rate": 1.0,
+        "mean_when_active": -0.02933253433637608,
+        "abs_mean_when_active": 0.02933253433637608,
+        "min": -0.10000000149011612,
+        "max": -1.5240056328025275e-08
+      },
+      "component.crate_align": {
+        "count": 1204224,
+        "mean": 0.12493441174644997,
+        "abs_mean": 0.12493441174644997,
+        "nonzero_rate": 0.11563961522108844,
+        "mean_when_active": 1.080377269567968,
+        "abs_mean_when_active": 1.080377269567968,
+        "min": 0.0,
+        "max": 1.9946434497833252
+      },
+      "component.crate_progress": {
+        "count": 1204224,
+        "mean": 0.05773426321387637,
+        "abs_mean": 0.06162374416498619,
+        "nonzero_rate": 0.5454242732249149,
+        "mean_when_active": 0.10585202391619389,
+        "abs_mean_when_active": 0.11298313476337456,
+        "min": -0.36463165283203125,
+        "max": 0.49172115325927734
+      },
+      "component.crate_speed_pen": {
+        "count": 1204224,
+        "mean": -0.019667521575975126,
+        "abs_mean": 0.019667521575975126,
+        "nonzero_rate": 0.08679448341836735,
+        "mean_when_active": -0.226598751457205,
+        "abs_mean_when_active": 0.226598751457205,
+        "min": -1.767579436302185,
+        "max": -0.0
+      },
+      "component.dock_event": {
+        "count": 1204224,
+        "mean": 0.8649553571428571,
+        "abs_mean": 0.8649553571428571,
+        "nonzero_rate": 0.001441592261904762,
+        "mean_when_active": 600.0,
+        "abs_mean_when_active": 600.0,
+        "min": 0.0,
+        "max": 600.0
+      },
+      "component.out_of_bounds": {
+        "count": 1204224,
+        "mean": -0.003163530980068541,
+        "abs_mean": 0.003163530980068541,
+        "nonzero_rate": 0.012709429474914966,
+        "mean_when_active": -0.24891211571003322,
+        "abs_mean_when_active": 0.24891211571003322,
+        "min": -1.0432225465774536,
+        "max": 0.0
+      },
+      "component.soft_contact": {
+        "count": 1204224,
+        "mean": -0.03058711164275566,
+        "abs_mean": 0.03058711164275566,
+        "nonzero_rate": 0.16019527928358843,
+        "mean_when_active": -0.190936410732855,
+        "abs_mean_when_active": 0.190936410732855,
+        "min": -1.6068687438964844,
+        "max": 0.0
+      },
+      "component.total_reward": {
+        "count": 1204224,
+        "mean": 0.9623267314704033,
+        "abs_mean": 1.0271706953947168,
+        "nonzero_rate": 1.0,
+        "mean_when_active": 0.9623267314704033,
+        "abs_mean_when_active": 1.0271706953947168,
+        "min": -2.0225582122802734,
+        "max": 600.0
+      },
+      "generated_reward": {
+        "count": 1204224,
+        "mean": 0.9623267314704033,
+        "abs_mean": 1.0271706953947168,
+        "nonzero_rate": 1.0,
+        "mean_when_active": 0.9623267314704033,
+        "abs_mean_when_active": 1.0271706953947168,
+        "min": -2.0225582122802734,
+        "max": 600.0
+      },
+      "original_env_reward": {
+        "count": 1204224,
+        "mean": -0.024544538049531717,
+        "abs_mean": 0.10728993106933353,
+        "nonzero_rate": 1.0,
+        "mean_when_active": -0.024544538049531717,
+        "abs_mean_when_active": 0.10728993106933353,
+        "min": -100.08132146568396,
+        "max": 300.0089779120594
+      }
+    },
+    "episode_component_sum_stats": {
+      "action_smooth": {
+        "count": 3244,
+        "mean": -10.881531023409616,
+        "abs_mean": 10.881531023409616,
+        "min": -21.829503418492095,
+        "max": -1.9510170386056416
+      },
+      "crate_align": {
+        "count": 3244,
+        "mean": 46.31981528839304,
+        "abs_mean": 46.31981528839304,
+        "min": 0.0,
+        "max": 281.5294798184186
+      },
+      "crate_progress": {
+        "count": 3244,
+        "mean": 21.39038125007659,
+        "abs_mean": 21.466841471034392,
+        "min": -28.059465408325195,
+        "max": 54.48391918838024
+      },
+      "crate_speed_pen": {
+        "count": 3244,
+        "mean": -7.291610432736144,
+        "abs_mean": 7.291610432736144,
+        "min": -46.56780523248017,
+        "max": 0.0
+      },
+      "dock_event": {
+        "count": 3244,
+        "mean": 320.90012330456227,
+        "abs_mean": 320.90012330456227,
+        "min": 0.0,
+        "max": 12000.0
+      },
+      "out_of_bounds": {
+        "count": 3244,
+        "mean": -1.1743526297601907,
+        "abs_mean": 1.1743526297601907,
+        "min": -61.88927084207535,
+        "max": 0.0
+      },
+      "soft_contact": {
+        "count": 3244,
+        "mean": -11.320223754931025,
+        "abs_mean": 11.320223754931025,
+        "min": -122.17961704730988,
+        "max": 0.0
+      },
+      "total_reward": {
+        "count": 3244,
+        "mean": 356.9977835017487,
+        "abs_mean": 370.79641431340605,
+        "min": -123.2177092039492,
+        "max": 12102.0360150591
+      }
+    },
+    "monitor_snapshots": [
+      {
+        "steps": 120000,
+        "episodes": 325,
+        "mean_generated_reward": -0.05735377657246408,
+        "top_components": [
+          {
+            "name": "total_reward",
+            "episode_sum_mean": -21.075732439260573,
+            "mean": -0.05735377657246408,
+            "active_rate": 1.0,
+            "abs_frac_of_total": 0.48724452617755015,
+            "magnitude_share": 0.48724452617755015
+          },
+          {
+            "name": "action_smooth",
+            "episode_sum_mean": -18.017420895427474,
+            "mean": -0.049157206709532546,
+            "active_rate": 1.0,
+            "abs_frac_of_total": 0.4078412751129486,
+            "magnitude_share": 0.4078412751129486
+          },
+          {
+            "name": "out_of_bounds",
+            "episode_sum_mean": -3.5095170534574067,
+            "mean": -0.009504942019780476,
+            "active_rate": 0.04135,
+            "abs_frac_of_total": 0.07885939687598612,
+            "magnitude_share": 0.07885939687598612
+          },
+          {
+            "name": "crate_progress",
+            "episode_sum_mean": 0.7091733521681566,
+            "mean": 0.002076444220542908,
+            "active_rate": 0.07445833333333333,
+            "abs_frac_of_total": 0.01968235887568738,
+            "magnitude_share": 0.01968235887568738
+          },
+          {
+            "name": "soft_contact",
+            "episode_sum_mean": -0.2579678478607765,
+            "mean": -0.0007680720781286557,
+            "active_rate": 0.0029833333333333335,
+            "abs_frac_of_total": 0.006372442957827741,
+            "magnitude_share": 0.006372442957827741
+          },
+          {
+            "name": "crate_align",
+            "episode_sum_mean": 0.0,
+            "mean": 0.0,
+            "active_rate": 0.0,
+            "abs_frac_of_total": 0.0,
+            "magnitude_share": 0.0
+          },
+          {
+            "name": "crate_speed_pen",
+            "episode_sum_mean": 0.0,
+            "mean": 0.0,
+            "active_rate": 0.0,
+            "abs_frac_of_total": 0.0,
+            "magnitude_share": 0.0
+          },
+          {
+            "name": "dock_event",
+            "episode_sum_mean": 0.0,
+            "mean": 0.0,
+            "active_rate": 0.0,
+            "abs_frac_of_total": 0.0,
+            "magnitude_share": 0.0
+          }
+        ]
+      },
+      {
+        "steps": 240000,
+        "episodes": 315,
+        "mean_generated_reward": -0.04510416205168724,
+        "top_components": [
+          {
+            "name": "total_reward",
+            "episode_sum_mean": -17.182705967727962,
+            "mean": -0.04510416205168724,
+            "active_rate": 1.0,
+            "abs_frac_of_total": 0.46491253057329207,
+            "magnitude_share": 0.46491253057329207
+          },
+          {
+            "name": "action_smooth",
+            "episode_sum_mean": -16.208474665042534,
+            "mean": -0.042488308864755756,
+            "active_rate": 1.0,
+            "abs_frac_of_total": 0.39728554468098504,
+            "magnitude_share": 0.39728554468098504
+          },
+          {
+            "name": "crate_progress",
+            "episode_sum_mean": 1.8129315694173178,
+            "mean": 0.004640668964385987,
+            "active_rate": 0.16511666666666666,
+            "abs_frac_of_total": 0.06995005141707512,
+            "magnitude_share": 0.06995005141707512
+          },
+          {
+            "name": "soft_contact",
+            "episode_sum_mean": -1.5352282734144302,
+            "mean": -0.003970193829635779,
+            "active_rate": 0.012716666666666666,
+            "abs_frac_of_total": 0.03712316776637618,
+            "magnitude_share": 0.03712316776637618
+          },
+          {
+            "name": "out_of_bounds",
+            "episode_sum_mean": -1.2519345945782132,
+            "mean": -0.0032863283107678097,
+            "active_rate": 0.013916666666666667,
+            "abs_frac_of_total": 0.030728705562271523,
+            "magnitude_share": 0.030728705562271523
+          },
+          {
+            "name": "crate_align",
+            "episode_sum_mean": 0.0,
+            "mean": 0.0,
+            "active_rate": 0.0,
+            "abs_frac_of_total": 0.0,
+            "magnitude_share": 0.0
+          },
+          {
+            "name": "crate_speed_pen",
+            "episode_sum_mean": 0.0,
+            "mean": 0.0,
+            "active_rate": 0.0,
+            "abs_frac_of_total": 0.0,
+            "magnitude_share": 0.0
+          },
+          {
+            "name": "dock_event",
+            "episode_sum_mean": 0.0,
+            "mean": 0.0,
+            "active_rate": 0.0,
+            "abs_frac_of_total": 0.0,
+            "magnitude_share": 0.0
+          }
+        ]
+      },
+      {
+        "steps": 360000,
+        "episodes": 323,
+        "mean_generated_reward": -0.03740644641931212,
+        "top_components": [
+          {
+            "name": "action_smooth",
+            "episode_sum_mean": -13.987822758935947,
+            "mean": -0.037823511656688916,
+            "active_rate": 1.0,
+            "abs_frac_of_total": 0.3486400245593709,
+            "magnitude_share": 0.3486400245593709
+          },
+          {
+            "name": "total_reward",
+            "episode_sum_mean": -13.933020618484228,
+            "mean": -0.03740644641931212,
+            "active_rate": 1.0,
+            "abs_frac_of_total": 0.4396266038396311,
+            "magnitude_share": 0.4396266038396311
+          },
+          {
+            "name": "crate_progress",
+            "episode_sum_mean": 3.8898511896192476,
+            "mean": 0.01079561959207058,
+            "active_rate": 0.259175,
+            "abs_frac_of_total": 0.11034484643619363,
+            "magnitude_share": 0.11034484643619363
+          },
+          {
+            "name": "soft_contact",
+            "episode_sum_mean": -2.0635053279230102,
+            "mean": -0.005610149171451728,
+            "active_rate": 0.017041666666666667,
+            "abs_frac_of_total": 0.05171181784150305,
+            "magnitude_share": 0.05171181784150305
+          },
+          {
+            "name": "out_of_bounds",
+            "episode_sum_mean": -1.724934761553726,
+            "mean": -0.0046429493998487795,
+            "active_rate": 0.0189,
+            "abs_frac_of_total": 0.04279660776830413,
+            "magnitude_share": 0.04279660776830413
+          },
+          {
+            "name": "crate_speed_pen",
+            "episode_sum_mean": -0.16195709214346835,
+            "mean": -0.00043593450635283566,
+            "active_rate": 0.000725,
+            "abs_frac_of_total": 0.0040182471257729484,
+            "magnitude_share": 0.0040182471257729484
+          },
+          {
+            "name": "crate_align",
+            "episode_sum_mean": 0.11534813142975579,
+            "mean": 0.0003104787204317593,
+            "active_rate": 0.000725,
+            "abs_frac_of_total": 0.002861852429224348,
+            "magnitude_share": 0.002861852429224348
+          },
+          {
+            "name": "dock_event",
+            "episode_sum_mean": 0.0,
+            "mean": 0.0,
+            "active_rate": 0.0,
+            "abs_frac_of_total": 0.0,
+            "magnitude_share": 0.0
+          }
+        ]
+      },
+      {
+        "steps": 480000,
+        "episodes": 366,
+        "mean_generated_reward": -0.020054954646327238,
+        "top_components": [
+          {
+            "name": "action_smooth",
+            "episode_sum_mean": -10.757567443078978,
+            "mean": -0.032513639768943864,
+            "active_rate": 1.0,
+            "abs_frac_of_total": 0.2760498013019546,
+            "magnitude_share": 0.2760498013019546
+          },
+          {
+            "name": "crate_progress",
+            "episode_sum_mean": 8.161209870557316,
+            "mean": 0.024811679977178574,
+            "active_rate": 0.4128,
+            "abs_frac_of_total": 0.2139416696925212,
+            "magnitude_share": 0.2139416696925212
+          },
+          {
+            "name": "total_reward",
+            "episode_sum_mean": -6.652625402942354,
+            "mean": -0.020054954646327238,
+            "active_rate": 1.0,
+            "abs_frac_of_total": 0.40293872044539336,
+            "magnitude_share": 0.40293872044539336
+          },
+          {
+            "name": "soft_contact",
+            "episode_sum_mean": -2.3301168072744796,
+            "mean": -0.0070882342343529066,
+            "active_rate": 0.03419166666666667,
+            "abs_frac_of_total": 0.06018107064850438,
+            "magnitude_share": 0.06018107064850438
+          },
+          {
+            "name": "out_of_bounds",
+            "episode_sum_mean": -1.7378990319582934,
+            "mean": -0.005300592047472795,
+            "active_rate": 0.01905,
+            "abs_frac_of_total": 0.04500349366868548,
+            "magnitude_share": 0.04500349366868548
+          },
+          {
+            "name": "crate_align",
+            "episode_sum_mean": 0.04227522471943114,
+            "mean": 0.00012893943539426497,
+            "active_rate": 0.0011583333333333333,
+            "abs_frac_of_total": 0.001094731496489396,
+            "magnitude_share": 0.001094731496489396
+          },
+          {
+            "name": "crate_speed_pen",
+            "episode_sum_mean": -0.030527215218509433,
+            "mean": -9.310800641645377e-05,
+            "active_rate": 0.0007,
+            "abs_frac_of_total": 0.00079051274645152,
+            "magnitude_share": 0.00079051274645152
+          },
+          {
+            "name": "dock_event",
+            "episode_sum_mean": 0.0,
+            "mean": 0.0,
+            "active_rate": 0.0,
+            "abs_frac_of_total": 0.0,
+            "magnitude_share": 0.0
+          }
+        ]
+      },
+      {
+        "steps": 600000,
+        "episodes": 358,
+        "mean_generated_reward": 0.007715361866355099,
+        "top_components": [
+          {
+            "name": "crate_progress",
+            "episode_sum_mean": 15.54471751564708,
+            "mean": 0.04667551056146622,
+            "active_rate": 0.5862916666666667,
+            "abs_frac_of_total": 0.3278138152488402,
+            "magnitude_share": 0.3278138152488402
+          },
+          {
+            "name": "action_smooth",
+            "episode_sum_mean": -8.852209472563402,
+            "mean": -0.026413038795054706,
+            "active_rate": 1.0,
+            "abs_frac_of_total": 0.18344671374045868,
+            "magnitude_share": 0.18344671374045868
+          },
+          {
+            "name": "soft_contact",
+            "episode_sum_mean": -3.4425593764422326,
+            "mean": -0.010301909363269806,
+            "active_rate": 0.07315,
+            "abs_frac_of_total": 0.07154994291295792,
+            "magnitude_share": 0.07154994291295792
+          },
+          {
+            "name": "total_reward",
+            "episode_sum_mean": 2.4973674813266,
+            "mean": 0.007715361866355099,
+            "active_rate": 1.0,
+            "abs_frac_of_total": 0.3787642175419345,
+            "magnitude_share": 0.3787642175419345
+          },
+          {
+            "name": "out_of_bounds",
+            "episode_sum_mean": -1.19138593447275,
+            "mean": -0.0035543013711770376,
+            "active_rate": 0.013258333333333334,
+            "abs_frac_of_total": 0.024685720989729962,
+            "magnitude_share": 0.024685720989729962
+          },
+          {
+            "name": "crate_align",
+            "episode_sum_mean": 0.5509534330033313,
+            "mean": 0.0016436777417932716,
+            "active_rate": 0.011375,
+            "abs_frac_of_total": 0.011415849668791937,
+            "magnitude_share": 0.011415849668791937
+          },
+          {
+            "name": "crate_speed_pen",
+            "episode_sum_mean": -0.11214868020879383,
+            "mean": -0.00033457689595623493,
+            "active_rate": 0.009233333333333333,
+            "abs_frac_of_total": 0.0023237398972868746,
+            "magnitude_share": 0.0023237398972868746
+          },
+          {
+            "name": "dock_event",
+            "episode_sum_mean": 0.0,
+            "mean": 0.0,
+            "active_rate": 0.0,
+            "abs_frac_of_total": 0.0,
+            "magnitude_share": 0.0
+          }
+        ]
+      },
+      {
+        "steps": 720000,
+        "episodes": 313,
+        "mean_generated_reward": 0.0664653454442878,
+        "top_components": [
+          {
+            "name": "crate_progress",
+            "episode_sum_mean": 28.224371739564994,
+            "mean": 0.0732527928672731,
+            "active_rate": 0.7385,
+            "abs_frac_of_total": 0.3031403070110863,
+            "magnitude_share": 0.3031403070110863
+          },
+          {
+            "name": "total_reward",
+            "episode_sum_mean": 25.598086660167667,
+            "mean": 0.0664653454442878,
+            "active_rate": 1.0,
+            "abs_frac_of_total": 0.38415969438134734,
+            "magnitude_share": 0.38415969438134734
+          },
+          {
+            "name": "crate_align",
+            "episode_sum_mean": 13.305865022170314,
+            "mean": 0.0347061312661609,
+            "active_rate": 0.06675,
+            "abs_frac_of_total": 0.14242320885203316,
+            "magnitude_share": 0.14242320885203316
+          },
+          {
+            "name": "action_smooth",
+            "episode_sum_mean": -8.714253821904896,
+            "mean": -0.022700686161335585,
+            "active_rate": 1.0,
+            "abs_frac_of_total": 0.09315658208763508,
+            "magnitude_share": 0.09315658208763508
+          },
+          {
+            "name": "soft_contact",
+            "episode_sum_mean": -4.182233226756319,
+            "mean": -0.010874871398011843,
+            "active_rate": 0.10583333333333333,
+            "abs_frac_of_total": 0.04462710258542079,
+            "magnitude_share": 0.04462710258542079
+          },
+          {
+            "name": "crate_speed_pen",
+            "episode_sum_mean": -2.550586910096483,
+            "mean": -0.006652780857168326,
+            "active_rate": 0.060533333333333335,
+            "abs_frac_of_total": 0.027300951241175427,
+            "magnitude_share": 0.027300951241175427
+          },
+          {
+            "name": "out_of_bounds",
+            "episode_sum_mean": -0.48507612448530835,
+            "mean": -0.0012652402246991793,
+            "active_rate": 0.004633333333333333,
+            "abs_frac_of_total": 0.005192153841301879,
+            "magnitude_share": 0.005192153841301879
+          },
+          {
+            "name": "dock_event",
+            "episode_sum_mean": 0.0,
+            "mean": 0.0,
+            "active_rate": 0.0,
+            "abs_frac_of_total": 0.0,
+            "magnitude_share": 0.0
+          }
+        ]
+      },
+      {
+        "steps": 840000,
+        "episodes": 308,
+        "mean_generated_reward": 0.158642154542951,
+        "top_components": [
+          {
+            "name": "total_reward",
+            "episode_sum_mean": 61.729988675974106,
+            "mean": 0.158642154542951,
+            "active_rate": 1.0,
+            "abs_frac_of_total": 0.36376324783704655,
+            "magnitude_share": 0.36376324783704655
+          },
+          {
+            "name": "crate_align",
+            "episode_sum_mean": 57.18443640054364,
+            "mean": 0.14677338676139534,
+            "active_rate": 0.1608,
+            "abs_frac_of_total": 0.28934188567701696,
+            "magnitude_share": 0.28934188567701696
+          },
+          {
+            "name": "crate_progress",
+            "episode_sum_mean": 35.416059028290746,
+            "mean": 0.09132694586187912,
+            "active_rate": 0.7704,
+            "abs_frac_of_total": 0.19025489532973275,
+            "magnitude_share": 0.19025489532973275
+          },
+          {
+            "name": "crate_speed_pen",
+            "episode_sum_mean": -13.607243462950361,
+            "mean": -0.034925258221572594,
+            "active_rate": 0.155575,
+            "abs_frac_of_total": 0.06884994817224237,
+            "magnitude_share": 0.06884994817224237
+          },
+          {
+            "name": "action_smooth",
+            "episode_sum_mean": -8.407207968891704,
+            "mean": -0.021647683843068862,
+            "active_rate": 1.0,
+            "abs_frac_of_total": 0.04267518657095469,
+            "magnitude_share": 0.04267518657095469
+          },
+          {
+            "name": "soft_contact",
+            "episode_sum_mean": -8.301538517529314,
+            "mean": -0.0214619762207071,
+            "active_rate": 0.19876666666666667,
+            "abs_frac_of_total": 0.04230909163491496,
+            "magnitude_share": 0.04230909163491496
+          },
+          {
+            "name": "out_of_bounds",
+            "episode_sum_mean": -0.5545167905556692,
+            "mean": -0.0014232597624262175,
+            "active_rate": 0.005075,
+            "abs_frac_of_total": 0.002805744778091744,
+            "magnitude_share": 0.002805744778091744
+          },
+          {
+            "name": "dock_event",
+            "episode_sum_mean": 0.0,
+            "mean": 0.0,
+            "active_rate": 0.0,
+            "abs_frac_of_total": 0.0,
+            "magnitude_share": 0.0
+          }
+        ]
+      },
+      {
+        "steps": 960000,
+        "episodes": 307,
+        "mean_generated_reward": 0.24373514544807653,
+        "top_components": [
+          {
+            "name": "crate_align",
+            "episode_sum_mean": 108.01239113589037,
+            "mean": 0.27763638163742277,
+            "active_rate": 0.2673,
+            "abs_frac_of_total": 0.34357851215264307,
+            "magnitude_share": 0.34357851215264307
+          },
+          {
+            "name": "total_reward",
+            "episode_sum_mean": 94.8447764444494,
+            "mean": 0.24373514544807653,
+            "active_rate": 1.0,
+            "abs_frac_of_total": 0.35045392340325776,
+            "magnitude_share": 0.35045392340325776
+          },
+          {
+            "name": "crate_progress",
+            "episode_sum_mean": 38.98545204596867,
+            "mean": 0.09992709745004152,
+            "active_rate": 0.8111,
+            "abs_frac_of_total": 0.14035331931294132,
+            "magnitude_share": 0.14035331931294132
+          },
+          {
+            "name": "crate_speed_pen",
+            "episode_sum_mean": -22.353048339658518,
+            "mean": -0.057397902249543525,
+            "active_rate": 0.23883333333333334,
+            "abs_frac_of_total": 0.07103062552275695,
+            "magnitude_share": 0.07103062552275695
+          },
+          {
+            "name": "soft_contact",
+            "episode_sum_mean": -20.868105850118766,
+            "mean": -0.053630774199962615,
+            "active_rate": 0.34,
+            "abs_frac_of_total": 0.06636875720877718,
+            "magnitude_share": 0.06636875720877718
+          },
+          {
+            "name": "action_smooth",
+            "episode_sum_mean": -8.170092002926637,
+            "mean": -0.020850666295729972,
+            "active_rate": 1.0,
+            "abs_frac_of_total": 0.025802961632866012,
+            "magnitude_share": 0.025802961632866012
+          },
+          {
+            "name": "out_of_bounds",
+            "episode_sum_mean": -0.7618205564806438,
+            "mean": -0.0019489909236629804,
+            "active_rate": 0.008583333333333333,
+            "abs_frac_of_total": 0.002411900766757696,
+            "magnitude_share": 0.002411900766757696
+          },
+          {
+            "name": "dock_event",
+            "episode_sum_mean": 0.0,
+            "mean": 0.0,
+            "active_rate": 0.0,
+            "abs_frac_of_total": 0.0,
+            "magnitude_share": 0.0
+          }
+        ]
+      },
+      {
+        "steps": 1080000,
+        "episodes": 304,
+        "mean_generated_reward": 1.4985349040443747,
+        "top_components": [
+          {
+            "name": "total_reward",
+            "episode_sum_mean": 590.8442043281112,
+            "mean": 1.4985349040443747,
+            "active_rate": 1.0,
+            "abs_frac_of_total": 0.45966636644015363,
+            "magnitude_share": 0.45966636644015363
+          },
+          {
+            "name": "dock_event",
+            "episode_sum_mean": 461.8421052631579,
+            "mean": 1.17,
+            "active_rate": 0.00195,
+            "abs_frac_of_total": 0.3441955689934338,
+            "magnitude_share": 0.3441955689934338
+          },
+          {
+            "name": "crate_align",
+            "episode_sum_mean": 151.42473658359637,
+            "mean": 0.386452659512428,
+            "active_rate": 0.33276666666666666,
+            "abs_frac_of_total": 0.11368828464094521,
+            "magnitude_share": 0.11368828464094521
+          },
+          {
+            "name": "crate_progress",
+            "episode_sum_mean": 42.36457866320607,
+            "mean": 0.10827287758376139,
+            "active_rate": 0.8197916666666667,
+            "abs_frac_of_total": 0.03454953555483278,
+            "magnitude_share": 0.03454953555483278
+          },
+          {
+            "name": "soft_contact",
+            "episode_sum_mean": -34.049663969560676,
+            "mean": -0.08752443900654713,
+            "active_rate": 0.3979916666666667,
+            "abs_frac_of_total": 0.02574831118349537,
+            "magnitude_share": 0.02574831118349537
+          },
+          {
+            "name": "crate_speed_pen",
+            "episode_sum_mean": -21.294315321922046,
+            "mean": -0.05464577636889209,
+            "active_rate": 0.21971666666666667,
+            "abs_frac_of_total": 0.01607592657297329,
+            "magnitude_share": 0.01607592657297329
+          },
+          {
+            "name": "action_smooth",
+            "episode_sum_mean": -7.894003398425372,
+            "mean": -0.020095692842425298,
+            "active_rate": 1.0,
+            "abs_frac_of_total": 0.005911836266851154,
+            "magnitude_share": 0.005911836266851154
+          },
+          {
+            "name": "out_of_bounds",
+            "episode_sum_mean": -0.22028400611720586,
+            "mean": -0.0005580528154969216,
+            "active_rate": 0.0018166666666666667,
+            "abs_frac_of_total": 0.00016417034731482961,
+            "magnitude_share": 0.00016417034731482961
+          }
+        ]
+      },
+      {
+        "steps": 1200000,
+        "episodes": 314,
+        "mean_generated_reward": 7.47206136806127,
+        "top_components": [
+          {
+            "name": "total_reward",
+            "episode_sum_mean": 2854.2608361901116,
+            "mean": 7.47206136806127,
+            "active_rate": 1.0,
+            "abs_frac_of_total": 0.491149251157472,
+            "magnitude_share": 0.491149251157472
+          },
+          {
+            "name": "dock_event",
+            "episode_sum_mean": 2732.484076433121,
+            "mean": 7.155,
+            "active_rate": 0.011925,
+            "abs_frac_of_total": 0.4652428291665983,
+            "magnitude_share": 0.4652428291665983
+          },
+          {
+            "name": "crate_align",
+            "episode_sum_mean": 149.30743659528218,
+            "mean": 0.3885937118233643,
+            "active_rate": 0.30675833333333336,
+            "abs_frac_of_total": 0.025267706203361537,
+            "magnitude_share": 0.025267706203361537
+          },
+          {
+            "name": "crate_progress",
+            "episode_sum_mean": 43.45930807107977,
+            "mean": 0.11324470664037702,
+            "active_rate": 0.804625,
+            "abs_frac_of_total": 0.007697529427530126,
+            "magnitude_share": 0.007697529427530126
+          },
+          {
+            "name": "soft_contact",
+            "episode_sum_mean": -39.17495617707064,
+            "mean": -0.10219846424261729,
+            "active_rate": 0.40981666666666666,
+            "abs_frac_of_total": 0.00664529736418123,
+            "magnitude_share": 0.00664529736418123
+          },
+          {
+            "name": "crate_speed_pen",
+            "episode_sum_mean": -15.987514920431071,
+            "mean": -0.04122660821014421,
+            "active_rate": 0.178525,
+            "abs_frac_of_total": 0.002680696553547226,
+            "magnitude_share": 0.002680696553547226
+          },
+          {
+            "name": "action_smooth",
+            "episode_sum_mean": -7.668429704244136,
+            "mean": -0.01998745465611417,
+            "active_rate": 1.0,
+            "abs_frac_of_total": 0.0012996533825366395,
+            "magnitude_share": 0.0012996533825366395
+          },
+          {
+            "name": "out_of_bounds",
+            "episode_sum_mean": -0.10013091051654452,
+            "mean": -0.00026200921585162483,
+            "active_rate": 0.0009583333333333333,
+            "abs_frac_of_total": 1.7036744772960427e-05,
+            "magnitude_share": 1.7036744772960427e-05
+          }
+        ]
+      },
+      {
+        "steps": 1204224,
+        "episodes": 11,
+        "mean_generated_reward": 10.508701020859794,
+        "top_components": [
+          {
+            "name": "total_reward",
+            "episode_sum_mean": 4037.0199469528047,
+            "mean": 10.508701020859794,
+            "active_rate": 1.0,
+            "abs_frac_of_total": 0.4930835498817318,
+            "magnitude_share": 0.4930835498817318
+          },
+          {
+            "name": "dock_event",
+            "episode_sum_mean": 3872.7272727272725,
+            "mean": 10.085227272727273,
+            "active_rate": 0.01680871212121212,
+            "abs_frac_of_total": 0.4699594581124967,
+            "magnitude_share": 0.4699594581124967
+          },
+          {
+            "name": "crate_align",
+            "episode_sum_mean": 196.22800304324747,
+            "mean": 0.4970580073745485,
+            "active_rate": 0.3645833333333333,
+            "abs_frac_of_total": 0.023162305169653383,
+            "magnitude_share": 0.023162305169653383
+          },
+          {
+            "name": "crate_progress",
+            "episode_sum_mean": 49.49503751920367,
+            "mean": 0.12359472968510642,
+            "active_rate": 0.8858901515151515,
+            "abs_frac_of_total": 0.006044691061087706,
+            "magnitude_share": 0.006044691061087706
+          },
+          {
+            "name": "soft_contact",
+            "episode_sum_mean": -43.55842995101755,
+            "mean": -0.0999630401334302,
+            "active_rate": 0.4289772727272727,
+            "abs_frac_of_total": 0.004658157412022362,
+            "magnitude_share": 0.004658157412022362
+          },
+          {
+            "name": "crate_speed_pen",
+            "episode_sum_mean": -18.640712922296107,
+            "mean": -0.047033159181231014,
+            "active_rate": 0.20336174242424243,
+            "abs_frac_of_total": 0.00219168863570417,
+            "magnitude_share": 0.00219168863570417
+          },
+          {
+            "name": "action_smooth",
+            "episode_sum_mean": -7.369472466383337,
+            "mean": -0.019317016441809776,
+            "active_rate": 1.0,
+            "abs_frac_of_total": 0.0009001497273038803,
+            "magnitude_share": 0.0009001497273038803
+          },
+          {
+            "name": "out_of_bounds",
+            "episode_sum_mean": 0.0,
+            "mean": 0.0,
+            "active_rate": 0.0,
+            "abs_frac_of_total": 0.0,
+            "magnitude_share": 0.0
+          }
+        ]
+      }
+    ]
+  },
+  "monitor_snapshots": [
+    {
+      "steps": 120000,
+      "episodes": 325,
+      "mean_generated_reward": -0.05735377657246408,
+      "top_components": [
+        {
+          "name": "total_reward",
+          "episode_sum_mean": -21.075732439260573,
+          "mean": -0.05735377657246408,
+          "active_rate": 1.0,
+          "abs_frac_of_total": 0.48724452617755015,
+          "magnitude_share": 0.48724452617755015
+        },
+        {
+          "name": "action_smooth",
+          "episode_sum_mean": -18.017420895427474,
+          "mean": -0.049157206709532546,
+          "active_rate": 1.0,
+          "abs_frac_of_total": 0.4078412751129486,
+          "magnitude_share": 0.4078412751129486
+        },
+        {
+          "name": "out_of_bounds",
+          "episode_sum_mean": -3.5095170534574067,
+          "mean": -0.009504942019780476,
+          "active_rate": 0.04135,
+          "abs_frac_of_total": 0.07885939687598612,
+          "magnitude_share": 0.07885939687598612
+        },
+        {
+          "name": "crate_progress",
+          "episode_sum_mean": 0.7091733521681566,
+          "mean": 0.002076444220542908,
+          "active_rate": 0.07445833333333333,
+          "abs_frac_of_total": 0.01968235887568738,
+          "magnitude_share": 0.01968235887568738
+        },
+        {
+          "name": "soft_contact",
+          "episode_sum_mean": -0.2579678478607765,
+          "mean": -0.0007680720781286557,
+          "active_rate": 0.0029833333333333335,
+          "abs_frac_of_total": 0.006372442957827741,
+          "magnitude_share": 0.006372442957827741
+        },
+        {
+          "name": "crate_align",
+          "episode_sum_mean": 0.0,
+          "mean": 0.0,
+          "active_rate": 0.0,
+          "abs_frac_of_total": 0.0,
+          "magnitude_share": 0.0
+        },
+        {
+          "name": "crate_speed_pen",
+          "episode_sum_mean": 0.0,
+          "mean": 0.0,
+          "active_rate": 0.0,
+          "abs_frac_of_total": 0.0,
+          "magnitude_share": 0.0
+        },
+        {
+          "name": "dock_event",
+          "episode_sum_mean": 0.0,
+          "mean": 0.0,
+          "active_rate": 0.0,
+          "abs_frac_of_total": 0.0,
+          "magnitude_share": 0.0
+        }
+      ]
+    },
+    {
+      "steps": 240000,
+      "episodes": 315,
+      "mean_generated_reward": -0.04510416205168724,
+      "top_components": [
+        {
+          "name": "total_reward",
+          "episode_sum_mean": -17.182705967727962,
+          "mean": -0.04510416205168724,
+          "active_rate": 1.0,
+          "abs_frac_of_total": 0.46491253057329207,
+          "magnitude_share": 0.46491253057329207
+        },
+        {
+          "name": "action_smooth",
+          "episode_sum_mean": -16.208474665042534,
+          "mean": -0.042488308864755756,
+          "active_rate": 1.0,
+          "abs_frac_of_total": 0.39728554468098504,
+          "magnitude_share": 0.39728554468098504
+        },
+        {
+          "name": "crate_progress",
+          "episode_sum_mean": 1.8129315694173178,
+          "mean": 0.004640668964385987,
+          "active_rate": 0.16511666666666666,
+          "abs_frac_of_total": 0.06995005141707512,
+          "magnitude_share": 0.06995005141707512
+        },
+        {
+          "name": "soft_contact",
+          "episode_sum_mean": -1.5352282734144302,
+          "mean": -0.003970193829635779,
+          "active_rate": 0.012716666666666666,
+          "abs_frac_of_total": 0.03712316776637618,
+          "magnitude_share": 0.03712316776637618
+        },
+        {
+          "name": "out_of_bounds",
+          "episode_sum_mean": -1.2519345945782132,
+          "mean": -0.0032863283107678097,
+          "active_rate": 0.013916666666666667,
+          "abs_frac_of_total": 0.030728705562271523,
+          "magnitude_share": 0.030728705562271523
+        },
+        {
+          "name": "crate_align",
+          "episode_sum_mean": 0.0,
+          "mean": 0.0,
+          "active_rate": 0.0,
+          "abs_frac_of_total": 0.0,
+          "magnitude_share": 0.0
+        },
+        {
+          "name": "crate_speed_pen",
+          "episode_sum_mean": 0.0,
+          "mean": 0.0,
+          "active_rate": 0.0,
+          "abs_frac_of_total": 0.0,
+          "magnitude_share": 0.0
+        },
+        {
+          "name": "dock_event",
+          "episode_sum_mean": 0.0,
+          "mean": 0.0,
+          "active_rate": 0.0,
+          "abs_frac_of_total": 0.0,
+          "magnitude_share": 0.0
+        }
+      ]
+    },
+    {
+      "steps": 360000,
+      "episodes": 323,
+      "mean_generated_reward": -0.03740644641931212,
+      "top_components": [
+        {
+          "name": "action_smooth",
+          "episode_sum_mean": -13.987822758935947,
+          "mean": -0.037823511656688916,
+          "active_rate": 1.0,
+          "abs_frac_of_total": 0.3486400245593709,
+          "magnitude_share": 0.3486400245593709
+        },
+        {
+          "name": "total_reward",
+          "episode_sum_mean": -13.933020618484228,
+          "mean": -0.03740644641931212,
+          "active_rate": 1.0,
+          "abs_frac_of_total": 0.4396266038396311,
+          "magnitude_share": 0.4396266038396311
+        },
+        {
+          "name": "crate_progress",
+          "episode_sum_mean": 3.8898511896192476,
+          "mean": 0.01079561959207058,
+          "active_rate": 0.259175,
+          "abs_frac_of_total": 0.11034484643619363,
+          "magnitude_share": 0.11034484643619363
+        },
+        {
+          "name": "soft_contact",
+          "episode_sum_mean": -2.0635053279230102,
+          "mean": -0.005610149171451728,
+          "active_rate": 0.017041666666666667,
+          "abs_frac_of_total": 0.05171181784150305,
+          "magnitude_share": 0.05171181784150305
+        },
+        {
+          "name": "out_of_bounds",
+          "episode_sum_mean": -1.724934761553726,
+          "mean": -0.0046429493998487795,
+          "active_rate": 0.0189,
+          "abs_frac_of_total": 0.04279660776830413,
+          "magnitude_share": 0.04279660776830413
+        },
+        {
+          "name": "crate_speed_pen",
+          "episode_sum_mean": -0.16195709214346835,
+          "mean": -0.00043593450635283566,
+          "active_rate": 0.000725,
+          "abs_frac_of_total": 0.0040182471257729484,
+          "magnitude_share": 0.0040182471257729484
+        },
+        {
+          "name": "crate_align",
+          "episode_sum_mean": 0.11534813142975579,
+          "mean": 0.0003104787204317593,
+          "active_rate": 0.000725,
+          "abs_frac_of_total": 0.002861852429224348,
+          "magnitude_share": 0.002861852429224348
+        },
+        {
+          "name": "dock_event",
+          "episode_sum_mean": 0.0,
+          "mean": 0.0,
+          "active_rate": 0.0,
+          "abs_frac_of_total": 0.0,
+          "magnitude_share": 0.0
+        }
+      ]
+    },
+    {
+      "steps": 480000,
+      "episodes": 366,
+      "mean_generated_reward": -0.020054954646327238,
+      "top_components": [
+        {
+          "name": "action_smooth",
+          "episode_sum_mean": -10.757567443078978,
+          "mean": -0.032513639768943864,
+          "active_rate": 1.0,
+          "abs_frac_of_total": 0.2760498013019546,
+          "magnitude_share": 0.2760498013019546
+        },
+        {
+          "name": "crate_progress",
+          "episode_sum_mean": 8.161209870557316,
+          "mean": 0.024811679977178574,
+          "active_rate": 0.4128,
+          "abs_frac_of_total": 0.2139416696925212,
+          "magnitude_share": 0.2139416696925212
+        },
+        {
+          "name": "total_reward",
+          "episode_sum_mean": -6.652625402942354,
+          "mean": -0.020054954646327238,
+          "active_rate": 1.0,
+          "abs_frac_of_total": 0.40293872044539336,
+          "magnitude_share": 0.40293872044539336
+        },
+        {
+          "name": "soft_contact",
+          "episode_sum_mean": -2.3301168072744796,
+          "mean": -0.0070882342343529066,
+          "active_rate": 0.03419166666666667,
+          "abs_frac_of_total": 0.06018107064850438,
+          "magnitude_share": 0.06018107064850438
+        },
+        {
+          "name": "out_of_bounds",
+          "episode_sum_mean": -1.7378990319582934,
+          "mean": -0.005300592047472795,
+          "active_rate": 0.01905,
+          "abs_frac_of_total": 0.04500349366868548,
+          "magnitude_share": 0.04500349366868548
+        },
+        {
+          "name": "crate_align",
+          "episode_sum_mean": 0.04227522471943114,
+          "mean": 0.00012893943539426497,
+          "active_rate": 0.0011583333333333333,
+          "abs_frac_of_total": 0.001094731496489396,
+          "magnitude_share": 0.001094731496489396
+        },
+        {
+          "name": "crate_speed_pen",
+          "episode_sum_mean": -0.030527215218509433,
+          "mean": -9.310800641645377e-05,
+          "active_rate": 0.0007,
+          "abs_frac_of_total": 0.00079051274645152,
+          "magnitude_share": 0.00079051274645152
+        },
+        {
+          "name": "dock_event",
+          "episode_sum_mean": 0.0,
+          "mean": 0.0,
+          "active_rate": 0.0,
+          "abs_frac_of_total": 0.0,
+          "magnitude_share": 0.0
+        }
+      ]
+    },
+    {
+      "steps": 600000,
+      "episodes": 358,
+      "mean_generated_reward": 0.007715361866355099,
+      "top_components": [
+        {
+          "name": "crate_progress",
+          "episode_sum_mean": 15.54471751564708,
+          "mean": 0.04667551056146622,
+          "active_rate": 0.5862916666666667,
+          "abs_frac_of_total": 0.3278138152488402,
+          "magnitude_share": 0.3278138152488402
+        },
+        {
+          "name": "action_smooth",
+          "episode_sum_mean": -8.852209472563402,
+          "mean": -0.026413038795054706,
+          "active_rate": 1.0,
+          "abs_frac_of_total": 0.18344671374045868,
+          "magnitude_share": 0.18344671374045868
+        },
+        {
+          "name": "soft_contact",
+          "episode_sum_mean": -3.4425593764422326,
+          "mean": -0.010301909363269806,
+          "active_rate": 0.07315,
+          "abs_frac_of_total": 0.07154994291295792,
+          "magnitude_share": 0.07154994291295792
+        },
+        {
+          "name": "total_reward",
+          "episode_sum_mean": 2.4973674813266,
+          "mean": 0.007715361866355099,
+          "active_rate": 1.0,
+          "abs_frac_of_total": 0.3787642175419345,
+          "magnitude_share": 0.3787642175419345
+        },
+        {
+          "name": "out_of_bounds",
+          "episode_sum_mean": -1.19138593447275,
+          "mean": -0.0035543013711770376,
+          "active_rate": 0.013258333333333334,
+          "abs_frac_of_total": 0.024685720989729962,
+          "magnitude_share": 0.024685720989729962
+        },
+        {
+          "name": "crate_align",
+          "episode_sum_mean": 0.5509534330033313,
+          "mean": 0.0016436777417932716,
+          "active_rate": 0.011375,
+          "abs_frac_of_total": 0.011415849668791937,
+          "magnitude_share": 0.011415849668791937
+        },
+        {
+          "name": "crate_speed_pen",
+          "episode_sum_mean": -0.11214868020879383,
+          "mean": -0.00033457689595623493,
+          "active_rate": 0.009233333333333333,
+          "abs_frac_of_total": 0.0023237398972868746,
+          "magnitude_share": 0.0023237398972868746
+        },
+        {
+          "name": "dock_event",
+          "episode_sum_mean": 0.0,
+          "mean": 0.0,
+          "active_rate": 0.0,
+          "abs_frac_of_total": 0.0,
+          "magnitude_share": 0.0
+        }
+      ]
+    },
+    {
+      "steps": 720000,
+      "episodes": 313,
+      "mean_generated_reward": 0.0664653454442878,
+      "top_components": [
+        {
+          "name": "crate_progress",
+          "episode_sum_mean": 28.224371739564994,
+          "mean": 0.0732527928672731,
+          "active_rate": 0.7385,
+          "abs_frac_of_total": 0.3031403070110863,
+          "magnitude_share": 0.3031403070110863
+        },
+        {
+          "name": "total_reward",
+          "episode_sum_mean": 25.598086660167667,
+          "mean": 0.0664653454442878,
+          "active_rate": 1.0,
+          "abs_frac_of_total": 0.38415969438134734,
+          "magnitude_share": 0.38415969438134734
+        },
+        {
+          "name": "crate_align",
+          "episode_sum_mean": 13.305865022170314,
+          "mean": 0.0347061312661609,
+          "active_rate": 0.06675,
+          "abs_frac_of_total": 0.14242320885203316,
+          "magnitude_share": 0.14242320885203316
+        },
+        {
+          "name": "action_smooth",
+          "episode_sum_mean": -8.714253821904896,
+          "mean": -0.022700686161335585,
+          "active_rate": 1.0,
+          "abs_frac_of_total": 0.09315658208763508,
+          "magnitude_share": 0.09315658208763508
+        },
+        {
+          "name": "soft_contact",
+          "episode_sum_mean": -4.182233226756319,
+          "mean": -0.010874871398011843,
+          "active_rate": 0.10583333333333333,
+          "abs_frac_of_total": 0.04462710258542079,
+          "magnitude_share": 0.04462710258542079
+        },
+        {
+          "name": "crate_speed_pen",
+          "episode_sum_mean": -2.550586910096483,
+          "mean": -0.006652780857168326,
+          "active_rate": 0.060533333333333335,
+          "abs_frac_of_total": 0.027300951241175427,
+          "magnitude_share": 0.027300951241175427
+        },
+        {
+          "name": "out_of_bounds",
+          "episode_sum_mean": -0.48507612448530835,
+          "mean": -0.0012652402246991793,
+          "active_rate": 0.004633333333333333,
+          "abs_frac_of_total": 0.005192153841301879,
+          "magnitude_share": 0.005192153841301879
+        },
+        {
+          "name": "dock_event",
+          "episode_sum_mean": 0.0,
+          "mean": 0.0,
+          "active_rate": 0.0,
+          "abs_frac_of_total": 0.0,
+          "magnitude_share": 0.0
+        }
+      ]
+    },
+    {
+      "steps": 840000,
+      "episodes": 308,
+      "mean_generated_reward": 0.158642154542951,
+      "top_components": [
+        {
+          "name": "total_reward",
+          "episode_sum_mean": 61.729988675974106,
+          "mean": 0.158642154542951,
+          "active_rate": 1.0,
+          "abs_frac_of_total": 0.36376324783704655,
+          "magnitude_share": 0.36376324783704655
+        },
+        {
+          "name": "crate_align",
+          "episode_sum_mean": 57.18443640054364,
+          "mean": 0.14677338676139534,
+          "active_rate": 0.1608,
+          "abs_frac_of_total": 0.28934188567701696,
+          "magnitude_share": 0.28934188567701696
+        },
+        {
+          "name": "crate_progress",
+          "episode_sum_mean": 35.416059028290746,
+          "mean": 0.09132694586187912,
+          "active_rate": 0.7704,
+          "abs_frac_of_total": 0.19025489532973275,
+          "magnitude_share": 0.19025489532973275
+        },
+        {
+          "name": "crate_speed_pen",
+          "episode_sum_mean": -13.607243462950361,
+          "mean": -0.034925258221572594,
+          "active_rate": 0.155575,
+          "abs_frac_of_total": 0.06884994817224237,
+          "magnitude_share": 0.06884994817224237
+        },
+        {
+          "name": "action_smooth",
+          "episode_sum_mean": -8.407207968891704,
+          "mean": -0.021647683843068862,
+          "active_rate": 1.0,
+          "abs_frac_of_total": 0.04267518657095469,
+          "magnitude_share": 0.04267518657095469
+        },
+        {
+          "name": "soft_contact",
+          "episode_sum_mean": -8.301538517529314,
+          "mean": -0.0214619762207071,
+          "active_rate": 0.19876666666666667,
+          "abs_frac_of_total": 0.04230909163491496,
+          "magnitude_share": 0.04230909163491496
+        },
+        {
+          "name": "out_of_bounds",
+          "episode_sum_mean": -0.5545167905556692,
+          "mean": -0.0014232597624262175,
+          "active_rate": 0.005075,
+          "abs_frac_of_total": 0.002805744778091744,
+          "magnitude_share": 0.002805744778091744
+        },
+        {
+          "name": "dock_event",
+          "episode_sum_mean": 0.0,
+          "mean": 0.0,
+          "active_rate": 0.0,
+          "abs_frac_of_total": 0.0,
+          "magnitude_share": 0.0
+        }
+      ]
+    },
+    {
+      "steps": 960000,
+      "episodes": 307,
+      "mean_generated_reward": 0.24373514544807653,
+      "top_components": [
+        {
+          "name": "crate_align",
+          "episode_sum_mean": 108.01239113589037,
+          "mean": 0.27763638163742277,
+          "active_rate": 0.2673,
+          "abs_frac_of_total": 0.34357851215264307,
+          "magnitude_share": 0.34357851215264307
+        },
+        {
+          "name": "total_reward",
+          "episode_sum_mean": 94.8447764444494,
+          "mean": 0.24373514544807653,
+          "active_rate": 1.0,
+          "abs_frac_of_total": 0.35045392340325776,
+          "magnitude_share": 0.35045392340325776
+        },
+        {
+          "name": "crate_progress",
+          "episode_sum_mean": 38.98545204596867,
+          "mean": 0.09992709745004152,
+          "active_rate": 0.8111,
+          "abs_frac_of_total": 0.14035331931294132,
+          "magnitude_share": 0.14035331931294132
+        },
+        {
+          "name": "crate_speed_pen",
+          "episode_sum_mean": -22.353048339658518,
+          "mean": -0.057397902249543525,
+          "active_rate": 0.23883333333333334,
+          "abs_frac_of_total": 0.07103062552275695,
+          "magnitude_share": 0.07103062552275695
+        },
+        {
+          "name": "soft_contact",
+          "episode_sum_mean": -20.868105850118766,
+          "mean": -0.053630774199962615,
+          "active_rate": 0.34,
+          "abs_frac_of_total": 0.06636875720877718,
+          "magnitude_share": 0.06636875720877718
+        },
+        {
+          "name": "action_smooth",
+          "episode_sum_mean": -8.170092002926637,
+          "mean": -0.020850666295729972,
+          "active_rate": 1.0,
+          "abs_frac_of_total": 0.025802961632866012,
+          "magnitude_share": 0.025802961632866012
+        },
+        {
+          "name": "out_of_bounds",
+          "episode_sum_mean": -0.7618205564806438,
+          "mean": -0.0019489909236629804,
+          "active_rate": 0.008583333333333333,
+          "abs_frac_of_total": 0.002411900766757696,
+          "magnitude_share": 0.002411900766757696
+        },
+        {
+          "name": "dock_event",
+          "episode_sum_mean": 0.0,
+          "mean": 0.0,
+          "active_rate": 0.0,
+          "abs_frac_of_total": 0.0,
+          "magnitude_share": 0.0
+        }
+      ]
+    },
+    {
+      "steps": 1080000,
+      "episodes": 304,
+      "mean_generated_reward": 1.4985349040443747,
+      "top_components": [
+        {
+          "name": "total_reward",
+          "episode_sum_mean": 590.8442043281112,
+          "mean": 1.4985349040443747,
+          "active_rate": 1.0,
+          "abs_frac_of_total": 0.45966636644015363,
+          "magnitude_share": 0.45966636644015363
+        },
+        {
+          "name": "dock_event",
+          "episode_sum_mean": 461.8421052631579,
+          "mean": 1.17,
+          "active_rate": 0.00195,
+          "abs_frac_of_total": 0.3441955689934338,
+          "magnitude_share": 0.3441955689934338
+        },
+        {
+          "name": "crate_align",
+          "episode_sum_mean": 151.42473658359637,
+          "mean": 0.386452659512428,
+          "active_rate": 0.33276666666666666,
+          "abs_frac_of_total": 0.11368828464094521,
+          "magnitude_share": 0.11368828464094521
+        },
+        {
+          "name": "crate_progress",
+          "episode_sum_mean": 42.36457866320607,
+          "mean": 0.10827287758376139,
+          "active_rate": 0.8197916666666667,
+          "abs_frac_of_total": 0.03454953555483278,
+          "magnitude_share": 0.03454953555483278
+        },
+        {
+          "name": "soft_contact",
+          "episode_sum_mean": -34.049663969560676,
+          "mean": -0.08752443900654713,
+          "active_rate": 0.3979916666666667,
+          "abs_frac_of_total": 0.02574831118349537,
+          "magnitude_share": 0.02574831118349537
+        },
+        {
+          "name": "crate_speed_pen",
+          "episode_sum_mean": -21.294315321922046,
+          "mean": -0.05464577636889209,
+          "active_rate": 0.21971666666666667,
+          "abs_frac_of_total": 0.01607592657297329,
+          "magnitude_share": 0.01607592657297329
+        },
+        {
+          "name": "action_smooth",
+          "episode_sum_mean": -7.894003398425372,
+          "mean": -0.020095692842425298,
+          "active_rate": 1.0,
+          "abs_frac_of_total": 0.005911836266851154,
+          "magnitude_share": 0.005911836266851154
+        },
+        {
+          "name": "out_of_bounds",
+          "episode_sum_mean": -0.22028400611720586,
+          "mean": -0.0005580528154969216,
+          "active_rate": 0.0018166666666666667,
+          "abs_frac_of_total": 0.00016417034731482961,
+          "magnitude_share": 0.00016417034731482961
+        }
+      ]
+    },
+    {
+      "steps": 1200000,
+      "episodes": 314,
+      "mean_generated_reward": 7.47206136806127,
+      "top_components": [
+        {
+          "name": "total_reward",
+          "episode_sum_mean": 2854.2608361901116,
+          "mean": 7.47206136806127,
+          "active_rate": 1.0,
+          "abs_frac_of_total": 0.491149251157472,
+          "magnitude_share": 0.491149251157472
+        },
+        {
+          "name": "dock_event",
+          "episode_sum_mean": 2732.484076433121,
+          "mean": 7.155,
+          "active_rate": 0.011925,
+          "abs_frac_of_total": 0.4652428291665983,
+          "magnitude_share": 0.4652428291665983
+        },
+        {
+          "name": "crate_align",
+          "episode_sum_mean": 149.30743659528218,
+          "mean": 0.3885937118233643,
+          "active_rate": 0.30675833333333336,
+          "abs_frac_of_total": 0.025267706203361537,
+          "magnitude_share": 0.025267706203361537
+        },
+        {
+          "name": "crate_progress",
+          "episode_sum_mean": 43.45930807107977,
+          "mean": 0.11324470664037702,
+          "active_rate": 0.804625,
+          "abs_frac_of_total": 0.007697529427530126,
+          "magnitude_share": 0.007697529427530126
+        },
+        {
+          "name": "soft_contact",
+          "episode_sum_mean": -39.17495617707064,
+          "mean": -0.10219846424261729,
+          "active_rate": 0.40981666666666666,
+          "abs_frac_of_total": 0.00664529736418123,
+          "magnitude_share": 0.00664529736418123
+        },
+        {
+          "name": "crate_speed_pen",
+          "episode_sum_mean": -15.987514920431071,
+          "mean": -0.04122660821014421,
+          "active_rate": 0.178525,
+          "abs_frac_of_total": 0.002680696553547226,
+          "magnitude_share": 0.002680696553547226
+        },
+        {
+          "name": "action_smooth",
+          "episode_sum_mean": -7.668429704244136,
+          "mean": -0.01998745465611417,
+          "active_rate": 1.0,
+          "abs_frac_of_total": 0.0012996533825366395,
+          "magnitude_share": 0.0012996533825366395
+        },
+        {
+          "name": "out_of_bounds",
+          "episode_sum_mean": -0.10013091051654452,
+          "mean": -0.00026200921585162483,
+          "active_rate": 0.0009583333333333333,
+          "abs_frac_of_total": 1.7036744772960427e-05,
+          "magnitude_share": 1.7036744772960427e-05
+        }
+      ]
+    },
+    {
+      "steps": 1204224,
+      "episodes": 11,
+      "mean_generated_reward": 10.508701020859794,
+      "top_components": [
+        {
+          "name": "total_reward",
+          "episode_sum_mean": 4037.0199469528047,
+          "mean": 10.508701020859794,
+          "active_rate": 1.0,
+          "abs_frac_of_total": 0.4930835498817318,
+          "magnitude_share": 0.4930835498817318
+        },
+        {
+          "name": "dock_event",
+          "episode_sum_mean": 3872.7272727272725,
+          "mean": 10.085227272727273,
+          "active_rate": 0.01680871212121212,
+          "abs_frac_of_total": 0.4699594581124967,
+          "magnitude_share": 0.4699594581124967
+        },
+        {
+          "name": "crate_align",
+          "episode_sum_mean": 196.22800304324747,
+          "mean": 0.4970580073745485,
+          "active_rate": 0.3645833333333333,
+          "abs_frac_of_total": 0.023162305169653383,
+          "magnitude_share": 0.023162305169653383
+        },
+        {
+          "name": "crate_progress",
+          "episode_sum_mean": 49.49503751920367,
+          "mean": 0.12359472968510642,
+          "active_rate": 0.8858901515151515,
+          "abs_frac_of_total": 0.006044691061087706,
+          "magnitude_share": 0.006044691061087706
+        },
+        {
+          "name": "soft_contact",
+          "episode_sum_mean": -43.55842995101755,
+          "mean": -0.0999630401334302,
+          "active_rate": 0.4289772727272727,
+          "abs_frac_of_total": 0.004658157412022362,
+          "magnitude_share": 0.004658157412022362
+        },
+        {
+          "name": "crate_speed_pen",
+          "episode_sum_mean": -18.640712922296107,
+          "mean": -0.047033159181231014,
+          "active_rate": 0.20336174242424243,
+          "abs_frac_of_total": 0.00219168863570417,
+          "magnitude_share": 0.00219168863570417
+        },
+        {
+          "name": "action_smooth",
+          "episode_sum_mean": -7.369472466383337,
+          "mean": -0.019317016441809776,
+          "active_rate": 1.0,
+          "abs_frac_of_total": 0.0009001497273038803,
+          "magnitude_share": 0.0009001497273038803
+        },
+        {
+          "name": "out_of_bounds",
+          "episode_sum_mean": 0.0,
+          "mean": 0.0,
+          "active_rate": 0.0,
+          "abs_frac_of_total": 0.0,
+          "magnitude_share": 0.0
+        }
+      ]
+    }
+  ]
+}
