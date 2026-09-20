@@ -1,0 +1,891 @@
+runner_env_id: FragileCargoDock-v0
+reward_path: runs/env_007/prompt_ladder/L2/cand_05/reward_v1.py
+reward_source: generated_function
+run_name: train_L2_cand_05
+n_envs: 6
+total_timesteps: 600000
+reward_clip: 20.0
+error_fallback: zero
+ppo_args:
+  policy: MlpPolicy
+  verbose: '1'
+  device: cpu
+  seed: '0'
+  learning_rate: '0.0003'
+  n_steps: '2048'
+  batch_size: '128'
+  gae_lambda: '0.95'
+  gamma: '0.999'
+  n_epochs: '10'
+  ent_coef: '0.005'
+  clip_range: '0.2'
+  max_grad_norm: '0.5'
+  vf_coef: '0.5'
+  policy_kwargs: '{''ortho_init'': True, ''activation_fn'': <class ''torch.nn.modules.activation.Tanh''>,
+    ''net_arch'': {''pi'': [128, 128], ''vf'': [128, 128]}}'
+  tensorboard_log: runs/env_007/tensorboard
+model_path: runs\env_007\rung_06m\L2_cand_05\model.zip
+monitor_dir: runs\env_007\rung_06m\L2_cand_05\monitor
+tensorboard_log: runs/env_007/tensorboard
+normalization:
+  normalize_obs: true
+  normalize_reward: true
+  clip_obs: 10.0
+  clip_normalized_reward: 10.0
+  vecnormalize_path: runs\env_007\rung_06m\L2_cand_05\vecnormalize.pkl
+external_eval:
+  eval_episodes: 20
+  eval_seed_offset: 10000
+  eval_seeds:
+  - 10000
+  - 10001
+  - 10002
+  - 10003
+  - 10004
+  - 10005
+  - 10006
+  - 10007
+  - 10008
+  - 10009
+  - 10010
+  - 10011
+  - 10012
+  - 10013
+  - 10014
+  - 10015
+  - 10016
+  - 10017
+  - 10018
+  - 10019
+  episode_rewards:
+  - -1.8597262932519845
+  - -1.9208546024042448
+  - -2.5964593009521124
+  - -1.5302204761448772
+  - -1.8117851889336811
+  - -0.974109965674721
+  - -0.27350979565384864
+  - -0.19462607892905603
+  - -1.3447233398860436
+  - -1.5492453716491086
+  - -0.7031184060184203
+  - -2.2025632210180377
+  - -1.5463055349403634
+  - -1.3491547306472356
+  - -0.46175941610669363
+  - -2.5912528130205947
+  - -1.9684504143139747
+  - -1.68466441428828
+  - -0.5251370979943139
+  - -3.120507189500182
+  episode_lengths:
+  - 400
+  - 400
+  - 400
+  - 400
+  - 400
+  - 400
+  - 400
+  - 400
+  - 400
+  - 400
+  - 400
+  - 400
+  - 400
+  - 400
+  - 400
+  - 400
+  - 400
+  - 400
+  - 400
+  - 400
+  episode_terminated:
+  - false
+  - false
+  - false
+  - false
+  - false
+  - false
+  - false
+  - false
+  - false
+  - false
+  - false
+  - false
+  - false
+  - false
+  - false
+  - false
+  - false
+  - false
+  - false
+  - false
+  mean_eval_reward: -1.5104086825663887
+  mean_episode_length: 400
+  min_eval_reward: -3.120507189500182
+  max_eval_reward: -0.19462607892905603
+  termination_breakdown:
+    terminated: 0
+    truncated: 20
+  final_policy_component_evaluation:
+    bound_pen:
+      episode_sum_mean: 0.0
+      episode_abs_sum_mean: 0.0
+      signed_contribution_share: 0.0
+      magnitude_share: 0.0
+      active_rate: 0.0
+    dock_quality:
+      episode_sum_mean: 0.0
+      episode_abs_sum_mean: 0.0
+      signed_contribution_share: 0.0
+      magnitude_share: 0.0
+      active_rate: 0.0
+    enter_event:
+      episode_sum_mean: 0.0
+      episode_abs_sum_mean: 0.0
+      signed_contribution_share: 0.0
+      magnitude_share: 0.0
+      active_rate: 0.0
+    gentleness:
+      episode_sum_mean: 0.0
+      episode_abs_sum_mean: 0.0
+      signed_contribution_share: 0.0
+      magnitude_share: 0.0
+      active_rate: 0.0
+    progress:
+      episode_sum_mean: 0.0
+      episode_abs_sum_mean: 0.0
+      signed_contribution_share: 0.0
+      magnitude_share: 0.0
+      active_rate: 0.0
+    speed_pen:
+      episode_sum_mean: 0.0
+      episode_abs_sum_mean: 0.0
+      signed_contribution_share: 0.0
+      magnitude_share: 0.0
+      active_rate: 0.0
+    success_event:
+      episode_sum_mean: 0.0
+      episode_abs_sum_mean: 0.0
+      signed_contribution_share: 0.0
+      magnitude_share: 0.0
+      active_rate: 0.0
+  final_policy_component_error_count: 0
+train_duration_sec: 317.6
+component_summary:
+  steps_seen: 602112
+  reward_error_count_max: 0
+  component_stats:
+    component.bound_pen:
+      count: 602112
+      mean: -0.0024844983983849643
+      abs_mean: 0.0024844983983849643
+      nonzero_rate: 0.007895541028911565
+      mean_when_active: -0.31467107691383417
+      abs_mean_when_active: 0.31467107691383417
+      min: -0.885935211181641
+      max: 0.0
+    component.dock_quality:
+      count: 602112
+      mean: 0.0
+      abs_mean: 0.0
+      nonzero_rate: 0.0
+      mean_when_active: 0.0
+      abs_mean_when_active: 0.0
+      min: 0.0
+      max: 0.0
+    component.enter_event:
+      count: 602112
+      mean: 0.0
+      abs_mean: 0.0
+      nonzero_rate: 0.0
+      mean_when_active: 0.0
+      abs_mean_when_active: 0.0
+      min: 0.0
+      max: 0.0
+    component.gentleness:
+      count: 602112
+      mean: -0.0012530424820920653
+      abs_mean: 0.0012530424820920653
+      nonzero_rate: 0.0016724463222789116
+      mean_when_active: -0.7492273237114376
+      abs_mean_when_active: 0.7492273237114376
+      min: -6.565945722042917
+      max: -0.0
+    component.progress:
+      count: 602112
+      mean: 0.0007604431920084202
+      abs_mean: 0.0007604431920084202
+      nonzero_rate: 0.031346327593537414
+      mean_when_active: 0.0242594029472594
+      abs_mean_when_active: 0.0242594029472594
+      min: 0.0
+      max: 0.23582515576622498
+    component.speed_pen:
+      count: 602112
+      mean: 0.0
+      abs_mean: 0.0
+      nonzero_rate: 0.0
+      mean_when_active: 0.0
+      abs_mean_when_active: 0.0
+      min: 0.0
+      max: 0.0
+    component.success_event:
+      count: 602112
+      mean: 0.0
+      abs_mean: 0.0
+      nonzero_rate: 0.0
+      mean_when_active: 0.0
+      abs_mean_when_active: 0.0
+      min: 0.0
+      max: 0.0
+    component.total_reward:
+      count: 602112
+      mean: -0.002977097688468762
+      abs_mean: 0.004361948712358943
+      nonzero_rate: 0.03963382227891157
+      mean_when_active: -0.07511507892219675
+      abs_mean_when_active: 0.1100562212158845
+      min: -6.505121915627728
+      max: 0.23582515576622498
+    generated_reward:
+      count: 602112
+      mean: -0.002977097688468762
+      abs_mean: 0.004361948712358943
+      nonzero_rate: 0.03963382227891157
+      mean_when_active: -0.07511507892219675
+      abs_mean_when_active: 0.1100562212158845
+      min: -6.505121915627728
+      max: 0.23582515576622498
+    original_env_reward:
+      count: 602112
+      mean: -0.010685468283518663
+      abs_mean: 0.013752589445194112
+      nonzero_rate: 1.0
+      mean_when_active: -0.010685468283518663
+      abs_mean_when_active: 0.013752589445194112
+      min: -100.0499368075237
+      max: 0.04344122648199557
+  episode_component_sum_stats:
+    bound_pen:
+      count: 1520
+      mean: -0.9841751971370301
+      abs_mean: 0.9841751971370301
+      min: -103.97893829345728
+      max: 0.0
+    dock_quality:
+      count: 1520
+      mean: 0.0
+      abs_mean: 0.0
+      min: 0.0
+      max: 0.0
+    enter_event:
+      count: 1520
+      mean: 0.0
+      abs_mean: 0.0
+      min: 0.0
+      max: 0.0
+    gentleness:
+      count: 1520
+      mean: -0.4963631019588275
+      abs_mean: 0.4963631019588275
+      min: -83.97369182642765
+      max: 0.0
+    progress:
+      count: 1520
+      mean: 0.30123156001748297
+      abs_mean: 0.30123156001748297
+      min: 0.0
+      max: 11.103004116917722
+    speed_pen:
+      count: 1520
+      mean: 0.0
+      abs_mean: 0.0
+      min: 0.0
+      max: 0.0
+    success_event:
+      count: 1520
+      mean: 0.0
+      abs_mean: 0.0
+      min: 0.0
+      max: 0.0
+    total_reward:
+      count: 1520
+      mean: -1.1793067390783742
+      abs_mean: 1.4067255848880398
+      min: -103.97893829345728
+      max: 5.869908040970627
+  monitor_snapshots: &id001
+  - steps: 60000
+    episodes: 150
+    mean_generated_reward: -0.002760377634417536
+    top_components:
+    - name: gentleness
+      episode_sum_mean: -1.7316576849618044
+      mean: -0.004329144212404512
+      active_rate: 0.005716666666666667
+      abs_frac_of_total: 0.26926571433779767
+      magnitude_share: 0.26926571433779767
+    - name: progress
+      episode_sum_mean: 1.107605589528131
+      mean: 0.002769013973820337
+      active_rate: 0.11366666666666667
+      abs_frac_of_total: 0.17222815621056708
+      magnitude_share: 0.17222815621056708
+    - name: total_reward
+      episode_sum_mean: -1.1041510537670063
+      mean: -0.002760377634417536
+      active_rate: 0.11965
+      abs_frac_of_total: 0.48385269760357996
+      magnitude_share: 0.48385269760357996
+    - name: bound_pen
+      episode_sum_mean: -0.4800989583333332
+      mean: -0.0012002473958333312
+      active_rate: 0.00495
+      abs_frac_of_total: 0.07465343184805528
+      magnitude_share: 0.07465343184805528
+    - name: dock_quality
+      episode_sum_mean: 0.0
+      mean: 0.0
+      active_rate: 0.0
+      abs_frac_of_total: 0.0
+      magnitude_share: 0.0
+    - name: speed_pen
+      episode_sum_mean: 0.0
+      mean: 0.0
+      active_rate: 0.0
+      abs_frac_of_total: 0.0
+      magnitude_share: 0.0
+    - name: enter_event
+      episode_sum_mean: 0.0
+      mean: 0.0
+      active_rate: 0.0
+      abs_frac_of_total: 0.0
+      magnitude_share: 0.0
+    - name: success_event
+      episode_sum_mean: 0.0
+      mean: 0.0
+      active_rate: 0.0
+      abs_frac_of_total: 0.0
+      magnitude_share: 0.0
+  - steps: 120000
+    episodes: 150
+    mean_generated_reward: -0.003481585725199597
+    top_components:
+    - name: gentleness
+      episode_sum_mean: -1.5093620141055997
+      mean: -0.003773405035264
+      active_rate: 0.00725
+      abs_frac_of_total: 0.18310726712432118
+      magnitude_share: 0.18310726712432118
+    - name: progress
+      episode_sum_mean: 1.4242774193586167
+      mean: 0.003560693548396534
+      active_rate: 0.13778333333333334
+      abs_frac_of_total: 0.17278528507302843
+      magnitude_share: 0.17278528507302843
+    - name: total_reward
+      episode_sum_mean: -1.3926342900798279
+      mean: -0.003481585725199597
+      active_rate: 0.1485
+      abs_frac_of_total: 0.48548291034633173
+      magnitude_share: 0.48548291034633173
+    - name: bound_pen
+      episode_sum_mean: -1.3075496953328445
+      mean: -0.0032688742383321463
+      active_rate: 0.009266666666666666
+      abs_frac_of_total: 0.15862453745631877
+      magnitude_share: 0.15862453745631877
+    - name: dock_quality
+      episode_sum_mean: 0.0
+      mean: 0.0
+      active_rate: 0.0
+      abs_frac_of_total: 0.0
+      magnitude_share: 0.0
+    - name: speed_pen
+      episode_sum_mean: 0.0
+      mean: 0.0
+      active_rate: 0.0
+      abs_frac_of_total: 0.0
+      magnitude_share: 0.0
+    - name: enter_event
+      episode_sum_mean: 0.0
+      mean: 0.0
+      active_rate: 0.0
+      abs_frac_of_total: 0.0
+      magnitude_share: 0.0
+    - name: success_event
+      episode_sum_mean: 0.0
+      mean: 0.0
+      active_rate: 0.0
+      abs_frac_of_total: 0.0
+      magnitude_share: 0.0
+  - steps: 180000
+    episodes: 151
+    mean_generated_reward: -0.005552663487495054
+    top_components:
+    - name: total_reward
+      episode_sum_mean: -2.206356352647041
+      mean: -0.005552663487495054
+      active_rate: 0.06443333333333333
+      abs_frac_of_total: 0.496576691385659
+      magnitude_share: 0.496576691385659
+    - name: bound_pen
+      episode_sum_mean: -2.0585615473867254
+      mean: -0.00518071322758993
+      active_rate: 0.013466666666666667
+      abs_frac_of_total: 0.34977252251422897
+      magnitude_share: 0.34977252251422897
+    - name: gentleness
+      episode_sum_mean: -0.5260478427473722
+      mean: -0.00132388707091422
+      active_rate: 0.0018833333333333334
+      abs_frac_of_total: 0.08938138437225486
+      magnitude_share: 0.08938138437225486
+    - name: progress
+      episode_sum_mean: 0.37825303748705685
+      mean: 0.0009519368110090905
+      active_rate: 0.0504
+      abs_frac_of_total: 0.06426940172785711
+      magnitude_share: 0.06426940172785711
+    - name: dock_quality
+      episode_sum_mean: 0.0
+      mean: 0.0
+      active_rate: 0.0
+      abs_frac_of_total: 0.0
+      magnitude_share: 0.0
+    - name: speed_pen
+      episode_sum_mean: 0.0
+      mean: 0.0
+      active_rate: 0.0
+      abs_frac_of_total: 0.0
+      magnitude_share: 0.0
+    - name: enter_event
+      episode_sum_mean: 0.0
+      mean: 0.0
+      active_rate: 0.0
+      abs_frac_of_total: 0.0
+      magnitude_share: 0.0
+    - name: success_event
+      episode_sum_mean: 0.0
+      mean: 0.0
+      active_rate: 0.0
+      abs_frac_of_total: 0.0
+      magnitude_share: 0.0
+  - steps: 240000
+    episodes: 153
+    mean_generated_reward: -0.005206151309812501
+    top_components:
+    - name: total_reward
+      episode_sum_mean: -2.0416279646323905
+      mean: -0.005206151309812501
+      active_rate: 0.015433333333333334
+      abs_frac_of_total: 0.4981435274919006
+      magnitude_share: 0.4981435274919006
+    - name: bound_pen
+      episode_sum_mean: -1.609001873365417
+      mean: -0.004102954777081862
+      active_rate: 0.0115
+      abs_frac_of_total: 0.3828167670860308
+      magnitude_share: 0.3828167670860308
+    - name: gentleness
+      episode_sum_mean: -0.4664785627905948
+      mean: -0.0011895203351160167
+      active_rate: 0.00031666666666666665
+      abs_frac_of_total: 0.11098546140839417
+      magnitude_share: 0.11098546140839417
+    - name: progress
+      episode_sum_mean: 0.03385247152362075
+      mean: 8.632380238523293e-05
+      active_rate: 0.0038666666666666667
+      abs_frac_of_total: 0.008054244013674374
+      magnitude_share: 0.008054244013674374
+    - name: dock_quality
+      episode_sum_mean: 0.0
+      mean: 0.0
+      active_rate: 0.0
+      abs_frac_of_total: 0.0
+      magnitude_share: 0.0
+    - name: speed_pen
+      episode_sum_mean: 0.0
+      mean: 0.0
+      active_rate: 0.0
+      abs_frac_of_total: 0.0
+      magnitude_share: 0.0
+    - name: enter_event
+      episode_sum_mean: 0.0
+      mean: 0.0
+      active_rate: 0.0
+      abs_frac_of_total: 0.0
+      magnitude_share: 0.0
+    - name: success_event
+      episode_sum_mean: 0.0
+      mean: 0.0
+      active_rate: 0.0
+      abs_frac_of_total: 0.0
+      magnitude_share: 0.0
+  - steps: 300000
+    episodes: 150
+    mean_generated_reward: -0.0036490815904363194
+    top_components:
+    - name: bound_pen
+      episode_sum_mean: -1.15431654103597
+      mean: -0.0036720154666901226
+      active_rate: 0.016016666666666665
+      abs_frac_of_total: 0.496896591248592
+      magnitude_share: 0.496896591248592
+    - name: total_reward
+      episode_sum_mean: -1.1451429905344488
+      mean: -0.0036490815904363194
+      active_rate: 0.017166666666666667
+      abs_frac_of_total: 0.5000000000000001
+      magnitude_share: 0.5000000000000001
+    - name: progress
+      episode_sum_mean: 0.009173550501521266
+      mean: 2.2933876253803165e-05
+      active_rate: 0.00115
+      abs_frac_of_total: 0.0031034087514080445
+      magnitude_share: 0.0031034087514080445
+    - name: dock_quality
+      episode_sum_mean: 0.0
+      mean: 0.0
+      active_rate: 0.0
+      abs_frac_of_total: 0.0
+      magnitude_share: 0.0
+    - name: speed_pen
+      episode_sum_mean: 0.0
+      mean: 0.0
+      active_rate: 0.0
+      abs_frac_of_total: 0.0
+      magnitude_share: 0.0
+    - name: gentleness
+      episode_sum_mean: 0.0
+      mean: 0.0
+      active_rate: 0.0
+      abs_frac_of_total: 0.0
+      magnitude_share: 0.0
+    - name: enter_event
+      episode_sum_mean: 0.0
+      mean: 0.0
+      active_rate: 0.0
+      abs_frac_of_total: 0.0
+      magnitude_share: 0.0
+    - name: success_event
+      episode_sum_mean: 0.0
+      mean: 0.0
+      active_rate: 0.0
+      abs_frac_of_total: 0.0
+      magnitude_share: 0.0
+  - steps: 360000
+    episodes: 154
+    mean_generated_reward: -0.005042231231871712
+    top_components:
+    - name: bound_pen
+      episode_sum_mean: -2.194577726760469
+      mean: -0.005050249025026876
+      active_rate: 0.016033333333333333
+      abs_frac_of_total: 0.49920745648229314
+      magnitude_share: 0.49920745648229314
+    - name: total_reward
+      episode_sum_mean: -2.19145391124547
+      mean: -0.005042231231871712
+      active_rate: 0.016933333333333335
+      abs_frac_of_total: 0.5
+      magnitude_share: 0.5
+    - name: progress
+      episode_sum_mean: 0.003123815514999079
+      mean: 8.017793155164302e-06
+      active_rate: 0.0009
+      abs_frac_of_total: 0.0007925435177069137
+      magnitude_share: 0.0007925435177069137
+    - name: dock_quality
+      episode_sum_mean: 0.0
+      mean: 0.0
+      active_rate: 0.0
+      abs_frac_of_total: 0.0
+      magnitude_share: 0.0
+    - name: speed_pen
+      episode_sum_mean: 0.0
+      mean: 0.0
+      active_rate: 0.0
+      abs_frac_of_total: 0.0
+      magnitude_share: 0.0
+    - name: gentleness
+      episode_sum_mean: 0.0
+      mean: 0.0
+      active_rate: 0.0
+      abs_frac_of_total: 0.0
+      magnitude_share: 0.0
+    - name: enter_event
+      episode_sum_mean: 0.0
+      mean: 0.0
+      active_rate: 0.0
+      abs_frac_of_total: 0.0
+      magnitude_share: 0.0
+    - name: success_event
+      episode_sum_mean: 0.0
+      mean: 0.0
+      active_rate: 0.0
+      abs_frac_of_total: 0.0
+      magnitude_share: 0.0
+  - steps: 420000
+    episodes: 150
+    mean_generated_reward: -0.0004621083874594348
+    top_components:
+    - name: total_reward
+      episode_sum_mean: -0.26633281116053187
+      mean: -0.0004621083874594348
+      active_rate: 0.00505
+      abs_frac_of_total: 0.48840992369113334
+      magnitude_share: 0.48840992369113334
+    - name: gentleness
+      episode_sum_mean: -0.22360549286043627
+      mean: -0.0005590137321510906
+      active_rate: 0.0009166666666666666
+      abs_frac_of_total: 0.39546771167490535
+      magnitude_share: 0.39546771167490535
+    - name: bound_pen
+      episode_sum_mean: -0.09493736139933287
+      mean: -3.3619763056437255e-05
+      active_rate: 0.00023333333333333333
+      abs_frac_of_total: 0.02378390726077591
+      magnitude_share: 0.02378390726077591
+    - name: progress
+      episode_sum_mean: 0.05221004309923725
+      mean: 0.00013052510774809312
+      active_rate: 0.0041
+      abs_frac_of_total: 0.09233845737318554
+      magnitude_share: 0.09233845737318554
+    - name: dock_quality
+      episode_sum_mean: 0.0
+      mean: 0.0
+      active_rate: 0.0
+      abs_frac_of_total: 0.0
+      magnitude_share: 0.0
+    - name: speed_pen
+      episode_sum_mean: 0.0
+      mean: 0.0
+      active_rate: 0.0
+      abs_frac_of_total: 0.0
+      magnitude_share: 0.0
+    - name: enter_event
+      episode_sum_mean: 0.0
+      mean: 0.0
+      active_rate: 0.0
+      abs_frac_of_total: 0.0
+      magnitude_share: 0.0
+    - name: success_event
+      episode_sum_mean: 0.0
+      mean: 0.0
+      active_rate: 0.0
+      abs_frac_of_total: 0.0
+      magnitude_share: 0.0
+  - steps: 480000
+    episodes: 151
+    mean_generated_reward: -0.0003683191760381065
+    top_components:
+    - name: bound_pen
+      episode_sum_mean: -0.1463519904787179
+      mean: -0.0003683191760381065
+      active_rate: 0.0011833333333333333
+      abs_frac_of_total: 0.5
+      magnitude_share: 0.5
+    - name: total_reward
+      episode_sum_mean: -0.1463519904787179
+      mean: -0.0003683191760381065
+      active_rate: 0.0011833333333333333
+      abs_frac_of_total: 0.5
+      magnitude_share: 0.5
+    - name: progress
+      episode_sum_mean: 0.0
+      mean: 0.0
+      active_rate: 0.0
+      abs_frac_of_total: 0.0
+      magnitude_share: 0.0
+    - name: dock_quality
+      episode_sum_mean: 0.0
+      mean: 0.0
+      active_rate: 0.0
+      abs_frac_of_total: 0.0
+      magnitude_share: 0.0
+    - name: speed_pen
+      episode_sum_mean: 0.0
+      mean: 0.0
+      active_rate: 0.0
+      abs_frac_of_total: 0.0
+      magnitude_share: 0.0
+    - name: gentleness
+      episode_sum_mean: 0.0
+      mean: 0.0
+      active_rate: 0.0
+      abs_frac_of_total: 0.0
+      magnitude_share: 0.0
+    - name: enter_event
+      episode_sum_mean: 0.0
+      mean: 0.0
+      active_rate: 0.0
+      abs_frac_of_total: 0.0
+      magnitude_share: 0.0
+    - name: success_event
+      episode_sum_mean: 0.0
+      mean: 0.0
+      active_rate: 0.0
+      abs_frac_of_total: 0.0
+      magnitude_share: 0.0
+  - steps: 540000
+    episodes: 153
+    mean_generated_reward: -0.0019680710063102328
+    top_components:
+    - name: total_reward
+      episode_sum_mean: -0.771792551494206
+      mean: -0.0019680710063102328
+      active_rate: 0.004816666666666667
+      abs_frac_of_total: 0.4913776892081572
+      magnitude_share: 0.4913776892081572
+    - name: gentleness
+      episode_sum_mean: -0.5488476589962592
+      mean: -0.001399561530440461
+      active_rate: 0.0007
+      abs_frac_of_total: 0.3278019446889236
+      magnitude_share: 0.3278019446889236
+    - name: bound_pen
+      episode_sum_mean: -0.2628486602134956
+      mean: -0.0006702640835444116
+      active_rate: 0.0020166666666666666
+      abs_frac_of_total: 0.15698764596069623
+      magnitude_share: 0.15698764596069623
+    - name: progress
+      episode_sum_mean: 0.0399037677155489
+      mean: 0.00010175460767464968
+      active_rate: 0.0027
+      abs_frac_of_total: 0.023832720142222867
+      magnitude_share: 0.023832720142222867
+    - name: dock_quality
+      episode_sum_mean: 0.0
+      mean: 0.0
+      active_rate: 0.0
+      abs_frac_of_total: 0.0
+      magnitude_share: 0.0
+    - name: speed_pen
+      episode_sum_mean: 0.0
+      mean: 0.0
+      active_rate: 0.0
+      abs_frac_of_total: 0.0
+      magnitude_share: 0.0
+    - name: enter_event
+      episode_sum_mean: 0.0
+      mean: 0.0
+      active_rate: 0.0
+      abs_frac_of_total: 0.0
+      magnitude_share: 0.0
+    - name: success_event
+      episode_sum_mean: 0.0
+      mean: 0.0
+      active_rate: 0.0
+      abs_frac_of_total: 0.0
+      magnitude_share: 0.0
+  - steps: 600000
+    episodes: 153
+    mean_generated_reward: -0.0013851811742782592
+    top_components:
+    - name: bound_pen
+      episode_sum_mean: -0.5432083036385335
+      mean: -0.0013851811742782592
+      active_rate: 0.004566666666666667
+      abs_frac_of_total: 0.5
+      magnitude_share: 0.5
+    - name: total_reward
+      episode_sum_mean: -0.5432083036385335
+      mean: -0.0013851811742782592
+      active_rate: 0.004566666666666667
+      abs_frac_of_total: 0.5
+      magnitude_share: 0.5
+    - name: progress
+      episode_sum_mean: 0.0
+      mean: 0.0
+      active_rate: 0.0
+      abs_frac_of_total: 0.0
+      magnitude_share: 0.0
+    - name: dock_quality
+      episode_sum_mean: 0.0
+      mean: 0.0
+      active_rate: 0.0
+      abs_frac_of_total: 0.0
+      magnitude_share: 0.0
+    - name: speed_pen
+      episode_sum_mean: 0.0
+      mean: 0.0
+      active_rate: 0.0
+      abs_frac_of_total: 0.0
+      magnitude_share: 0.0
+    - name: gentleness
+      episode_sum_mean: 0.0
+      mean: 0.0
+      active_rate: 0.0
+      abs_frac_of_total: 0.0
+      magnitude_share: 0.0
+    - name: enter_event
+      episode_sum_mean: 0.0
+      mean: 0.0
+      active_rate: 0.0
+      abs_frac_of_total: 0.0
+      magnitude_share: 0.0
+    - name: success_event
+      episode_sum_mean: 0.0
+      mean: 0.0
+      active_rate: 0.0
+      abs_frac_of_total: 0.0
+      magnitude_share: 0.0
+  - steps: 602112
+    episodes: 5
+    mean_generated_reward: 0.0
+    top_components:
+    - name: progress
+      episode_sum_mean: 0.0
+      mean: 0.0
+      active_rate: 0.0
+      abs_frac_of_total: 0.0
+      magnitude_share: 0.0
+    - name: dock_quality
+      episode_sum_mean: 0.0
+      mean: 0.0
+      active_rate: 0.0
+      abs_frac_of_total: 0.0
+      magnitude_share: 0.0
+    - name: speed_pen
+      episode_sum_mean: 0.0
+      mean: 0.0
+      active_rate: 0.0
+      abs_frac_of_total: 0.0
+      magnitude_share: 0.0
+    - name: gentleness
+      episode_sum_mean: 0.0
+      mean: 0.0
+      active_rate: 0.0
+      abs_frac_of_total: 0.0
+      magnitude_share: 0.0
+    - name: bound_pen
+      episode_sum_mean: 0.0
+      mean: 0.0
+      active_rate: 0.0
+      abs_frac_of_total: 0.0
+      magnitude_share: 0.0
+    - name: enter_event
+      episode_sum_mean: 0.0
+      mean: 0.0
+      active_rate: 0.0
+      abs_frac_of_total: 0.0
+      magnitude_share: 0.0
+    - name: success_event
+      episode_sum_mean: 0.0
+      mean: 0.0
+      active_rate: 0.0
+      abs_frac_of_total: 0.0
+      magnitude_share: 0.0
+    - name: total_reward
+      episode_sum_mean: 0.0
+      mean: 0.0
+      active_rate: 0.0
+      abs_frac_of_total: 0.0
+      magnitude_share: 0.0
+monitor_snapshots: *id001
