@@ -1,0 +1,891 @@
+runner_env_id: FragileCargoDock-v0
+reward_path: runs\env_007\fragilecargo_eureka_v2\seed_0\gen_00\cand_01\reward_v1.py
+reward_source: generated_function
+run_name: fragilecargo_eureka_v2/seed_0/gen_00/cand_01/training
+n_envs: 6
+total_timesteps: 3000000
+reward_clip: 20.0
+error_fallback: zero
+ppo_args:
+  policy: MlpPolicy
+  verbose: '1'
+  device: cpu
+  seed: '0'
+  learning_rate: '0.0003'
+  n_steps: '2048'
+  batch_size: '128'
+  gae_lambda: '0.95'
+  gamma: '0.999'
+  n_epochs: '10'
+  ent_coef: '0.005'
+  clip_range: '0.2'
+  max_grad_norm: '0.5'
+  vf_coef: '0.5'
+  policy_kwargs: '{''ortho_init'': True, ''activation_fn'': <class ''torch.nn.modules.activation.Tanh''>,
+    ''net_arch'': {''pi'': [128, 128], ''vf'': [128, 128]}}'
+  tensorboard_log: runs/env_007/tensorboard
+model_path: runs\env_007\fragilecargo_eureka_v2\seed_0\gen_00\cand_01\training\model.zip
+monitor_dir: runs\env_007\fragilecargo_eureka_v2\seed_0\gen_00\cand_01\training\monitor
+tensorboard_log: runs/env_007/tensorboard
+normalization:
+  normalize_obs: true
+  normalize_reward: true
+  clip_obs: 10.0
+  clip_normalized_reward: 10.0
+  vecnormalize_path: runs\env_007\fragilecargo_eureka_v2\seed_0\gen_00\cand_01\training\vecnormalize.pkl
+external_eval:
+  eval_episodes: 20
+  eval_seed_offset: 10000
+  eval_seeds:
+  - 10000
+  - 10001
+  - 10002
+  - 10003
+  - 10004
+  - 10005
+  - 10006
+  - 10007
+  - 10008
+  - 10009
+  - 10010
+  - 10011
+  - 10012
+  - 10013
+  - 10014
+  - 10015
+  - 10016
+  - 10017
+  - 10018
+  - 10019
+  episode_rewards:
+  - -1.6534255939232407
+  - -2.9055822961959574
+  - -1.2862682865993114
+  - -1.2123596891700346
+  - -2.5610438740702977
+  - -1.9671223427460791
+  - -104.13785149012953
+  - -3.221726633342345
+  - -3.1404690954555248
+  - -2.263029202470313
+  - -3.588842887892215
+  - -0.3321122366684829
+  - -1.0647323185776683
+  - -2.2086521105996217
+  - -1.2079823364506614
+  - -2.0974820459664474
+  - -1.4821584268319197
+  - -1.9594102075450708
+  - -1.4627350368265424
+  - -1.3555845956896735
+  episode_lengths:
+  - 400
+  - 400
+  - 400
+  - 400
+  - 400
+  - 400
+  - 400
+  - 400
+  - 400
+  - 400
+  - 400
+  - 400
+  - 400
+  - 400
+  - 400
+  - 400
+  - 400
+  - 400
+  - 400
+  - 400
+  episode_terminated:
+  - false
+  - false
+  - false
+  - false
+  - false
+  - false
+  - true
+  - false
+  - false
+  - false
+  - false
+  - false
+  - false
+  - false
+  - false
+  - false
+  - false
+  - false
+  - false
+  - false
+  mean_eval_reward: -7.055428535357547
+  mean_episode_length: 400
+  min_eval_reward: -104.13785149012953
+  max_eval_reward: -0.3321122366684829
+  termination_breakdown:
+    terminated: 1
+    truncated: 19
+  final_policy_component_evaluation:
+    action_smoothness:
+      episode_sum_mean: -0.26881699527613706
+      episode_abs_sum_mean: 0.26881699527613706
+      signed_contribution_share: -0.0019718367650167394
+      magnitude_share: 0.0019718367650167394
+      active_rate: 1.0
+    boundary_avoidance:
+      episode_sum_mean: -1.8920033743877753
+      episode_abs_sum_mean: 1.8920033743877753
+      signed_contribution_share: -0.013878295936316207
+      magnitude_share: 0.013878295936316207
+      active_rate: 0.232875
+    crate_dock_alignment:
+      episode_sum_mean: 67.25096791982651
+      episode_abs_sum_mean: 67.25096791982651
+      signed_contribution_share: 0.49330188699957866
+      magnitude_share: 0.49330188699957866
+      active_rate: 1.0
+    crate_settling:
+      episode_sum_mean: 66.91643118858337
+      episode_abs_sum_mean: 66.91643118858337
+      signed_contribution_share: 0.49084798029908855
+      magnitude_share: 0.49084798029908855
+      active_rate: 1.0
+    crate_to_dock_progress:
+      episode_sum_mean: 0.0
+      episode_abs_sum_mean: 0.0
+      signed_contribution_share: 0.0
+      magnitude_share: 0.0
+      active_rate: 0.0
+    gentle_contact:
+      episode_sum_mean: 0.0
+      episode_abs_sum_mean: 0.0
+      signed_contribution_share: 0.0
+      magnitude_share: 0.0
+      active_rate: 0.0
+    obstacle_avoidance:
+      episode_sum_mean: 0.0
+      episode_abs_sum_mean: 0.0
+      signed_contribution_share: 0.0
+      magnitude_share: 0.0
+      active_rate: 0.0
+  final_policy_component_error_count: 0
+train_duration_sec: 1574.3
+component_summary:
+  steps_seen: 3010560
+  reward_error_count_max: 0
+  component_stats:
+    component.action_smoothness:
+      count: 3010560
+      mean: -0.012133242732754188
+      abs_mean: 0.012133242732754188
+      nonzero_rate: 1.0
+      mean_when_active: -0.012133242732754188
+      abs_mean_when_active: 0.012133242732754188
+      min: -0.10000000149011612
+      max: -1.4476907450600152e-09
+    component.boundary_avoidance:
+      count: 3010560
+      mean: -0.0010029543440120154
+      abs_mean: 0.0010029543440120154
+      nonzero_rate: 0.06986308195153061
+      mean_when_active: -0.014355999134247207
+      abs_mean_when_active: 0.014355999134247207
+      min: -0.32129350304603577
+      max: -0.0
+    component.crate_dock_alignment:
+      count: 3010560
+      mean: 0.16607799560740988
+      abs_mean: 0.16609194580455927
+      nonzero_rate: 1.0
+      mean_when_active: 0.16607799560740988
+      abs_mean_when_active: 0.16609194580455927
+      min: -0.18053853511810303
+      max: 0.22083434462547302
+    component.crate_settling:
+      count: 3010560
+      mean: 0.16652972194539195
+      abs_mean: 0.16652972194539195
+      nonzero_rate: 1.0
+      mean_when_active: 0.16652972194539195
+      abs_mean_when_active: 0.16652972194539195
+      min: 0.02177293784916401
+      max: 0.19958163797855377
+    component.crate_to_dock_progress:
+      count: 3010560
+      mean: 1.2628166884069845e-05
+      abs_mean: 1.3061230930936883e-05
+      nonzero_rate: 0.005879304846938775
+      mean_when_active: 0.0021479013612714865
+      abs_mean_when_active: 0.0022215604175955563
+      min: -0.011513829231262207
+      max: 0.02752983570098877
+    component.gentle_contact:
+      count: 3010560
+      mean: -1.3386381548722662e-06
+      abs_mean: 1.3386381548722662e-06
+      nonzero_rate: 1.1957908163265306e-05
+      mean_when_active: -0.11194584676478472
+      abs_mean_when_active: 0.11194584676478472
+      min: -0.24627123773097992
+      max: 0.0
+    component.obstacle_avoidance:
+      count: 3010560
+      mean: -6.738323858040406e-06
+      abs_mean: 6.738323858040406e-06
+      nonzero_rate: 0.0006726323341836735
+      mean_when_active: -0.010017841122993643
+      abs_mean_when_active: 0.010017841122993643
+      min: -0.026063494384288788
+      max: -0.0
+    component.total_reward:
+      count: 3010560
+      mean: 0.3194760718588735
+      abs_mean: 0.3194777138891726
+      nonzero_rate: 1.0
+      mean_when_active: 0.3194760718588735
+      abs_mean_when_active: 0.3194777138891726
+      min: -0.07657016813755035
+      max: 0.3798562288284302
+    generated_reward:
+      count: 3010560
+      mean: 0.3194760718588735
+      abs_mean: 0.3194777138891726
+      nonzero_rate: 1.0
+      mean_when_active: 0.3194760718588735
+      abs_mean_when_active: 0.3194777138891726
+      min: -0.07657016813755035
+      max: 0.3798562288284302
+    original_env_reward:
+      count: 3010560
+      mean: -0.006577398300607167
+      abs_mean: 0.008855485439727534
+      nonzero_rate: 1.0
+      mean_when_active: -0.006577398300607167
+      abs_mean_when_active: 0.008855485439727534
+      min: -100.03391548095921
+      max: 0.05033058380663852
+  episode_component_sum_stats:
+    action_smoothness:
+      count: 7539
+      mean: -4.844339476166037
+      abs_mean: 4.844339476166037
+      min: -21.90598120028153
+      max: -0.8276052372530103
+    boundary_avoidance:
+      count: 7539
+      mean: -0.4001902321849836
+      abs_mean: 0.4001902321849836
+      min: -26.03319109493941
+      max: 0.0
+    crate_dock_alignment:
+      count: 7539
+      mean: 66.28846397159366
+      abs_mean: 66.28846397159366
+      min: 13.428567037612083
+      max: 75.6617546081543
+    crate_settling:
+      count: 7539
+      mean: 66.46934526610642
+      abs_mean: 66.46934526610642
+      min: 25.958774909377098
+      max: 73.47951531410217
+    crate_to_dock_progress:
+      count: 7539
+      mean: 0.005042824525070342
+      abs_mean: 0.0051269204408772385
+      min: -0.15717709064483643
+      max: 1.9121958017349243
+    gentle_contact:
+      count: 7539
+      mean: -0.0005345603506475992
+      abs_mean: 0.0005345603506475992
+      min: -1.6734089329838753
+      max: 0.0
+    obstacle_avoidance:
+      count: 7539
+      mean: -0.0026908248141745755
+      abs_mean: 0.0026908248141745755
+      min: -4.037763499865832
+      max: 0.0
+    total_reward:
+      count: 7539
+      mean: 127.51509704073234
+      abs_mean: 127.51509704073234
+      min: 45.09775999188423
+      max: 147.897704154253
+  monitor_snapshots: &id001
+  - steps: 300000
+    episodes: 759
+    mean_generated_reward: 0.28302843305178915
+    top_components:
+    - name: total_reward
+      episode_sum_mean: 111.4761728091455
+      mean: 0.28302843305178915
+      active_rate: 1.0
+      abs_frac_of_total: 0.42473162655725755
+      magnitude_share: 0.42473162655725755
+    - name: crate_settling
+      episode_sum_mean: 65.67405773145153
+      mean: 0.1667428008815522
+      active_rate: 1.0
+      abs_frac_of_total: 0.25022133015407205
+      magnitude_share: 0.25022133015407205
+    - name: crate_dock_alignment
+      episode_sum_mean: 65.55086299935074
+      mean: 0.1664054364529997
+      active_rate: 1.0
+      abs_frac_of_total: 0.24971506676151314
+      magnitude_share: 0.24971506676151314
+    - name: action_smoothness
+      episode_sum_mean: -19.070421434013173
+      mean: -0.048403638250063316
+      active_rate: 1.0
+      abs_frac_of_total: 0.07263655572051356
+      magnitude_share: 0.07263655572051356
+    - name: boundary_avoidance
+      episode_sum_mean: -0.6838677152299627
+      mean: -0.0017301853195318048
+      active_rate: 0.05941333333333333
+      abs_frac_of_total: 0.0025963895879009074
+      magnitude_share: 0.0025963895879009074
+    - name: crate_to_dock_progress
+      episode_sum_mean: 0.015592330058101608
+      mean: 3.944859504699707e-05
+      active_rate: 0.013353333333333333
+      abs_frac_of_total: 6.086970824943758e-05
+      magnitude_share: 6.086970824943758e-05
+    - name: obstacle_avoidance
+      episode_sum_mean: -0.005307578678841504
+      mean: -1.3428174057469005e-05
+      active_rate: 0.0019366666666666666
+      abs_frac_of_total: 2.0150888412790463e-05
+      magnitude_share: 2.0150888412790463e-05
+    - name: gentle_contact
+      episode_sum_mean: -0.004743850086870872
+      mean: -1.2001940719783307e-05
+      active_rate: 9.666666666666667e-05
+      abs_frac_of_total: 1.801062208057677e-05
+      magnitude_share: 1.801062208057677e-05
+  - steps: 600000
+    episodes: 750
+    mean_generated_reward: 0.30150282497644426
+    top_components:
+    - name: total_reward
+      episode_sum_mean: 120.54591095443567
+      mean: 0.30150282497644426
+      active_rate: 1.0
+      abs_frac_of_total: 0.4533492847395873
+      magnitude_share: 0.4533492847395873
+    - name: crate_settling
+      episode_sum_mean: 66.66126256572207
+      mean: 0.16666260879891615
+      active_rate: 1.0
+      abs_frac_of_total: 0.2505992257211034
+      magnitude_share: 0.2505992257211034
+    - name: crate_dock_alignment
+      episode_sum_mean: 66.32914726692438
+      mean: 0.16586541021118562
+      active_rate: 1.0
+      abs_frac_of_total: 0.24940053244328325
+      magnitude_share: 0.24940053244328325
+    - name: action_smoothness
+      episode_sum_mean: -12.170938509051043
+      mean: -0.030341293134084322
+      active_rate: 1.0
+      abs_frac_of_total: 0.04562213817229057
+      magnitude_share: 0.04562213817229057
+    - name: boundary_avoidance
+      episode_sum_mean: -0.27097714425056574
+      mean: -0.0006774428606264143
+      active_rate: 0.06763
+      abs_frac_of_total: 0.0010186247387264757
+      magnitude_share: 0.0010186247387264757
+    - name: obstacle_avoidance
+      episode_sum_mean: -0.0026373433674242125
+      mean: -6.593358418560532e-06
+      active_rate: 0.0011466666666666667
+      abs_frac_of_total: 9.913984465384975e-06
+      magnitude_share: 9.913984465384975e-06
+    - name: crate_to_dock_progress
+      episode_sum_mean: 5.36036491394043e-05
+      mean: 1.3400912284851074e-07
+      active_rate: 0.00023333333333333333
+      abs_frac_of_total: 2.8020054361387823e-07
+      magnitude_share: 2.8020054361387823e-07
+    - name: gentle_contact
+      episode_sum_mean: 0.0
+      mean: 0.0
+      active_rate: 0.0
+      abs_frac_of_total: 0.0
+      magnitude_share: 0.0
+  - steps: 900000
+    episodes: 750
+    mean_generated_reward: 0.3199792989428838
+    top_components:
+    - name: total_reward
+      episode_sum_mean: 127.96105517443021
+      mean: 0.3199792989428838
+      active_rate: 1.0
+      abs_frac_of_total: 0.4829332302300361
+      magnitude_share: 0.4829332302300361
+    - name: crate_settling
+      episode_sum_mean: 66.3664249030153
+      mean: 0.16593733198379476
+      active_rate: 1.0
+      abs_frac_of_total: 0.2504432380952002
+      magnitude_share: 0.2504432380952002
+    - name: crate_dock_alignment
+      episode_sum_mean: 66.13335415965318
+      mean: 0.1653491494235893
+      active_rate: 1.0
+      abs_frac_of_total: 0.2495555153434365
+      magnitude_share: 0.2495555153434365
+    - name: action_smoothness
+      episode_sum_mean: -4.443484609735723
+      mean: -0.011069084289440437
+      active_rate: 1.0
+      abs_frac_of_total: 0.01670617020928659
+      magnitude_share: 0.01670617020928659
+    - name: boundary_avoidance
+      episode_sum_mean: -0.09128381633073028
+      mean: -0.00022820954082682576
+      active_rate: 0.015296666666666667
+      abs_frac_of_total: 0.0003444284398550567
+      magnitude_share: 0.0003444284398550567
+    - name: obstacle_avoidance
+      episode_sum_mean: -0.004275850228926477
+      mean: -1.0689625572316193e-05
+      active_rate: 0.0006433333333333333
+      abs_frac_of_total: 1.6133466835645952e-05
+      magnitude_share: 1.6133466835645952e-05
+    - name: crate_to_dock_progress
+      episode_sum_mean: 0.00032033586502075196
+      mean: 8.008396625518799e-07
+      active_rate: 0.0006766666666666667
+      abs_frac_of_total: 1.2842153499482947e-06
+      magnitude_share: 1.2842153499482947e-06
+    - name: gentle_contact
+      episode_sum_mean: 0.0
+      mean: 0.0
+      active_rate: 0.0
+      abs_frac_of_total: 0.0
+      magnitude_share: 0.0
+  - steps: 1200000
+    episodes: 750
+    mean_generated_reward: 0.3262360454354187
+    top_components:
+    - name: total_reward
+      episode_sum_mean: 130.40447683336336
+      mean: 0.3262360454354187
+      active_rate: 1.0
+      abs_frac_of_total: 0.490214759736023
+      magnitude_share: 0.490214759736023
+    - name: crate_settling
+      episode_sum_mean: 66.6574217702349
+      mean: 0.16675151243805886
+      active_rate: 1.0
+      abs_frac_of_total: 0.2505672004953954
+      magnitude_share: 0.2505672004953954
+    - name: crate_dock_alignment
+      episode_sum_mean: 66.34900120914976
+      mean: 0.1659895618358006
+      active_rate: 1.0
+      abs_frac_of_total: 0.24942226437738238
+      magnitude_share: 0.24942226437738238
+    - name: action_smoothness
+      episode_sum_mean: -2.457281845869414
+      mean: -0.006143368093413319
+      active_rate: 1.0
+      abs_frac_of_total: 0.009231259868489078
+      magnitude_share: 0.009231259868489078
+    - name: boundary_avoidance
+      episode_sum_mean: -0.14151917154033153
+      mean: -0.0003537979288508288
+      active_rate: 0.019453333333333333
+      abs_frac_of_total: 0.0005316302999419634
+      magnitude_share: 0.0005316302999419634
+    - name: obstacle_avoidance
+      episode_sum_mean: -0.00539314805350053
+      mean: -1.3482870133751324e-05
+      active_rate: 0.0008266666666666666
+      abs_frac_of_total: 2.0259876355316217e-05
+      magnitude_share: 2.0259876355316217e-05
+    - name: crate_to_dock_progress
+      episode_sum_mean: 0.0027888212203979494
+      mean: 6.972053050994873e-06
+      active_rate: 0.0036266666666666665
+      abs_frac_of_total: 1.0593326226503671e-05
+      magnitude_share: 1.0593326226503671e-05
+    - name: gentle_contact
+      episode_sum_mean: -0.0005409206611414751
+      mean: -1.3523016528536877e-06
+      active_rate: 2.0e-05
+      abs_frac_of_total: 2.032020186363888e-06
+      magnitude_share: 2.032020186363888e-06
+  - steps: 1500000
+    episodes: 750
+    mean_generated_reward: 0.3258913050389926
+    top_components:
+    - name: total_reward
+      episode_sum_mean: 130.25779675951165
+      mean: 0.3258913050389926
+      active_rate: 1.0
+      abs_frac_of_total: 0.4906340348327768
+      magnitude_share: 0.4906340348327768
+    - name: crate_settling
+      episode_sum_mean: 66.40224067969123
+      mean: 0.16612190240867436
+      active_rate: 1.0
+      abs_frac_of_total: 0.2500987652644489
+      magnitude_share: 0.2500987652644489
+    - name: crate_dock_alignment
+      episode_sum_mean: 66.32857742714307
+      mean: 0.16594973474178268
+      active_rate: 1.0
+      abs_frac_of_total: 0.24991055135352086
+      magnitude_share: 0.24991055135352086
+    - name: action_smoothness
+      episode_sum_mean: -2.2338860065237705
+      mean: -0.005582493753505108
+      active_rate: 1.0
+      abs_frac_of_total: 0.008404519660588854
+      magnitude_share: 0.008404519660588854
+    - name: boundary_avoidance
+      episode_sum_mean: -0.24594590080831835
+      mean: -0.0006148647520207959
+      active_rate: 0.05671
+      abs_frac_of_total: 0.0009256871794468619
+      magnitude_share: 0.0009256871794468619
+    - name: crate_to_dock_progress
+      episode_sum_mean: 0.0069023480415344235
+      mean: 1.725587010383606e-05
+      active_rate: 0.008483333333333334
+      abs_frac_of_total: 2.6095271293082325e-05
+      magnitude_share: 2.6095271293082325e-05
+    - name: obstacle_avoidance
+      episode_sum_mean: -6.0341424295378e-05
+      mean: -1.50853560738445e-07
+      active_rate: 9.666666666666667e-05
+      abs_frac_of_total: 2.271120708912649e-07
+      magnitude_share: 2.271120708912649e-07
+    - name: gentle_contact
+      episode_sum_mean: -3.170369565486908e-05
+      mean: -7.92592391371727e-08
+      active_rate: 3.3333333333333333e-06
+      abs_frac_of_total: 1.1932585382535027e-07
+      magnitude_share: 1.1932585382535027e-07
+  - steps: 1800000
+    episodes: 750
+    mean_generated_reward: 0.327004313611357
+    top_components:
+    - name: total_reward
+      episode_sum_mean: 130.74913931895043
+      mean: 0.327004313611357
+      active_rate: 1.0
+      abs_frac_of_total: 0.4925817478805862
+      magnitude_share: 0.4925817478805862
+    - name: crate_settling
+      episode_sum_mean: 66.43530510732035
+      mean: 0.1661782043949142
+      active_rate: 1.0
+      abs_frac_of_total: 0.25031473601187765
+      magnitude_share: 0.25031473601187765
+    - name: crate_dock_alignment
+      episode_sum_mean: 66.2488133066732
+      mean: 0.16568311695668556
+      active_rate: 1.0
+      abs_frac_of_total: 0.2496858177781236
+      magnitude_share: 0.2496858177781236
+    - name: action_smoothness
+      episode_sum_mean: -1.8867111807569703
+      mean: -0.004719403459125836
+      active_rate: 1.0
+      abs_frac_of_total: 0.007108851821489413
+      magnitude_share: 0.007108851821489413
+    - name: boundary_avoidance
+      episode_sum_mean: -0.05462389214107202
+      mean: -0.00015425965006871537
+      active_rate: 0.013
+      abs_frac_of_total: 0.0002323617812867453
+      magnitude_share: 0.0002323617812867453
+    - name: crate_to_dock_progress
+      episode_sum_mean: 0.012995973110198974
+      mean: 3.325538039207458e-05
+      active_rate: 0.016623333333333334
+      abs_frac_of_total: 5.148018927325298e-05
+      magnitude_share: 5.148018927325298e-05
+    - name: obstacle_avoidance
+      episode_sum_mean: -0.006639975235883564
+      mean: -1.6599938089708908e-05
+      active_rate: 0.0013533333333333333
+      abs_frac_of_total: 2.5004537363181225e-05
+      magnitude_share: 2.5004537363181225e-05
+    - name: gentle_contact
+      episode_sum_mean: 0.0
+      mean: 0.0
+      active_rate: 0.0
+      abs_frac_of_total: 0.0
+      magnitude_share: 0.0
+  - steps: 2100000
+    episodes: 751
+    mean_generated_reward: 0.32889598894499245
+    top_components:
+    - name: total_reward
+      episode_sum_mean: 131.4424337246387
+      mean: 0.32889598894499245
+      active_rate: 1.0
+      abs_frac_of_total: 0.49327528999135584
+      magnitude_share: 0.49327528999135584
+    - name: crate_settling
+      episode_sum_mean: 66.7134907460795
+      mean: 0.16691332483636215
+      active_rate: 1.0
+      abs_frac_of_total: 0.2503351256310038
+      magnitude_share: 0.2503351256310038
+    - name: crate_dock_alignment
+      episode_sum_mean: 66.52465090310368
+      mean: 0.16645348650229475
+      active_rate: 1.0
+      abs_frac_of_total: 0.24964546417203057
+      magnitude_share: 0.24964546417203057
+    - name: action_smoothness
+      episode_sum_mean: -1.666615958029401
+      mean: -0.004164937086496716
+      active_rate: 1.0
+      abs_frac_of_total: 0.006246535738327374
+      magnitude_share: 0.006246535738327374
+    - name: boundary_avoidance
+      episode_sum_mean: -0.13437940843188076
+      mean: -0.00031869653272510636
+      active_rate: 0.03326333333333333
+      abs_frac_of_total: 0.0004779782359264615
+      magnitude_share: 0.0004779782359264615
+    - name: crate_to_dock_progress
+      episode_sum_mean: 0.005336565438028023
+      mean: 1.2934198379516602e-05
+      active_rate: 0.007523333333333333
+      abs_frac_of_total: 1.942246088489922e-05
+      magnitude_share: 1.942246088489922e-05
+    - name: obstacle_avoidance
+      episode_sum_mean: -4.8947020770377975e-05
+      mean: -1.225307086618462e-07
+      active_rate: 5.6666666666666664e-05
+      abs_frac_of_total: 1.837704711507664e-07
+      magnitude_share: 1.837704711507664e-07
+    - name: gentle_contact
+      episode_sum_mean: 0.0
+      mean: 0.0
+      active_rate: 0.0
+      abs_frac_of_total: 0.0
+      magnitude_share: 0.0
+  - steps: 2400000
+    episodes: 751
+    mean_generated_reward: 0.32939760118109485
+    top_components:
+    - name: total_reward
+      episode_sum_mean: 131.72017738601062
+      mean: 0.32939760118109485
+      active_rate: 1.0
+      abs_frac_of_total: 0.4939790097435468
+      magnitude_share: 0.4939790097435468
+    - name: crate_dock_alignment
+      episode_sum_mean: 66.69929897380415
+      mean: 0.16680238479668896
+      active_rate: 1.0
+      abs_frac_of_total: 0.25014413149727416
+      magnitude_share: 0.25014413149727416
+    - name: crate_settling
+      episode_sum_mean: 66.62499654741484
+      mean: 0.16660358141611642
+      active_rate: 1.0
+      abs_frac_of_total: 0.24984599727675533
+      magnitude_share: 0.24984599727675533
+    - name: action_smoothness
+      episode_sum_mean: -1.482115992230817
+      mean: -0.003702887645326819
+      active_rate: 1.0
+      abs_frac_of_total: 0.005553011818153874
+      magnitude_share: 0.005553011818153874
+    - name: boundary_avoidance
+      episode_sum_mean: -0.12438978147882292
+      mean: -0.0003113890863019867
+      active_rate: 0.025326666666666667
+      abs_frac_of_total: 0.00046697265537109026
+      magnitude_share: 0.00046697265537109026
+    - name: crate_to_dock_progress
+      episode_sum_mean: 0.0026544630924331524
+      mean: 6.579619646072387e-06
+      active_rate: 0.0036266666666666665
+      abs_frac_of_total: 9.875454677363659e-06
+      magnitude_share: 9.875454677363659e-06
+    - name: obstacle_avoidance
+      episode_sum_mean: -0.00026678887792823733
+      mean: -6.678614910803542e-07
+      active_rate: 7.666666666666667e-05
+      abs_frac_of_total: 1.0015542214842834e-06
+      magnitude_share: 1.0015542214842834e-06
+    - name: gentle_contact
+      episode_sum_mean: 0.0
+      mean: 0.0
+      active_rate: 0.0
+      abs_frac_of_total: 0.0
+      magnitude_share: 0.0
+  - steps: 2700000
+    episodes: 752
+    mean_generated_reward: 0.3272233937183519
+    top_components:
+    - name: total_reward
+      episode_sum_mean: 130.7478667798036
+      mean: 0.3272233937183519
+      active_rate: 1.0
+      abs_frac_of_total: 0.4912859798074514
+      magnitude_share: 0.4912859798074514
+    - name: crate_settling
+      episode_sum_mean: 66.66004157999897
+      mean: 0.16684217944083116
+      active_rate: 1.0
+      abs_frac_of_total: 0.25049316513827946
+      magnitude_share: 0.25049316513827946
+    - name: crate_dock_alignment
+      episode_sum_mean: 66.40369728555348
+      mean: 0.1661812208023419
+      active_rate: 1.0
+      abs_frac_of_total: 0.24950081642924465
+      magnitude_share: 0.24950081642924465
+    - name: action_smoothness
+      episode_sum_mean: -1.3220210349004553
+      mean: -0.0033084781383832798
+      active_rate: 1.0
+      abs_frac_of_total: 0.0049672760416579085
+      magnitude_share: 0.0049672760416579085
+    - name: boundary_avoidance
+      episode_sum_mean: -0.9945764860775822
+      mean: -0.002493071725101139
+      active_rate: 0.15243333333333334
+      abs_frac_of_total: 0.0037430428530143152
+      magnitude_share: 0.0037430428530143152
+    - name: crate_to_dock_progress
+      episode_sum_mean: 0.0017090018125290565
+      mean: 4.008840322494507e-06
+      active_rate: 0.0015966666666666666
+      abs_frac_of_total: 6.018784364248457e-06
+      magnitude_share: 6.018784364248457e-06
+    - name: obstacle_avoidance
+      episode_sum_mean: -0.0009833907867319563
+      mean: -2.465032905408104e-06
+      active_rate: 0.00038333333333333334
+      abs_frac_of_total: 3.700945988089694e-06
+      magnitude_share: 3.700945988089694e-06
+    - name: gentle_contact
+      episode_sum_mean: 0.0
+      mean: 0.0
+      active_rate: 0.0
+      abs_frac_of_total: 0.0
+      magnitude_share: 0.0
+  - steps: 3000000
+    episodes: 751
+    mean_generated_reward: 0.3253916223065233
+    top_components:
+    - name: total_reward
+      episode_sum_mean: 129.94850280695113
+      mean: 0.3253916223065233
+      active_rate: 1.0
+      abs_frac_of_total: 0.48919062205268843
+      magnitude_share: 0.48919062205268843
+    - name: crate_settling
+      episode_sum_mean: 66.50603858028326
+      mean: 0.1665434051360935
+      active_rate: 1.0
+      abs_frac_of_total: 0.25037809903723734
+      magnitude_share: 0.25037809903723734
+    - name: crate_dock_alignment
+      episode_sum_mean: 66.30698062556962
+      mean: 0.16602534407054592
+      active_rate: 1.0
+      abs_frac_of_total: 0.249622225870256
+      magnitude_share: 0.249622225870256
+    - name: action_smoothness
+      episode_sum_mean: -1.6598633498355115
+      mean: -0.004157912893187923
+      active_rate: 1.0
+      abs_frac_of_total: 0.006250924948412706
+      magnitude_share: 0.006250924948412706
+    - name: boundary_avoidance
+      episode_sum_mean: -1.2054185406392344
+      mean: -0.0030211302747239284
+      active_rate: 0.2517066666666667
+      abs_frac_of_total: 0.004541908186103795
+      magnitude_share: 0.004541908186103795
+    - name: crate_to_dock_progress
+      episode_sum_mean: 0.002131867345258812
+      mean: 5.336774587631226e-06
+      active_rate: 0.003256666666666667
+      abs_frac_of_total: 1.1078069588198913e-05
+      magnitude_share: 1.1078069588198913e-05
+    - name: obstacle_avoidance
+      episode_sum_mean: -0.0013662513884869665
+      mean: -3.4201826425123726e-06
+      active_rate: 0.00023
+      abs_frac_of_total: 5.1418357135944984e-06
+      magnitude_share: 5.1418357135944984e-06
+    - name: gentle_contact
+      episode_sum_mean: 0.0
+      mean: 0.0
+      active_rate: 0.0
+      abs_frac_of_total: 0.0
+      magnitude_share: 0.0
+  - steps: 3010560
+    episodes: 25
+    mean_generated_reward: 0.32543889517952324
+    top_components:
+    - name: total_reward
+      episode_sum_mean: 129.53099107563494
+      mean: 0.32543889517952324
+      active_rate: 1.0
+      abs_frac_of_total: 0.4860895774702917
+      magnitude_share: 0.4860895774702917
+    - name: crate_dock_alignment
+      episode_sum_mean: 66.82582688331604
+      mean: 0.1682118103853568
+      active_rate: 1.0
+      abs_frac_of_total: 0.2512484188179965
+      magnitude_share: 0.2512484188179965
+    - name: crate_settling
+      episode_sum_mean: 66.48810696601868
+      mean: 0.16654016849669542
+      active_rate: 1.0
+      abs_frac_of_total: 0.24875158235690661
+      magnitude_share: 0.24875158235690661
+    - name: action_smoothness
+      episode_sum_mean: -1.8953575931989926
+      mean: -0.004716497974443337
+      active_rate: 1.0
+      abs_frac_of_total: 0.007044764905165837
+      magnitude_share: 0.007044764905165837
+    - name: boundary_avoidance
+      episode_sum_mean: -1.8875847042578346
+      mean: -0.004596584154881122
+      active_rate: 0.19479166666666667
+      abs_frac_of_total: 0.006865656449639363
+      magnitude_share: 0.006865656449639363
+    - name: crate_to_dock_progress
+      episode_sum_mean: 0.0
+      mean: 0.0
+      active_rate: 0.0
+      abs_frac_of_total: 0.0
+      magnitude_share: 0.0
+    - name: gentle_contact
+      episode_sum_mean: 0.0
+      mean: 0.0
+      active_rate: 0.0
+      abs_frac_of_total: 0.0
+      magnitude_share: 0.0
+    - name: obstacle_avoidance
+      episode_sum_mean: 0.0
+      mean: 0.0
+      active_rate: 0.0
+      abs_frac_of_total: 0.0
+      magnitude_share: 0.0
+monitor_snapshots: *id001

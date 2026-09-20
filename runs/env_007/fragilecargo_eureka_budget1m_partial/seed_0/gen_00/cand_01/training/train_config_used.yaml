@@ -1,0 +1,254 @@
+runner_env_id: FragileCargoDock-v0
+reward_path: runs\env_007\fragilecargo_eureka\seed_0\gen_00\cand_01\reward_v1.py
+reward_source: generated_function
+run_name: fragilecargo_eureka/seed_0/gen_00/cand_01/training
+n_envs: 6
+total_timesteps: 1000000
+reward_clip: 20.0
+error_fallback: zero
+ppo_args:
+  policy: MlpPolicy
+  verbose: '1'
+  device: cpu
+  seed: '0'
+  learning_rate: '0.0003'
+  n_steps: '2048'
+  batch_size: '128'
+  gae_lambda: '0.95'
+  gamma: '0.999'
+  n_epochs: '10'
+  ent_coef: '0.005'
+  clip_range: '0.2'
+  max_grad_norm: '0.5'
+  vf_coef: '0.5'
+  policy_kwargs: '{''ortho_init'': True, ''activation_fn'': <class ''torch.nn.modules.activation.Tanh''>,
+    ''net_arch'': {''pi'': [128, 128], ''vf'': [128, 128]}}'
+  tensorboard_log: runs/env_007/tensorboard
+model_path: runs\env_007\fragilecargo_eureka\seed_0\gen_00\cand_01\training\model.zip
+monitor_dir: runs\env_007\fragilecargo_eureka\seed_0\gen_00\cand_01\training\monitor
+tensorboard_log: runs/env_007/tensorboard
+normalization:
+  normalize_obs: true
+  normalize_reward: true
+  clip_obs: 10.0
+  clip_normalized_reward: 10.0
+  vecnormalize_path: runs\env_007\fragilecargo_eureka\seed_0\gen_00\cand_01\training\vecnormalize.pkl
+external_eval:
+  eval_episodes: 20
+  eval_seed_offset: 10000
+  eval_seeds:
+  - 10000
+  - 10001
+  - 10002
+  - 10003
+  - 10004
+  - 10005
+  - 10006
+  - 10007
+  - 10008
+  - 10009
+  - 10010
+  - 10011
+  - 10012
+  - 10013
+  - 10014
+  - 10015
+  - 10016
+  - 10017
+  - 10018
+  - 10019
+  episode_rewards:
+  - -0.2155537198099521
+  - 3.863632833587164
+  - 0.395817479522235
+  - 3.737710681494533
+  - 8.397584446201195
+  - 1.774414670363792
+  - 3.883686919505924
+  - -1.0628929061130277
+  - 3.56356288730746
+  - 3.858504200270443
+  - 1.1506269673461973
+  - -1.7805492071584983
+  - 1.4613309435556776
+  - 3.8871520816976957
+  - 309.2490781929937
+  - 8.679828547146604
+  - 9.082257448145105
+  - 3.2954248670764517
+  - 8.339143136361667
+  - 1.8381195637788783
+  episode_lengths:
+  - 400
+  - 400
+  - 400
+  - 400
+  - 400
+  - 400
+  - 400
+  - 400
+  - 400
+  - 400
+  - 400
+  - 400
+  - 400
+  - 400
+  - 348
+  - 400
+  - 400
+  - 400
+  - 400
+  - 400
+  episode_terminated:
+  - false
+  - false
+  - false
+  - false
+  - false
+  - false
+  - false
+  - false
+  - false
+  - false
+  - false
+  - false
+  - false
+  - false
+  - true
+  - false
+  - false
+  - false
+  - false
+  - false
+  mean_eval_reward: 18.669944001663662
+  mean_episode_length: 397.4
+  min_eval_reward: -1.7805492071584983
+  max_eval_reward: 309.2490781929937
+  termination_breakdown:
+    terminated: 1
+    truncated: 19
+  final_policy_component_evaluation:
+    bounds_guard:
+      episode_sum_mean: 0.0
+      episode_abs_sum_mean: 0.0
+      signed_contribution_share: 0.0
+      magnitude_share: 0.0
+      active_rate: 0.0
+    crate_progress_toward_dock:
+      episode_sum_mean: 5.0700116377850915
+      episode_abs_sum_mean: 5.742227608020357
+      signed_contribution_share: 0.012802144429743824
+      magnitude_share: 0.014499538154601586
+      active_rate: 0.646577755410166
+    docking_settle_success:
+      episode_sum_mean: 390.25104834511876
+      episode_abs_sum_mean: 390.25104834511876
+      signed_contribution_share: 0.9854119954161973
+      magnitude_share: 0.9854119954161973
+      active_rate: 0.4141922496225465
+    fragile_handling_guard:
+      episode_sum_mean: -0.03503521055117744
+      episode_abs_sum_mean: 0.03503521055117744
+      signed_contribution_share: -8.846642920105866e-05
+      magnitude_share: 8.846642920105866e-05
+      active_rate: 0.0006290890790135883
+  final_policy_component_error_count: 0
+train_duration_sec: 373.0
+component_summary:
+  steps_seen: 1007616
+  reward_error_count_max: 0
+  component_stats:
+    component.bounds_guard:
+      count: 1007616
+      mean: -0.0004603082011087052
+      abs_mean: 0.0004603082011087052
+      nonzero_rate: 0.013232223386686991
+      mean_when_active: -0.03478691280044619
+      abs_mean_when_active: 0.03478691280044619
+      min: -0.11173450946807861
+      max: -0.0
+    component.crate_progress_toward_dock:
+      count: 1007616
+      mean: 0.004651367194494404
+      abs_mean: 0.006359477767767379
+      nonzero_rate: 0.35851951537093496
+      mean_when_active: 0.01297381870463024
+      abs_mean_when_active: 0.01773816346144414
+      min: -0.08944737911224365
+      max: 0.09917602688074112
+    component.docking_settle_success:
+      count: 1007616
+      mean: 0.1800436456448248
+      abs_mean: 0.1800436456448248
+      nonzero_rate: 0.09168869886941057
+      mean_when_active: 1.963640534383147
+      abs_mean_when_active: 1.963640534383147
+      min: 0.0
+      max: 2.922329902648926
+    component.fragile_handling_guard:
+      count: 1007616
+      mean: -3.7019601888322754e-06
+      abs_mean: 3.7019601888322754e-06
+      nonzero_rate: 0.00019848831300813008
+      mean_when_active: -0.01865077158815211
+      abs_mean_when_active: 0.01865077158815211
+      min: -0.29704076051712036
+      max: -0.0
+    component.total_reward:
+      count: 1007616
+      mean: 0.18423100268578987
+      abs_mean: 0.18599630985621887
+      nonzero_rate: 0.3797915078760163
+      mean_when_active: 0.4850845763142562
+      abs_mean_when_active: 0.48973267173982665
+      min: -0.2859104871749878
+      max: 2.921419143676758
+    generated_reward:
+      count: 1007616
+      mean: 0.18423100268578987
+      abs_mean: 0.18599630985621887
+      nonzero_rate: 0.3797915078760163
+      mean_when_active: 0.4850845763142562
+      abs_mean_when_active: 0.48973267173982665
+      min: -0.2859104871749878
+      max: 2.921419143676758
+    original_env_reward:
+      count: 1007616
+      mean: -0.011870944209637531
+      abs_mean: 0.03219055722394939
+      nonzero_rate: 1.0
+      mean_when_active: -0.011870944209637531
+      abs_mean_when_active: 0.03219055722394939
+      min: -100.04997577574552
+      max: 300.0024294561174
+  episode_component_sum_stats:
+    bounds_guard:
+      count: 2548
+      mean: -0.18203057628271158
+      abs_mean: 0.18203057628271158
+      min: -7.558980643749237
+      max: 0.0
+    crate_progress_toward_dock:
+      count: 2548
+      mean: 1.8361089831528703
+      abs_mean: 1.8724424982350436
+      min: -4.248253453471989
+      max: 8.47195346573426
+    docking_settle_success:
+      count: 2548
+      mean: 71.19892388149756
+      abs_mean: 71.19892388149756
+      min: 0.0
+      max: 678.549394890666
+    fragile_handling_guard:
+      count: 2548
+      mean: -0.0014639538138266964
+      abs_mean: 0.0014639538138266964
+      min: -0.5596951842308044
+      max: 0.0
+    total_reward:
+      count: 2548
+      mean: 72.85153833762597
+      abs_mean: 73.0659478636514
+      min: -7.505133024169481
+      max: 686.3392084892839

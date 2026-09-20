@@ -1,0 +1,630 @@
+runner_env_id: FragileCargoDock-v0
+reward_path: runs\env_007\fragilecargo_create\seed_0\iter_06\generation\reward_v6.py
+reward_source: generated_function
+run_name: fragilecargo_create/seed_0/iter_06/training
+n_envs: 6
+total_timesteps: 3000000
+reward_clip: 20.0
+error_fallback: zero
+ppo_args:
+  policy: MlpPolicy
+  verbose: '1'
+  device: cpu
+  seed: '0'
+  learning_rate: '0.0003'
+  n_steps: '2048'
+  batch_size: '128'
+  gae_lambda: '0.95'
+  gamma: '0.999'
+  n_epochs: '10'
+  ent_coef: '0.005'
+  clip_range: '0.2'
+  max_grad_norm: '0.5'
+  vf_coef: '0.5'
+  policy_kwargs: '{''ortho_init'': True, ''activation_fn'': <class ''torch.nn.modules.activation.Tanh''>,
+    ''net_arch'': {''pi'': [128, 128], ''vf'': [128, 128]}}'
+  tensorboard_log: runs/env_007/tensorboard
+model_path: runs\env_007\fragilecargo_create\seed_0\iter_06\training\model.zip
+monitor_dir: runs\env_007\fragilecargo_create\seed_0\iter_06\training\monitor
+tensorboard_log: runs/env_007/tensorboard
+normalization:
+  normalize_obs: true
+  normalize_reward: true
+  clip_obs: 10.0
+  clip_normalized_reward: 10.0
+  vecnormalize_path: runs\env_007\fragilecargo_create\seed_0\iter_06\training\vecnormalize.pkl
+external_eval:
+  eval_episodes: 20
+  eval_seed_offset: 10000
+  eval_seeds:
+  - 10000
+  - 10001
+  - 10002
+  - 10003
+  - 10004
+  - 10005
+  - 10006
+  - 10007
+  - 10008
+  - 10009
+  - 10010
+  - 10011
+  - 10012
+  - 10013
+  - 10014
+  - 10015
+  - 10016
+  - 10017
+  - 10018
+  - 10019
+  episode_rewards:
+  - -1.9308391065140986
+  - -1.4606234947967842
+  - -1.8820618509067528
+  - -0.7250945413683518
+  - -1.6371111416989494
+  - -2.174817795475431
+  - -1.5706796622326087
+  - -2.7835610354152474
+  - -1.8654128511775074
+  - -1.6835469325104613
+  - -1.9701210940061278
+  - -1.3185788349953094
+  - -102.59163856150181
+  - -1.5728662224249008
+  - -1.403641084716838
+  - -1.4327673977809952
+  - -1.509545373729541
+  - -1.8472258164147883
+  - -1.8067065184067073
+  - -1.5527609059398424
+  episode_lengths:
+  - 400
+  - 400
+  - 400
+  - 400
+  - 400
+  - 400
+  - 400
+  - 400
+  - 400
+  - 400
+  - 400
+  - 400
+  - 380
+  - 400
+  - 400
+  - 400
+  - 400
+  - 400
+  - 400
+  - 400
+  episode_terminated:
+  - false
+  - false
+  - false
+  - false
+  - false
+  - false
+  - false
+  - false
+  - false
+  - false
+  - false
+  - false
+  - true
+  - false
+  - false
+  - false
+  - false
+  - false
+  - false
+  - false
+  mean_eval_reward: -6.7359800111006525
+  mean_episode_length: 399
+  min_eval_reward: -102.59163856150181
+  max_eval_reward: -0.7250945413683518
+  termination_breakdown:
+    terminated: 1
+    truncated: 19
+  final_policy_component_evaluation:
+    boundary_health_penalty:
+      episode_sum_mean: -1.2546119928359984
+      episode_abs_sum_mean: 1.2546119928359984
+      signed_contribution_share: -0.014101950920356035
+      magnitude_share: 0.014101950920356035
+      active_rate: 0.016040100250626566
+    dock_approach_improvement:
+      episode_sum_mean: 0.0
+      episode_abs_sum_mean: 0.0
+      signed_contribution_share: 0.0
+      magnitude_share: 0.0
+      active_rate: 0.0
+    fragile_impact_penalty:
+      episode_sum_mean: 0.0
+      episode_abs_sum_mean: 0.0
+      signed_contribution_share: 0.0
+      magnitude_share: 0.0
+      active_rate: 0.0
+    joint_dock_completion:
+      episode_sum_mean: 87.71265217661858
+      episode_abs_sum_mean: 87.71265217661858
+      signed_contribution_share: 0.9858980490796438
+      magnitude_share: 0.9858980490796438
+      active_rate: 1.0
+  final_policy_component_error_count: 0
+train_duration_sec: 1014.8
+component_summary:
+  steps_seen: 3010560
+  reward_error_count_max: 0
+  component_stats:
+    component.boundary_health_penalty:
+      count: 3010560
+      mean: -0.001631291603374922
+      abs_mean: 0.001631291603374922
+      nonzero_rate: 0.006752896471088435
+      mean_when_active: -0.24156917114886403
+      abs_mean_when_active: 0.24156917114886403
+      min: -0.899773120880127
+      max: -0.0
+    component.dock_approach_improvement:
+      count: 3010560
+      mean: 2.1259342383618664e-05
+      abs_mean: 2.2966745325370506e-05
+      nonzero_rate: 0.0015498777636054422
+      mean_when_active: 0.013716786499448564
+      abs_mean_when_active: 0.014818423661969019
+      min: -0.08158832788467407
+      max: 0.1739203929901123
+    component.fragile_impact_penalty:
+      count: 3010560
+      mean: -5.9833119803133615e-05
+      abs_mean: 5.9833119803133615e-05
+      nonzero_rate: 0.00010596035289115646
+      mean_when_active: -0.5646745992304764
+      abs_mean_when_active: 0.5646745992304764
+      min: -2.173245906829834
+      max: -0.0
+    component.joint_dock_completion:
+      count: 3010560
+      mean: 0.21946776574501559
+      abs_mean: 0.21946776574501559
+      nonzero_rate: 1.0
+      mean_when_active: 0.21946776574501559
+      abs_mean_when_active: 0.21946776574501559
+      min: 0.09714479744434357
+      max: 0.22104188799858093
+    component.total_reward:
+      count: 3010560
+      mean: 0.21779790036158053
+      abs_mean: 0.21922361806392307
+      nonzero_rate: 1.0
+      mean_when_active: 0.21779790036158053
+      abs_mean_when_active: 0.21922361806392307
+      min: -1.919673204421997
+      max: 0.3202487826347351
+    generated_reward:
+      count: 3010560
+      mean: 0.21779790036158053
+      abs_mean: 0.21922361806392307
+      nonzero_rate: 1.0
+      mean_when_active: 0.21779790036158053
+      abs_mean_when_active: 0.21922361806392307
+      min: -1.919673204421997
+      max: 0.3202487826347351
+    original_env_reward:
+      count: 3010560
+      mean: -0.005757809727461543
+      abs_mean: 0.008287233183212365
+      nonzero_rate: 1.0
+      mean_when_active: -0.005757809727461543
+      abs_mean_when_active: 0.008287233183212365
+      min: -100.05354580835596
+      max: 0.044453943002708926
+  episode_component_sum_stats:
+    boundary_health_penalty:
+      count: 7536
+      mean: -0.6516854099597141
+      abs_mean: 0.6516854099597141
+      min: -179.27413308620453
+      max: 0.0
+    dock_approach_improvement:
+      count: 7536
+      mean: 0.008492904167519506
+      abs_mean: 0.009109364968829347
+      min: -1.7992004752159119
+      max: 10.769523680210114
+    fragile_impact_penalty:
+      count: 7536
+      mean: -0.02390275970734102
+      abs_mean: 0.02390275970734102
+      min: -41.53519344329834
+      max: 0.0
+    joint_dock_completion:
+      count: 7536
+      mean: 87.65419830333327
+      abs_mean: 87.65419830333327
+      min: 14.95796750485897
+      max: 88.41675519943237
+    total_reward:
+      count: 7536
+      mean: 86.98710303677883
+      abs_mean: 87.07594635028138
+      min: -92.6013263463974
+      max: 88.41675519943237
+  monitor_snapshots: &id001
+  - steps: 300000
+    episodes: 751
+    mean_generated_reward: 0.2125907345883548
+    top_components:
+    - name: joint_dock_completion
+      episode_sum_mean: 87.2526826755641
+      mean: 0.21890161084396142
+      active_rate: 1.0
+      abs_frac_of_total: 0.49206640626357934
+      magnitude_share: 0.49206640626357934
+    - name: total_reward
+      episode_sum_mean: 84.73169349223257
+      mean: 0.2125907345883548
+      active_rate: 1.0
+      abs_frac_of_total: 0.4928829564806282
+      magnitude_share: 0.4928829564806282
+    - name: boundary_health_penalty
+      episode_sum_mean: -2.4140239861928987
+      mean: -0.00604310671210289
+      active_rate: 0.01688
+      abs_frac_of_total: 0.013584229878561503
+      magnitude_share: 0.013584229878561503
+    - name: fragile_impact_penalty
+      episode_sum_mean: -0.18060414657770554
+      mean: -0.0004521123802661896
+      active_rate: 0.00092
+      abs_frac_of_total: 0.001016298205057241
+      magnitude_share: 0.001016298205057241
+    - name: dock_approach_improvement
+      episode_sum_mean: 0.07363896117546904
+      mean: 0.00018434286614259083
+      active_rate: 0.013423333333333334
+      abs_frac_of_total: 0.0004501091721737748
+      magnitude_share: 0.0004501091721737748
+  - steps: 600000
+    episodes: 750
+    mean_generated_reward: 0.21808546744659543
+    top_components:
+    - name: joint_dock_completion
+      episode_sum_mean: 87.7695177531441
+      mean: 0.21945985508278013
+      active_rate: 1.0
+      abs_frac_of_total: 0.49882353135687935
+      magnitude_share: 0.49882353135687935
+    - name: total_reward
+      episode_sum_mean: 87.21976269867022
+      mean: 0.21808546744659543
+      active_rate: 1.0
+      abs_frac_of_total: 0.4979642684610775
+      magnitude_share: 0.4979642684610775
+    - name: boundary_health_penalty
+      episode_sum_mean: -0.504718849182129
+      mean: -0.0012617971229553222
+      active_rate: 0.0059633333333333335
+      abs_frac_of_total: 0.002868014728666934
+      magnitude_share: 0.002868014728666934
+    - name: fragile_impact_penalty
+      episode_sum_mean: -0.052759700457255046
+      mean: -0.0001318992511431376
+      active_rate: 0.00010666666666666667
+      abs_frac_of_total: 0.0002998017574272533
+      magnitude_share: 0.0002998017574272533
+    - name: dock_approach_improvement
+      episode_sum_mean: 0.007723496357599894
+      mean: 1.9308740893999735e-05
+      active_rate: 0.00064
+      abs_frac_of_total: 4.43836959490158e-05
+      magnitude_share: 4.43836959490158e-05
+  - steps: 900000
+    episodes: 750
+    mean_generated_reward: 0.21884248971233766
+    top_components:
+    - name: joint_dock_completion
+      episode_sum_mean: 87.66722170444329
+      mean: 0.21950288298959533
+      active_rate: 1.0
+      abs_frac_of_total: 0.499252136066825
+      magnitude_share: 0.499252136066825
+    - name: total_reward
+      episode_sum_mean: 87.40306439354022
+      mean: 0.21884248971233766
+      active_rate: 1.0
+      abs_frac_of_total: 0.4992207559937123
+      magnitude_share: 0.4992207559937123
+    - name: boundary_health_penalty
+      episode_sum_mean: -0.2623912148475647
+      mean: -0.0006559780371189118
+      active_rate: 0.0020166666666666666
+      abs_frac_of_total: 0.001492000614224568
+      magnitude_share: 0.001492000614224568
+    - name: fragile_impact_penalty
+      episode_sum_mean: -0.003928422053654988
+      mean: -9.821055134137471e-06
+      active_rate: 1.6666666666666667e-05
+      abs_frac_of_total: 2.2337669042736935e-05
+      magnitude_share: 2.2337669042736935e-05
+    - name: dock_approach_improvement
+      episode_sum_mean: 0.002162325382232666
+      mean: 5.405813455581665e-06
+      active_rate: 0.00081
+      abs_frac_of_total: 1.2769656195351627e-05
+      magnitude_share: 1.2769656195351627e-05
+  - steps: 1200000
+    episodes: 750
+    mean_generated_reward: 0.21915710594147444
+    top_components:
+    - name: joint_dock_completion
+      episode_sum_mean: 87.77729391815265
+      mean: 0.2195130167688926
+      active_rate: 1.0
+      abs_frac_of_total: 0.4997597552284856
+      magnitude_share: 0.4997597552284856
+    - name: total_reward
+      episode_sum_mean: 87.63492958718538
+      mean: 0.21915710594147444
+      active_rate: 1.0
+      abs_frac_of_total: 0.4994299515549269
+      magnitude_share: 0.4994299515549269
+    - name: boundary_health_penalty
+      episode_sum_mean: -0.14229952716827393
+      mean: -0.0003557488179206848
+      active_rate: 0.0014833333333333332
+      abs_frac_of_total: 0.0008099243716104728
+      magnitude_share: 0.0008099243716104728
+    - name: dock_approach_improvement
+      episode_sum_mean: -6.48041566212972e-05
+      mean: -1.62010391553243e-07
+      active_rate: 2.6666666666666667e-05
+      abs_frac_of_total: 3.6884497702640854e-07
+      magnitude_share: 3.6884497702640854e-07
+    - name: fragile_impact_penalty
+      episode_sum_mean: 0.0
+      mean: 0.0
+      active_rate: 0.0
+      abs_frac_of_total: 0.0
+      magnitude_share: 0.0
+  - steps: 1500000
+    episodes: 750
+    mean_generated_reward: 0.2191284963319699
+    top_components:
+    - name: joint_dock_completion
+      episode_sum_mean: 87.83398173332215
+      mean: 0.21958173646966617
+      active_rate: 1.0
+      abs_frac_of_total: 0.4995237317511116
+      magnitude_share: 0.4995237317511116
+    - name: total_reward
+      episode_sum_mean: 87.65268567824364
+      mean: 0.2191284963319699
+      active_rate: 1.0
+      abs_frac_of_total: 0.49944487304769974
+      magnitude_share: 0.49944487304769974
+    - name: boundary_health_penalty
+      episode_sum_mean: -0.18126023149490356
+      mean: -0.0004531505787372589
+      active_rate: 0.0017333333333333333
+      abs_frac_of_total: 0.0010308665546384438
+      magnitude_share: 0.0010308665546384438
+    - name: dock_approach_improvement
+      episode_sum_mean: -3.582437833150228e-05
+      mean: -8.95609458287557e-08
+      active_rate: 0.00011666666666666667
+      abs_frac_of_total: 5.286465502135276e-07
+      magnitude_share: 5.286465502135276e-07
+    - name: fragile_impact_penalty
+      episode_sum_mean: 0.0
+      mean: 0.0
+      active_rate: 0.0
+      abs_frac_of_total: 0.0
+      magnitude_share: 0.0
+  - steps: 1800000
+    episodes: 751
+    mean_generated_reward: 0.21836344241932035
+    top_components:
+    - name: joint_dock_completion
+      episode_sum_mean: 87.71861228231742
+      mean: 0.21946564580733577
+      active_rate: 1.0
+      abs_frac_of_total: 0.49934332060655934
+      magnitude_share: 0.49934332060655934
+    - name: total_reward
+      episode_sum_mean: 87.27831798617278
+      mean: 0.21836344241932035
+      active_rate: 1.0
+      abs_frac_of_total: 0.4981488705067529
+      magnitude_share: 0.4981488705067529
+    - name: boundary_health_penalty
+      episode_sum_mean: -0.4402653883681316
+      mean: -0.0011021310222148896
+      active_rate: 0.006123333333333333
+      abs_frac_of_total: 0.0025076442481545285
+      magnitude_share: 0.0025076442481545285
+    - name: dock_approach_improvement
+      episode_sum_mean: -2.8905474869769993e-05
+      mean: -7.236003875732422e-08
+      active_rate: 5.6666666666666664e-05
+      abs_frac_of_total: 1.6463853328562213e-07
+      magnitude_share: 1.6463853328562213e-07
+    - name: fragile_impact_penalty
+      episode_sum_mean: 0.0
+      mean: 0.0
+      active_rate: 0.0
+      abs_frac_of_total: 0.0
+      magnitude_share: 0.0
+  - steps: 2100000
+    episodes: 750
+    mean_generated_reward: 0.21840070478419463
+    top_components:
+    - name: joint_dock_completion
+      episode_sum_mean: 87.80347423553467
+      mean: 0.219508723154068
+      active_rate: 1.0
+      abs_frac_of_total: 0.49931932670722695
+      magnitude_share: 0.49931932670722695
+    - name: total_reward
+      episode_sum_mean: 87.36026688758533
+      mean: 0.21840070478419463
+      active_rate: 1.0
+      abs_frac_of_total: 0.4981602496148461
+      magnitude_share: 0.4981602496148461
+    - name: boundary_health_penalty
+      episode_sum_mean: -0.44320734548568724
+      mean: -0.0011080183637142181
+      active_rate: 0.006843333333333333
+      abs_frac_of_total: 0.0025204236779269593
+      magnitude_share: 0.0025204236779269593
+    - name: dock_approach_improvement
+      episode_sum_mean: 0.0
+      mean: 0.0
+      active_rate: 0.0
+      abs_frac_of_total: 0.0
+      magnitude_share: 0.0
+    - name: fragile_impact_penalty
+      episode_sum_mean: 0.0
+      mean: 0.0
+      active_rate: 0.0
+      abs_frac_of_total: 0.0
+      magnitude_share: 0.0
+  - steps: 2400000
+    episodes: 755
+    mean_generated_reward: 0.2155498958792289
+    top_components:
+    - name: joint_dock_completion
+      episode_sum_mean: 87.29892953432949
+      mean: 0.2196824532696108
+      active_rate: 1.0
+      abs_frac_of_total: 0.4962159424700997
+      magnitude_share: 0.4962159424700997
+    - name: total_reward
+      episode_sum_mean: 85.65685375007178
+      mean: 0.2155498958792289
+      active_rate: 1.0
+      abs_frac_of_total: 0.4944494892198474
+      magnitude_share: 0.4944494892198474
+    - name: boundary_health_penalty
+      episode_sum_mean: -1.6420711689437462
+      mean: -0.004132545775175095
+      active_rate: 0.019593333333333334
+      abs_frac_of_total: 0.00933454204516118
+      magnitude_share: 0.00933454204516118
+    - name: dock_approach_improvement
+      episode_sum_mean: -4.620346801959916e-06
+      mean: -1.1627872784932454e-08
+      active_rate: 3.0e-05
+      abs_frac_of_total: 2.6264891742702737e-08
+      magnitude_share: 2.6264891742702737e-08
+    - name: fragile_impact_penalty
+      episode_sum_mean: 0.0
+      mean: 0.0
+      active_rate: 0.0
+      abs_frac_of_total: 0.0
+      magnitude_share: 0.0
+  - steps: 2700000
+    episodes: 751
+    mean_generated_reward: 0.21843998295093575
+    top_components:
+    - name: joint_dock_completion
+      episode_sum_mean: 87.6711310064507
+      mean: 0.21950787788525225
+      active_rate: 1.0
+      abs_frac_of_total: 0.4992365738624959
+      magnitude_share: 0.4992365738624959
+    - name: total_reward
+      episode_sum_mean: 87.24454181830829
+      mean: 0.21843998295093575
+      active_rate: 1.0
+      abs_frac_of_total: 0.4983186432595415
+      magnitude_share: 0.4983186432595415
+    - name: boundary_health_penalty
+      episode_sum_mean: -0.4254567945368598
+      mean: -0.0010650601756572724
+      active_rate: 0.006366666666666666
+      abs_frac_of_total: 0.002422313942329121
+      magnitude_share: 0.002422313942329121
+    - name: fragile_impact_penalty
+      episode_sum_mean: -0.0025394257311814636
+      mean: -6.35702908039093e-06
+      active_rate: 1.6666666666666667e-05
+      abs_frac_of_total: 1.4458075257315607e-05
+      magnitude_share: 1.4458075257315607e-05
+    - name: dock_approach_improvement
+      episode_sum_mean: 0.001407032720893423
+      mean: 3.5222719113032022e-06
+      active_rate: 0.0002466666666666667
+      abs_frac_of_total: 8.010860376183602e-06
+      magnitude_share: 8.010860376183602e-06
+  - steps: 3000000
+    episodes: 750
+    mean_generated_reward: 0.21937001684432228
+    top_components:
+    - name: joint_dock_completion
+      episode_sum_mean: 87.74839088759819
+      mean: 0.21955324923639497
+      active_rate: 1.0
+      abs_frac_of_total: 0.4998038355760555
+      magnitude_share: 0.4998038355760555
+    - name: total_reward
+      episode_sum_mean: 87.67509793076913
+      mean: 0.21937001684432228
+      active_rate: 1.0
+      abs_frac_of_total: 0.49977404613291443
+      magnitude_share: 0.49977404613291443
+    - name: boundary_health_penalty
+      episode_sum_mean: -0.07363296222686767
+      mean: -0.0001840824055671692
+      active_rate: 0.00064
+      abs_frac_of_total: 0.0004190559360179429
+      magnitude_share: 0.0004190559360179429
+    - name: dock_approach_improvement
+      episode_sum_mean: 0.00043904781341552734
+      mean: 1.0976195335388183e-06
+      active_rate: 0.00020333333333333333
+      abs_frac_of_total: 2.4986851926533127e-06
+      magnitude_share: 2.4986851926533127e-06
+    - name: fragile_impact_penalty
+      episode_sum_mean: -9.904328982035319e-05
+      mean: -2.4760822455088296e-07
+      active_rate: 3.3333333333333333e-06
+      abs_frac_of_total: 5.636698194225303e-07
+      magnitude_share: 5.636698194225303e-07
+  - steps: 3010560
+    episodes: 28
+    mean_generated_reward: 0.2192372957329181
+    top_components:
+    - name: joint_dock_completion
+      episode_sum_mean: 87.7490907907486
+      mean: 0.21948498002338138
+      active_rate: 1.0
+      abs_frac_of_total: 0.5
+      magnitude_share: 0.5
+    - name: total_reward
+      episode_sum_mean: 87.65567842977387
+      mean: 0.2192372957329181
+      active_rate: 1.0
+      abs_frac_of_total: 0.4994357602728968
+      magnitude_share: 0.4994357602728968
+    - name: boundary_health_penalty
+      episode_sum_mean: -0.09341236097472054
+      mean: -0.00024768429046327417
+      active_rate: 0.003503787878787879
+      abs_frac_of_total: 0.0005642397271031684
+      magnitude_share: 0.0005642397271031684
+    - name: dock_approach_improvement
+      episode_sum_mean: 0.0
+      mean: 0.0
+      active_rate: 0.0
+      abs_frac_of_total: 0.0
+      magnitude_share: 0.0
+    - name: fragile_impact_penalty
+      episode_sum_mean: 0.0
+      mean: 0.0
+      active_rate: 0.0
+      abs_frac_of_total: 0.0
+      magnitude_share: 0.0
+monitor_snapshots: *id001

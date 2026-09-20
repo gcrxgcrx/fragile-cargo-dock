@@ -1,0 +1,14 @@
+# Reward Memory
+
+| iter | skeleton | score | best | delta | len | key_signal | action |
+|---:|---|---:|---:|---:|---:|---|---|
+| 1 | boundary_avoidance + crate_dock_alignment + crate_settling + crate_to_dock_progress + soft_contact_penalty | 4.50 | 4.50 | 0.00 | 400.00 | boundary_avoidance=-0.000 crate_dock_alignment=0.143 crate_settling=-0.017 crate_to_dock_progress=0.007 soft_contact_penalty=-0.009 | new_best |
+| 2 | boundary_avoidance + crate_dock_alignment + crate_settling + crate_to_dock_progress + soft_contact_penalty | -102.84 | 4.50 | -107.35 | 77.05 | boundary_avoidance=-0.002 crate_dock_alignment=0.000 crate_settling=0.000 crate_to_dock_progress=-0.209 soft_contact_penalty=-0.000 | no_meaningful_improvement |
+| 3 | boundary_avoidance + crate_to_dock_progress + joint_completion_proxy + soft_contact_penalty | 2.13 | 4.50 | -2.38 | 400.00 | boundary_avoidance=-0.000 crate_to_dock_progress=0.010 joint_completion_proxy=1.112 soft_contact_penalty=-0.001 | no_meaningful_improvement |
+| 4 | boundary_avoidance + crate_to_dock_progress + dock_gate + soft_contact_penalty | 17.69 | 17.69 | 0.00 | 392.35 | boundary_avoidance=-0.000 crate_to_dock_progress=0.024 dock_gate=0.424 soft_contact_penalty=-0.000 | unsolved_high_achievement_continue_from_best |
+| 5 | boundary_avoidance + crate_to_dock_progress + joint_completion + soft_contact_penalty | 4.18 | 17.69 | -13.52 | 400.00 | boundary_avoidance=-0.000 crate_to_dock_progress=0.018 joint_completion=1.030 soft_contact_penalty=-0.001 | no_meaningful_improvement |
+| 6 | boundary_avoidance + completion_improvement + crate_to_dock_progress + soft_contact_penalty | 11.18 | 17.69 | -6.52 | 388.15 | boundary_avoidance=-0.000 completion_improvement=0.005 crate_to_dock_progress=0.021 soft_contact_penalty=-0.000 | no_meaningful_improvement |
+| 7 | boundary_avoidance + crate_to_dock_progress + joint_completion + soft_contact_penalty | 1.97 | 17.69 | -15.72 | 400.00 | boundary_avoidance=-0.000 crate_to_dock_progress=0.007 joint_completion=8.021 soft_contact_penalty=-0.001 | unsolved_high_achievement_continue_from_best |
+| 8 | boundary_avoidance + crate_to_dock_progress + joint_completion_gate + soft_contact_penalty | -7.84 | 17.69 | -25.53 | 386.60 | boundary_avoidance=-0.000 crate_to_dock_progress=0.013 joint_completion_gate=0.311 soft_contact_penalty=-0.001 | no_meaningful_improvement |
+| 9 | boundary_avoidance + crate_to_dock_progress + joint_completion_gate + soft_contact_penalty | 3.35 | 17.69 | -14.34 | 400.00 | boundary_avoidance=-0.000 crate_to_dock_progress=0.021 joint_completion_gate=0.050 soft_contact_penalty=-0.001 | no_meaningful_improvement |
+| 10 | boundary_avoidance + crate_to_dock_progress + joint_completion + soft_contact_penalty | 2.93 | 17.69 | -14.76 | 400.00 | boundary_avoidance=-0.000 crate_to_dock_progress=0.021 joint_completion=0.167 soft_contact_penalty=-0.000 | unsolved_high_achievement_continue_from_best |

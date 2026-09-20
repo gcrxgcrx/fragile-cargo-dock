@@ -1,0 +1,94 @@
+# Response Record
+
+## 分析
+
+1. 旧版 `docking_settle` 用「距离因子×速度因子×对齐因子」的**立方根几何平均**，几何平均会把极小的距离因子放大（d=0.005,s=1,a=1 → 0.17/step），于是 agent 只要把货箱挪到 dock 附近 0.6 m 内并停住就能持续刷分——这正是 episode 和 147/167 的得分来源，而任务分只有 33.7、18/20 回合被截断，属于典型的悬停刷分/目标错位。
+2. 改法：settle 改为**普通乘积 + 硬截断**（dist<0.35 m、crate 速度<0.12 m/s、朝向偏差<30°），只有货箱真正入坞时才给，权重提高到 9。
+3. 主进展 delta 权重 10→15（单步截断 ±0.15），并新增有界的「小车靠近货箱」delta，避免触箱前无梯度导致的空转截断。
+4. 新增「近 dock 区货箱速度惩罚」引导低速投送；脆弱接触惩罚保留并略加强（阈值 0.30、二次 hinge）；边界惩罚保留。
+
+
+```python
+def compute_reward(obs, action, next_obs, original_reward, info, training_progress=0.0):
+    # ---------------- primary role: crate net progress toward the dock ----------------
+    dist_prev = ((obs[12] * 5.0) ** 2 + (obs[13] * 4.0) ** 2) ** 0.5
+    dist_next = ((next_obs[12] * 5.0) ** 2 + (next_obs[13] * 4.0) ** 2) ** 0.5
+    d_prog = dist_prev - dist_next
+    if d_prog > 0.15:
+        d_prog = 0.15
+    elif d_prog < -0.15:
+        d_prog = -0.15
+    crate_progress = 15.0 * d_prog
+
+    # ---------------- secondary role: reach the crate before first contact ----------------
+    rel_prev = ((obs[6] * 3.0) ** 2 + (obs[7] * 3.0) ** 2) ** 0.5
+    rel_next = ((next_obs[6] * 3.0) ** 2 + (next_obs[7] * 3.0) ** 2) ** 0.5
+    d_approach = rel_prev - rel_next
+    if d_approach > 0.10:
+        d_approach = 0.10
+    elif d_approach < -0.10:
+        d_approach = -0.10
+    cart_crate_approach = 2.0 * d_approach
+
+    # ---------------- milestone role: crate docked, slow, axis aligned ----------------
+    crate_speed = ((next_obs[8] * 3.0) ** 2 + (next_obs[9] * 3.0) ** 2) ** 0.5
+    axis_double = abs(2.0 * next_obs[10] * next_obs[11])
+    alignment_factor = max(0.0, 1.0 - axis_double / 0.8660254)
+    distance_factor = max(0.0, 1.0 - dist_next / 0.35)
+    speed_factor = max(0.0, 1.0 - crate_speed / 0.12)
+    docked_settle = 9.0 * distance_factor * speed_factor * alignment_factor
+
+    # ---------------- approach gate: the crate should arrive slow ----------------
+    approach_gate = max(0.0, 1.0 - dist_next / 1.5)
+    settle_speed_penalty = -0.5 * approach_gate * crate_speed
+
+    # ---------------- fragile handling guard: no hard hits on the crate ----------------
+    contact_penalty = 0.0
+    if next_obs[14] > 0.5:
+        cart_vx = next_obs[4] * 3.0 * next_obs[2]
+        cart_vy = next_obs[4] * 3.0 * next_obs[3]
+        crate_vx = next_obs[8] * 3.0
+        crate_vy = next_obs[9] * 3.0
+        rel_vx = cart_vx - crate_vx
+        rel_vy = cart_vy - crate_vy
+        rel_speed = (rel_vx ** 2 + rel_vy ** 2) ** 0.5
+        over_speed = rel_speed - 0.30
+        if over_speed > 0.0:
+            contact_penalty = -1.5 * over_speed ** 2
+
+    # ---------------- keep cart and crate on the warehouse floor ----------------
+    boundary_penalty = 0.0
+    cart_x_ratio = abs(next_obs[0])
+    cart_y_ratio = abs(next_obs[1])
+    if cart_x_ratio > 0.90:
+        boundary_penalty -= 2.0 * (cart_x_ratio - 0.90) ** 2
+    if cart_y_ratio > 0.90:
+        boundary_penalty -= 2.0 * (cart_y_ratio - 0.90) ** 2
+
+    crate_x_world = (next_obs[0] * 5.0
+                     + next_obs[2] * next_obs[6] * 3.0
+                     - next_obs[3] * next_obs[7] * 3.0)
+    crate_y_world = (next_obs[1] * 4.0
+                     + next_obs[3] * next_obs[6] * 3.0
+                     + next_obs[2] * next_obs[7] * 3.0)
+    if abs(crate_x_world) > 4.5:
+        boundary_penalty -= 2.0 * (abs(crate_x_world) - 4.5) ** 2
+    if abs(crate_y_world) > 3.5:
+        boundary_penalty -= 2.0 * (abs(crate_y_world) - 3.5) ** 2
+
+    components = {
+        "crate_progress_toward_dock": crate_progress,
+        "cart_crate_approach": cart_crate_approach,
+        "docked_settle": docked_settle,
+        "settle_speed_penalty": settle_speed_penalty,
+        "fragile_handling_penalty": contact_penalty,
+        "boundary_penalty": boundary_penalty,
+    }
+    total_reward = (crate_progress
+                    + cart_crate_approach
+                    + docked_settle
+                    + settle_speed_penalty
+                    + contact_penalty
+                    + boundary_penalty)
+    return float(total_reward), components
+```
