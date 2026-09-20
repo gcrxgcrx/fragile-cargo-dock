@@ -1,0 +1,27 @@
+extends: env007_terminal_rule_pilot.yaml
+
+# ---------------------------------------------------------------------------
+# Second arm of the clip probe.
+#
+# Same task spec, same prompt, same reward files as
+# runs/env_007/terminal_rule_pilot/seed_0/gen_00 - the ONLY difference is the
+# per-step clip applied to the generated reward by RewardOverrideWrapper.
+#
+# The harness default is 20.0 (training/train_sb3_wrapper.py:656). That is
+# smaller than the environment's own one-off completion bonus (+300 in the
+# native reward), so it flattens exactly the signal that has to dominate the
+# 400-step dense path. The first candidate written under the new
+# terminal-dominance rule proposes +500 for a single docked step - a 715:1
+# ratio against its own dense term - and gets squashed to 20, i.e. 200 over the
+# ten settling steps, against ~280 of pure hover payoff.
+#
+# 600 is chosen to be non-binding for that candidate (raw docked step = 501).
+# ---------------------------------------------------------------------------
+
+iteration:
+  experiment_prefix: terminal_rule_pilot_clip600
+
+training:
+  reward_clip: 600.0
+  total_timesteps: 1200000
+  eval_episodes: 20

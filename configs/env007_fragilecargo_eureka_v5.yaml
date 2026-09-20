@@ -1,0 +1,39 @@
+extends: env007_fragilecargo_eureka_baseline.yaml
+
+# ---------------------------------------------------------------------------
+# EUREKA-style population baseline, run against the improved reward interface.
+#
+# The interface-level fixes below apply to BOTH search methods equally (they are
+# not a CREATE-specific advantage), so this is the fair "same contract,
+# population search" baseline:
+#
+#   * the task spec states the dock geometry, so "fully inside the dock" becomes
+#     a computable predicate (|obs[12]| <= 0.024, |obs[13]| <= 0.030);
+#   * the initial prompt (v5) additionally requires: a contact-gentleness term
+#     with a stated minimum magnitude, a one-off terminal event with exactly
+#     zero residual per-step reward in the completed state, and an
+#     out-of-bounds guard scaled to the real field (+/-1.0 is the wall);
+#   * the edit prompt (v4) carries the same requirements so later generations
+#     cannot break compliance;
+#   * training/train_sb3_wrapper.py validates generated code by EXECUTING it
+#     (twelve calls plus an episode boundary), so rewards that raise at the
+#     first step are retried instead of burning a full training run.
+#
+# Budget is the paper's: 4 generations, population 4 (2 elites carried + 2
+# children) = 10 trained candidates x 3M PPO steps = 30M steps, identical to
+# the CREATE lineage budget.
+# ---------------------------------------------------------------------------
+
+inputs:
+  task_spec_path: envs/env_007/task_spec_anonymized_v2.yaml
+
+prompts:
+  eureka_initial: prompts/eureka_01_initial_reward_v5.md
+  eureka_edit: prompts/eureka_02_reward_edit_v4.md
+
+iteration:
+  experiment_prefix: fragilecargo_eureka_v5
+
+training:
+  total_timesteps: 3000000
+  eval_episodes: 20

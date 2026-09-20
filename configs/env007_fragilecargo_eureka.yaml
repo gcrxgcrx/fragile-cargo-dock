@@ -8,14 +8,25 @@ llm:
   provider: deepseek
   base_url: https://api.deepseek.com
   api_key_env: DEEPSEEK_API_KEY
-  model_env: deepseek-v4-pro
-  model_reward: deepseek-v4-pro
-  model_reflection: deepseek-v4-pro
-  model_investigator: deepseek-v4-pro
+  # DeepSeek-V4.1-Flash. The API model name for it is `deepseek-flash`;
+  # passing `deepseek-v4.1f` returns HTTP 400. Official mapping
+  # (https://api-docs.deepseek.com/quick_start/pricing):
+  #     deepseek-flash   -> DeepSeek-V4.1-Flash
+  #     deepseek-v4-pro  -> DeepSeek-V4-Pro-0813
+  model_env: deepseek-flash
+  model_reward: deepseek-flash
+  model_reflection: deepseek-flash
+  model_investigator: deepseek-flash
   temperature_environment_analyzer: 0.0
   temperature_reward_generator: 0.15
-  max_tokens_env: 4096
-  max_tokens_reward: 8192
+  # Thinking mode is toggled process-wide with DEEPSEEK_THINKING (see
+  # llm_clients/deepseek_client.py). Keep it identical to whatever the EUREKA
+  # baseline was run with, otherwise the two methods are not comparable.
+  # The EUREKA run in runs/env_007/fragilecargo_eureka was produced with
+  # DEEPSEEK_THINKING=disabled, so run CREATE the same way.
+  # max_tokens apply to the non-thinking path.
+  max_tokens_env: 8192
+  max_tokens_reward: 16384
 
 inputs:
   task_spec_path: envs/env_007/task_spec_anonymized.yaml

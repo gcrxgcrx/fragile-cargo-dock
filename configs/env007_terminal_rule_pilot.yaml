@@ -1,0 +1,45 @@
+extends: env007_fragilecargo_eureka_baseline.yaml
+
+# ---------------------------------------------------------------------------
+# PILOT: "does the generator respond to the terminal-dominance rule?"
+#
+# This is a deliberately isolated probe that runs *alongside* the main
+# experiments without touching them:
+#   * its own experiment prefix   -> runs/env_007/terminal_rule_pilot/
+#   * its own environment context -> regenerated from the v2 task spec
+#   * prompt files are *copies*, so editing them cannot change the prompt of an
+#     in-flight CREATE round (CREATE re-reads prompts/ from disk every round).
+#
+# The only two differences against the generation-0 population of EUREKA v2
+# (runs/env_007/fragilecargo_eureka_v2/gen_00) are:
+#   1. envs/env_007/task_spec_anonymized_v2.yaml additionally states the exact
+#      dock geometry, so "fully inside the dock" becomes a computable predicate
+#      (|obs[12]| <= 0.024 and |obs[13]| <= 0.030) instead of a guess;
+#   2. prompts/eureka_01_initial_reward_v2.md additionally requires the
+#      completion event to dominate the path (10 * B > 3 * path_bound * 400)
+#      and adds self-check (2): hover-at-0.3 m must score below docked.
+#
+# Run it with:
+#   python -m pipeline.run_eureka_population \
+#     --config configs/env007_terminal_rule_pilot.yaml \
+#     --prefix terminal_rule_pilot --generations 1 \
+#     --population-size 4 --parallel-candidates 4 --total-timesteps 1200000
+# ---------------------------------------------------------------------------
+
+inputs:
+  task_spec_path: envs/env_007/task_spec_anonymized_v2.yaml
+
+prompts:
+  eureka_initial: prompts/eureka_01_initial_reward_v2.md
+
+iteration:
+  experiment_prefix: terminal_rule_pilot
+
+training:
+  # Short budget on purpose: the probe only has to answer "does the new rule
+  # change the *kind* of policy that appears", not "what is the converged
+  # score". 1.2M steps is where the native reward already reaches ~50-70%
+  # delivery, so a candidate that is structurally right should show non-zero
+  # termination here, while every candidate produced so far shows 0.
+  total_timesteps: 1200000
+  eval_episodes: 20

@@ -1,4 +1,4 @@
-# FragileCargoDock-v0
+﻿# FragileCargoDock-v0
 
 一个用于**奖励工程（reward engineering）研究**的俯视 2D 连续控制环境：控制一辆仓库小车，把一个可自由运动的**易碎货箱**推过隔墙缺口，低速、低冲击地精确送入泊位。
 
@@ -156,7 +156,34 @@ PPO 收敛结果来自 4 个 seed，各自 100 个**全新种子**回合（20000
 
 ---
 
-## 4. 标定结论（重要）
+## 4. 后续研究：从奖励搜索失败到「两处编辑」的定位
+
+`experiments/` 记录的是**第一次** CREATE vs EUREKA 对照（3000 万步，两者都 0/20）。
+在那之后，这个环境上的研究又走了很长一段，全部过程与数据都在本仓库里：
+
+| 阶段 | 关键结论 | 文档 |
+|---|---|---|
+| 手写上界 | 只给观测的合约**能**表达可解的奖励：`probeD` 73.3 %、`probeE` 65.0 %、`probeC` 98.3 %，对照 `control_v1` 0 % | `runs/env_007/ABLATION_FINDINGS.md` |
+| prompt 阶梯 | 泄漏源是论文 prompt **之上**加的脚手架规则：一次性事件 16/16 → 0–1/16，轻柔度 15/16 → 0–2/16 | `SESSION_STATE.md` §3e |
+| 选择器死胡同 | 结构检查、轨迹排序、0.6 M/1.0 M 短训练档**全部**不能预测成功（后者 ρ = −0.486 / +0.371，且给 0 % 的对照背书） | `LADDER_FINDINGS.md` §5、`SESSION_STATE.md` §3f |
+| 失败机制 | 能工作的臂把约 96 % 质量放在**真正被触达**的正向稀疏项；失败的 LLM 臂放在惩罚、可刷分的稠密项、或无处可放 | `LADDER_FINDINGS.md` §2 |
+| **修复研究（主结果）** | 两处局部编辑——候选自己的 delta-progress 系数 ×50、把它的一次性终止收益改成成功谓词上的**稠密每步收益**——把两个独立候选各自从 **0/60** 提到 **23/60 = 38.3 %**（一个种子达 43/60 = 71.7 %） | `runs/env_007/REPAIR_TEST_FINDINGS.md` |
+| 证据通道 | 管线自己的反思（已确认含决定性证据）vs 打乱表格的 sham：**real 0/8、sham 1/8** → 瓶颈是算子，不是证据 | `runs/env_007/REPAIR_LOOP_FINDINGS.md` |
+| 优势探针 | `A ≤ 0`（不作为最优）能解释整个「不动」家族，但 `A` **不能**当选选择器（AUPRC 0.413） | `runs/env_007/ADVANTAGE_PROBE_FINDINGS.md` |
+| v7 prompt | 删掉「禁止在成功状态上每步给分」这条错误禁令后：每步流 8/8、`A > 0` 4/8、首个入坞的未编辑 LLM 候选（`dock_entered` 0.18），但诚实命中只有 **1/8、3/60** | `runs/env_007/V7_PROMPT_PREREGISTRATION.md` |
+| 尺度与种子 | 系数轴**非单调**（×75 崩、×100 好、×200 崩）：×100 三个种子 {31, 43, **0**}，某个种子入坞 0.95 却 0/60 → **停稳**才是绑定且高方差的一步 | `SESSION_STATE.md` §5.7–§5.8、`runs/env_007/RIDGE_WIDTH_PREREGISTRATION.md` |
+| 九个引导消融 | 越界悬崖、额外轻柔度、接近度奖励、「又近又慢」漏斗等九个单轴「专家」编辑**全部 0/60**（对照同块 16/60） | `runs/env_007/{OVERSHOOT,APPROACH}_ABLATION_PREREGISTRATION.md` |
+| 尚未运行 | 山脊恢复算子测试（已知失败的偏离候选 → 算子能否诊断回正轨） | `runs/env_007/RIDGE_RECOVERY_PREREGISTRATION.md` |
+
+**完整阅读索引（含每个阶段的协议、数字与产物位置）：[`runs/env_007/RESEARCH_LOG.md`](runs/env_007/RESEARCH_LOG.md)。**
+
+补充说明：本仓库现在也包含 CREATE / EUREKA 两个搜索驱动（`pipeline/`）、PPO harness（`training/`）、
+prompt 谱系（`prompts/`）与全部实验配置（`configs/`）。它们在这里**不在包路径上**
+（本仓库 `custom_envs/` 是扁平模块），要真正重跑搜索需要按主仓库的目录布局放置；
+`run_fragilecargo_baseline.py` 与全部免训练诊断脚本（`analyze_terminal_dominance.py` 等）在本仓库可直接运行。
+
+---
+## 5. 标定结论（重要）
 
 完整报告见 [`runs/env_007/CALIBRATION.md`](runs/env_007/CALIBRATION.md)。
 
@@ -201,7 +228,7 @@ iteration:
 
 ---
 
-## 5. 快速开始
+## 6. 快速开始
 
 ### 安装
 
@@ -248,39 +275,56 @@ python record_fragilecargo_policies.py --seeds 20000,20018 --keep-frames
 
 ---
 
-## 6. 文件结构
-
+## 7. 文件结构
 ```
 .
 ├── README.md
 ├── requirements.txt
 ├── run_fragilecargo_baseline.py          # 基线程序 / 标定工具
 ├── record_fragilecargo_policies.py       # 回放渲染（MP4 / GIF / 静图）
+├── analyze_terminal_dominance.py         # 结构探针检查（秒级）
+├── trajectory_ranking_check.py           # 可达轨迹排序检查
+├── advantage_scale_probe.py              # 每步优势 A（免训练诊断，非选择器）
+├── check_settled_stream.py               # 「停稳状态上是否每步付钱」机械检查
+├── probe_v7_shape.py                     # 在真实成功轨迹上分解逐候选收益形状
+├── analyze_native_reward.py              # 原生奖励逐项分解（势函数 vs 全回路）
+├── compare_shaping_scale.py              # 塑形 : 终止 比例的横向对比
+├── pilot_generate_only.py                # 只生成不训练的 prompt A/B
+├── {ladder,rung,mechanistic,v7}_*.py     # 选择器研究 / 读数 / 汇总
+├── make_{repair,recipe,align_fix,overshoot,approach,ridge}_variants.py
+│                                        # 生成各消融与修复变体（oracle 局部编辑）
+├── run_repair_loop.py / repair_loop_analysis.py   # real vs sham 修复环路
 ├── custom_envs/
 │   ├── __init__.py
 │   ├── registration.py                   # 集中式环境注册（供入口 import）
 │   └── fragile_cargo_dock_env.py         # 环境实现
 ├── envs/env_007/
-│   ├── task_spec_anonymized.yaml         # 环境语义说明书（给奖励设计 LLM）
+│   ├── task_spec_anonymized{,_v2}.yaml   # 环境语义说明书（给奖励设计 LLM）
 │   └── masked_step_source.py             # 脱敏 step 源码（官方奖励被 mask）
-├── configs/
-│   └── env007_fragilecargo_eureka.yaml   # CREATE 主管线配置（已写入标定结论）
-├── experiments/                          # CREATE vs EUREKA 对照实验（结果 + 报告）
+├── configs/                              # 全部实验配置（CREATE / EUREKA / 各 pilot / clip A-B）
+├── prompts/                              # prompt 谱系 v1→v7 + EUREKA 编辑 + CREATE 各阶段
+├── pipeline/                             # CREATE 与 EUREKA 两个搜索驱动
+├── training/                             # PPO harness（RewardOverrideWrapper + SB3 入口）
+├── llm_clients/                          # 模型客户端
+├── SESSION_STATE.md / NEXT_SESSION.md / HANDOFF_QUESTIONS.md   # 研究状态与问题陈述
+├── experiments/                          # CREATE vs EUREKA 首次对照（结果 + 报告）
 │   ├── README.md                         #   实验报告
 │   ├── create_rounds.csv                 #   逐轮分数 / 组件份额 / 激活率
 │   └── eureka_generations.csv            #   逐候选分数 / 血缘
 └── runs/env_007/
+    ├── RESEARCH_LOG.md                   # baseline → v7 全过程索引（先读这个）
     ├── CALIBRATION.md                    # 完整标定报告
-    ├── baseline/                         # 随机 + 手写控制器结果
-    ├── calib_g99|g995|g999|g999n/        # 第一轮超参扫描
-    ├── ac3_s0..s3/                       # 最终标定模型 + 学习曲线 + 结果
-    ├── confirm_s0..s3/                   # 100 回合确认评估
-    └── videos/                           # 训练成果渲染回放（MP4 / GIF / PNG）
+    ├── *_FINDINGS.md / *_PREREGISTRATION.md   # 每个阶段的预注册 + 结果
+    ├── baseline/ · calib_g99|g995|g999|g999n/ · ac3_s0..s3/ · confirm_s0..s3/
+    ├── prompt_ladder{,_v7}/ · prompt_ab/ · terminal_rule_pilot*/   # prompt 阶梯与 pilot
+    ├── ablation_probe/ · control_obs_only/ · passthrough_probe/     # 手写探针与诊断
+    ├── repair_test/ · align_fix_test/ · recipe_replication/ · repair_loop/   # 修复研究
+    ├── overshoot_ablation/ · approach_ablation/ · ridge_width/ · rung_06m/ · rung_10m/
+    ├── ladder_train/ · v4_train/ · train_queue.ps1                 # 训练队列与运行记录
+    ├── fragilecargo_create{,_v2}/ · fragilecargo_eureka{,_v2,_v5}/  # 搜索过程的逐轮产物
+    └── videos/ · reward_search_videos/ · overshoot_videos/          # 渲染静图
 ```
-
----
-
-## 7. 实现备忘（踩过的坑）
+## 8. 实现备忘（踩过的坑）
 
 1. **pybox2d 的刚体身份比较**。`fixture.body` 每次访问都返回**不同的 Python 包装对象**，所以 `a is body` 恒为 `False`（`a == body` 才比较底层指针）。最初用 `is` 判断接触对，导致 `contact_impulse` 恒为 0。现改为给两个刚体打 `userData` 标签来识别。
 2. **导流挡板是必需的**。货箱带角度时外形包络会超过缺口净宽，卡在缺口边沿，把任务变成"解卡谜题"而非"精确入库"。缺口两侧加 41° 导流挡板后解决。
@@ -293,7 +337,7 @@ python record_fragilecargo_policies.py --seeds 20000,20018 --keep-frames
 
 ---
 
-## 8. 与 CREATE 主管线的接入
+## 9. 与 CREATE 主管线的接入
 
 本仓库只包含环境与基线。若要接入 CREATE 迭代奖励搜索（`expert-reward-agent` 项目），需要：
 
@@ -305,7 +349,7 @@ python record_fragilecargo_policies.py --seeds 20000,20018 --keep-frames
 
 ---
 
-## 9. 来源与致谢
+## 10. 来源与致谢
 
 本环境为 [CREATE / expert-reward-agent](https://github.com/Nicole-ying/expert-reward-agent) 项目的奖励工程研究而构建，用于验证"外层奖励工程智能体观察训练证据 → 反思 → 语义局部化地编辑奖励程序"这一循环。
 

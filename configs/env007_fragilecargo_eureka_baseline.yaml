@@ -1,0 +1,91 @@
+extends: env007_fragilecargo_eureka.yaml
+
+# ---------------------------------------------------------------------------
+# EUREKA-style population reward search — the comparison baseline for CREATE.
+#
+# Run it with:
+#   python -m pipeline.run_eureka_population --config configs/env007_fragilecargo_eureka_baseline.yaml
+# or through the process file:
+#   bash run_eureka_fragilecargo.sh
+#
+# This does NOT go through pipeline/run_iterative_experiment.py. That pipeline
+# is CREATE (single lineage + structured diagnosis); this one is the population
+# baseline (sample several rewards per generation, train each, select by native
+# score, edit the elites). See pipeline/run_eureka_population.py for details.
+# ---------------------------------------------------------------------------
+
+llm:
+  # A key dedicated to this baseline, so the EUREKA flow can never silently
+  # pick up the key used by another pipeline. Export it in your shell:
+  #   export EUREKA_DEEPSEEK_API_KEY="..."
+  # The key is read from the environment only and is never written to disk.
+  api_key_env: EUREKA_DEEPSEEK_API_KEY
+
+  # This flow is restricted to DeepSeek-V4.1-Flash; the v4-pro models used by
+  # the CREATE base config must NOT be called with this key.
+  #
+  # The API model name for V4.1-Flash is `deepseek-flash` - passing
+  # `deepseek-v4.1f` returns HTTP 400. Per the official model table
+  # (https://api-docs.deepseek.com/quick_start/pricing):
+  #     deepseek-flash    -> DeepSeek-V4.1-Flash
+  #     deepseek-v4-pro   -> DeepSeek-V4-Pro-0813
+  model_env: deepseek-flash
+  model_reward: deepseek-flash
+  model_reflection: deepseek-flash
+  model_investigator: deepseek-flash
+
+  # Thinking mode must be OFF for this flow. Set DEEPSEEK_THINKING=disabled in
+  # the shell (run_eureka_fragilecargo.sh does it). Two reasons, both from the
+  # official docs (https://api-docs.deepseek.com/guides/thinking_mode):
+  #   1. thinking mode IGNORES `temperature`, and temperature is what gives the
+  #      generation-0 population its diversity - without it every sample would
+  #      come from the same near-greedy distribution;
+  #   2. the chain of thought is billed against max_tokens, and when it uses
+  #      the whole budget the API returns an EMPTY `content` together with
+  #      finish_reason='length' (observed: 400 -> empty response after retries).
+  # These limits therefore apply to the non-thinking path.
+  max_tokens_env: 8192
+  max_tokens_reward: 16384
+
+prompts:
+  eureka_initial: prompts/eureka_01_initial_reward.md
+  eureka_edit: prompts/eureka_02_reward_edit.md
+
+iteration:
+  experiment_prefix: fragilecargo_eureka
+
+eureka:
+  # population_size must equal elite_size * (1 + children_per_parent):
+  #   generation 0 -> population_size independent samples
+  #   generation g -> elite_size elites + elite_size * children_per_parent edits
+  generations: 4
+  population_size: 4
+  elite_size: 2
+  children_per_parent: 1
+
+  # Sampling temperature for generation 0 (high, to get diverse candidates) and
+  # for edits of elite parents (lower, to refine).
+  temperature_initial: 0.7
+  temperature_edit: 0.5
+
+  # How many times to re-ask the LLM when generated code fails the interface
+  # validation, with the validator errors appended to the prompt.
+  max_validation_retries: 3
+
+  # Candidates inside one generation are independent, so they can be trained
+  # concurrently. This only changes wall-clock time, not the results: every run
+  # is seeded and OMP_NUM_THREADS=1 makes it deterministic either way.
+  parallel_candidates: 4
+
+training:
+  # Budget per candidate. NOTE ON FAIRNESS: EUREKA here spends
+  #   population_size + (generations - 1) * elite_size * children_per_parent
+  #   = 4 + 3 * 2 = 10 runs, x total_timesteps.
+  # CREATE (configs/env007_fragilecargo_eureka.yaml) spends total_rounds = 10
+  # runs x training.total_timesteps. Both use 3,000,000 here, i.e. 30M
+  # environment steps each, so the two methods are compared at equal budget.
+  total_timesteps: 3000000
+  eval_episodes: 20
+  n_envs: 6
+  gamma: 0.999
+  normalize_reward: true
