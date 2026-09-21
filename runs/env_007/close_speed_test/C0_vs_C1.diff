@@ -1,0 +1,40 @@
+--- C0_control
++++ C1_closing_speed
+@@ -1,7 +1,7 @@
+-# C0_control — built by make_closing_speed_variants.py
++# C1_closing_speed — built by make_closing_speed_variants.py
+ #
+ # Base        : runs\env_007\control_obs_only\reward.py
+-# Edit        : none (byte-identical control_v1 body)
++# Edit        : added the observation-only closing-speed penalty (-0.05 * contact * closing_speed); nothing else
+ # Everything else (both telescoping shaping terms, the +20 settled hold, the boundary
+ # guard, the shove penalty, every coefficient) is control_v1's own code, unmodified.
+ # Protocol and predictions: runs/env_007/CLOSE_SPEED_ISOLATION_PREREGISTRATION.md
+@@ -88,12 +88,26 @@
+     if next_obs[14] > 0.5 and crate_speed > 1.5:
+         shove = -0.2 * (crate_speed - 1.5)
+ 
++    # ---- the ONE added term: an observation-only closing-speed penalty ------
++    # Copied verbatim from ablation_probe/probeD_obs_gentleness.py. This is the
++    # only difference between C0 and C1.
++    cos_h = obs[2]
++    sin_h = obs[3]
++    cart_forward_speed = obs[4] * 3.0
++    crate_speed_along_heading = cvx * cos_h + cvy * sin_h
++    closing_speed = cart_forward_speed - crate_speed_along_heading
++    if closing_speed < 0.0:
++        closing_speed = 0.0
++    contact = 1.0 if next_obs[14] > 0.5 else 0.0
++    gentleness = -0.05 * contact * closing_speed
++
+     components = {
+         "crate_progress": float(crate_progress),
+         "cart_approach": float(cart_approach),
+         "dock_settled_hold": float(settled_hold),
+         "boundary": float(boundary),
+         "shove": float(shove),
++        "gentleness_obs": float(gentleness),
+     }
+-    total = crate_progress + cart_approach + settled_hold + boundary + shove
++    total = (crate_progress + cart_approach + settled_hold + boundary + shove + gentleness)
+     return float(total), components

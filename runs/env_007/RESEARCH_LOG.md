@@ -1,292 +1,330 @@
-﻿# RESEARCH LOG — FragileCargoDock-v0，从 baseline 到 v7
+# RESEARCH LOG — env_007 (`FragileCargoDock-v0`), baseline → v7
 
-本文件是 `experiments/`（CREATE vs EUREKA 首次对照）**之后全部研究过程**的阅读索引。
-每个阶段都配了「预注册 + 结果」两份文档，下面只记录**问的是什么、测到了什么、否掉了什么**。
-所有数字都可以在紧随其后的 JSON / MD 产物里复核。
+A reading-order index of the reward-search study on this environment. **Every number
+below is measured and reproducible from the JSON/MD artifacts committed next to it.**
+The per-stage detail lives in the pre-registration + findings pairs listed under each
+stage; this file only fixes *what was asked, what was measured, and what it killed*.
 
-英文细节文档在 `runs/env_007/` 下；三份总入口：
+Two companion documents are essential and are kept at the repo root:
 
-| 文件 | 作用 |
+| file | role |
 |---|---|
-| `runs/env_007/RESEARCH_LOG.md` | 本文件 |
-| `SESSION_STATE.md` | resume 文档：环境物理、harness 事实、全部已确立的测量、已否证的错误、警告 |
-| `NEXT_SESSION.md` | context reset 之后的入口，以及硬约束（密钥、只许 `deepseek-flash`、commit 上限陷阱、留出种子块） |
-| `HANDOFF_QUESTIONS.md` | P1–P5 问题陈述与范围划分（论文汇报类问题不在范围内） |
+| `SESSION_STATE.md` | the resume document: environment physics, harness facts, every established measurement, the falsified errors, and the warnings |
+| `NEXT_SESSION.md` | the entry point after a context reset, plus the standing hard constraints (API keys, `deepseek-flash` only, the commit-limit trap, held-out seed blocks) |
+| `HANDOFF_QUESTIONS.md` | the P1–P5 problem statement and the scope split (paper-reporting issues are out of scope) |
 
 ---
 
-## 0. 任务与评测
+## 0. What the task is, and what the evaluation is
 
-俯视 2D：小车**没有刹车**，要把易碎货箱推过隔墙缺口送入泊位。成功需要货箱
-**在泊位容差内 ∧ 朝向 <30° ∧ 速度 <0.05 m/s 连续保持 10 步**，满足即终止；另有三种失败终止
-（≥3 次硬冲击、货箱或小车出界）。
+Top-down Box2D warehouse: a cart with **no brake** must push a fragile crate through a
+narrow partition opening into a marked docking bay. Success requires the crate to be
+**inside the dock tolerance ∧ aligned (<30°) ∧ slower than 0.05 m/s for 10 consecutive
+steps**; the environment terminates the episode the moment that holds. Three hard
+failures also terminate: 3 hard collisions, crate out of bounds, cart out of bounds.
 
-方法：**CREATE**（论文表格里叫 DERES）；基线：**EUREKA 式种群搜索**。范围：**只做实验**。
+Method under test: **CREATE** (called DERES in the paper's tables). Baseline:
+**EUREKA-style population search** (`pipeline/run_eureka_population.py`).
+**Scope: experiments only** — the paper is not ours, and paper-reporting issues are
+listed in `HANDOFF_QUESTIONS.md` §6 so they are not re-litigated.
 
 ---
 
-## 1. baseline：环境自带的原生奖励
+## 1. The baseline: the environment's own (native) reward
 
 `runs/env_007/CALIBRATION.md` · harness `run_fragilecargo_baseline.py`
 
-| 策略 | 预算 | fresh-60 成功率 |
+| policy | budget | fresh-60 success |
 |---|---:|---:|
-| 随机 | — | 0 % |
-| 手写推箱控制器 | — | 50 % |
-| **PPO + 原生奖励（绕过 wrapper）** | 3.0 M | **96.8 %** |
-| **PPO + 原生奖励（经 wrapper，clip 20）** | 1.2 M | **90.0 %** |
-| 原生奖励（经 wrapper，clip 600） | 1.2 M | 80.0 % |
+| random | — | 0 % |
+| scripted heuristic pusher | — | 50 % |
+| **PPO on the native reward, bypassing the wrapper** | 3.0 M | **96.8 %** |
+| **PPO on the native reward, through the wrapper, clip 20** | 1.2 M | **90.0 %** |
+| native reward, through the wrapper, clip 600 | 1.2 M | 80.0 % |
 
-原生奖励本身是**人工调试出来的**（`CALIBRATION.md` §3）：先有「接触就给分」的陷阱局部最优
-（小车赖在卡住的货箱上每步 +0.02，250 步 ≈ +5，正好凑出 +6.5 的卡死平台），改成冲量比例惩罚后
-探索崩塌，才暴露出缺失的 `approach_cargo` 势函数项（0 % → 30–100 %）。
-训练上 `normalize_reward` 是决定性的：单用 γ=0.999 是 **0 %**，加上奖励归一化才 **80 %**。
+*The native reward was itself debugged by hand* (§3 of `CALIBRATION.md`): a
+per-step contact bonus created a trapping local optimum (cart leaning on the jammed
+crate for +5/episode), was replaced by an impulse-proportional cost, which then
+destroyed exploration, which revealed the missing `approach_cargo` potential term
+(0 % → 30–100 % across seeds). `normalize_reward` is the decisive training knob:
+γ = 0.999 alone gives **0 %**, γ = 0.999 + reward normalisation gives **80 %**.
 
-## 2. harness 校验：瓶颈不在 harness
+Native reward weights (masked from the generating LLM): `approach_cargo` 1.0/m,
+`progress` 1.0/m, `dock_enter` +5 once, `roughness` −0.02 × peak impulse,
+`action_cost` 5e−4, `time_cost` −0.002/step, `hard_hit` −0.5, `success` +300,
+`failure` −100.
 
-`PILOT_TERMINAL_RULE.md` · `ABLATION_FINDINGS.md`
+## 2. Harness validation — the harness is not the bottleneck
 
-原生奖励**经 wrapper、clip 20** 仍有 **90 %**；把 clip 提到 600 反而让最好的 LLM 候选变差。
-所以单步裁剪与 wrapper 不是生成奖励失效的原因。
+`runs/env_007/PILOT_TERMINAL_RULE.md` · `runs/env_007/ABLATION_FINDINGS.md`
 
-## 3. 手写上界：一个能工作的奖励长什么样
+* The native reward through `RewardOverrideWrapper` at clip 20 still scores **90 %**;
+  raising the clip to 600 made the best LLM candidate *worse*. So the per-step clip and
+  the wrapper are **not** what breaks the generated rewards.
+* The observation-only contract **can** express a solvable reward (see stage 3).
 
-`ABLATION_FINDINGS.md` · `LADDER_FINDINGS.md` §1
+## 3. The hand-written ceiling: what a working reward looks like
 
-| 臂 | 内容 | fresh-60 |
+`runs/env_007/ABLATION_FINDINGS.md` §, `runs/env_007/LADDER_FINDINGS.md` §1
+
+| arm | contents | fresh-60 |
 |---|---|---:|
-| `control_v1` | 增量进度 + 接近 + `+20`/步停稳流 + 边界守卫 | **0 %** |
-| `probeA` | `control_v1` + 真实接触冲量惩罚（读 `info`） | 40.0 % |
-| `probeB` | 把每步流换成原生的一次性终止事件（读 `info`） | 45.0 % |
-| `probeD` | `+` 仅用观测的接近速度（轻柔度）惩罚 | **73.3 %** |
-| `probeE` | 观测轻柔度 + 模块状态一次性事件（用 `obs[18]`），不读 `info` | **65.0 %** |
-| `probeC` | 真实冲量 + 事件形式 | **98.3 %** |
+| `control_v1` | incremental crate progress + cart approach + `+20`/step settled stream + boundary guard | **0 %** |
+| `probeA` | `control_v1` + a true contact-impulse penalty (reads `info`) | 40.0 % |
+| `probeB` | per-step stream replaced by the native one-off terminal event (reads `info`) | 45.0 % |
+| `probeD` | `+` observation-only closing-speed ("gentleness") penalty | **73.3 %** |
+| `probeE` | obs gentleness + a module-state one-off success event via `obs[18]`, no `info` | **65.0 %** |
+| `probeC` | true impulse + event form | **98.3 %** |
 
-对照：本轮之前 LLM 搜索的历史最好成绩是 **5/60 = 8.3 %**（满预算后掉回 0/60）；
-CREATE v2 / EUREKA v2 各 10×3 M 都只有 0–1/60。
+Also measured: the LLM search's historical best before this session was **5/60 = 8.3 %**
+(a pilot candidate that collapses to 0/60 at full budget), and CREATE v2 / EUREKA v2 at
+10 × 3 M both landed at 0–1/60.
 
-## 4. prompt 阶梯：泄漏源是「我自己加的脚手架规则」
+## 4. The prompt ladder — the scaffold rules *I* added were the leak
 
-`SESSION_STATE.md` §3e（每档 16 个候选，只生成不训练）
+`SESSION_STATE.md` §3e
 
-| 检查项 | L0（只给接口） | L1（论文自己的 prompt） | L2（我的脚手架） |
+16 candidates per level, generation only, same context/model/temperature:
+
+| check | L0 (interface only) | L1 (paper's own prompt) | L2 (my scaffold) |
 |---|---:|---:|---:|
-| 写出一次性终止事件 | 1/16 | 0/16 | **16/16** |
-| 写出轻柔度项 | 0/16 | 2/16 | **15/16** |
-| 四项结构检查全过 | 0/16 | 0/16 | **11/16** |
+| writes a one-off terminal event | 1/16 | 0/16 | **16/16** |
+| writes a gentleness term (gap > 0) | 0/16 | 2/16 | **15/16** |
+| all four structural checks | 0/16 | 0/16 | **11/16** |
 
-L0 ≈ L1，所以泄漏具体来自论文 prompt **之上**我加的那些规则。
+L0 ≈ L1, so the leak is specifically the rules added on top of the paper's prompt.
 
-## 5. 选择器死胡同（每一个都测过、每一个都被否掉）
+## 5. The selector dead-ends (each one measured, each one rejected)
 
-| 阶段 | 工具 | 问题 | 结果 |
+| stage | tool | question | outcome |
 |---|---|---|---|
-| 5a | `analyze_terminal_dominance.py` | 结构检查能预测成功吗？ | **不能。** 11 个脚手架合规的 LLM 奖励全部 **0/60**；再加 8 个横跨所有检查的候选，仍全 0/60 |
-| 5b | `trajectory_ranking_check.py` | 奖励能把可达轨迹排序对吗？ | **不能。** `control_v1` 得 0 %，却以 **1.000** 准确率、199.6 的间隔把成功排在所有失败之上 |
-| 5c | `rung_analysis.py` | 短训练（0.6 M）能当选选择器吗？ | **不能。** 对 1.2 M 成功率 ρ = **−0.486**，种子标准差 0.236 > 候选间散布 0.149；1.0 M 档 ρ = +0.371 且在 3/3 种子上为 0 %-at-1.2M 的 `control_v1` 背书 → 按预注册否掉 |
+| 5a | `analyze_terminal_dominance.py` | do structural checks predict success? | **No.** 11 scaffold-compliant LLM rewards, all **0/60**; eight further candidates spanning every check, all 0/60 (`SESSION_STATE.md` §5). |
+| 5b | `trajectory_ranking_check.py` | does the reward order reachable trajectories? | **No.** `control_v1` scores **0 %** yet ranks success above every failure with accuracy **1.000** and separation 199.6 (`SESSION_STATE.md` §3f). |
+| 5c | `rung_analysis.py` | is a short (0.6 M) training rung a valid selector? | **No.** ρ = **−0.486** vs 1.2 M success, seed sd 0.236 > candidate spread 0.149; a component-activity readout that separates 14/14 at 1.2 M has recall 0.40 at 0.6 M. The 1.0 M rung: ρ = +0.371 and it certifies the 0 %-at-1.2 M `control_v1` in 3/3 seeds → rejected as pre-registered. |
 
-## 6. 为什么失败：机制（全部是测量）
+## 6. Why they fail — mechanism, measured
 
-`LADDER_FINDINGS.md` §2 · `SESSION_STATE.md` §3h
+`runs/env_007/LADDER_FINDINGS.md` §2 · `SESSION_STATE.md` §3h
 
-每个能工作的臂都把约 **96 %** 的奖励质量放在一个**真正被触达**的正向稀疏项里；每个失败的 LLM 臂
-在那里放 **0 %**。它的质量要么落在惩罚项、要么落在**可被刷分的稠密项**（`L0/cand_02` 每回合收
-+311 却从不入坞）、要么哪儿都没有（`L2/cand_05` 在自己策略产生的轨迹上奖励恒为 0 → 没有梯度）。
+Every arm that works puts ~96 % of its reward mass in a **positive, sparse (one-off or
+stream) term that is actually reached**; every failing LLM arm puts **0 %** there. Its
+mass sits in a penalty, in a **farmable dense term** (`L0/cand_02` collects +311 per
+episode and still never docks), or nowhere at all (`L2/cand_05`'s reward is identically
+0 on the trajectory its own policy produces → no gradient). Two named failure modes.
 
-另外两次测到「排序正确 ≠ 可学习」：`L0/cand_02` 的对齐项是**反的**（`1 − |obs[10]|`，而
-`DOCK_ANGLE = 0`），所以它占 94 % 质量的项在「货箱垂直于泊位」时最大；只改一个下标把排序检查
-从 0.038 提到 **0.702**，该臂**依旧 0/60**（`ALIGN_FIX_PREREGISTRATION.md`）。
+Also measured: ranking correctness ≠ learnability, twice — `L0/cand_02`'s alignment term
+is **inverted** (`1 − |obs[10]|` while `DOCK_ANGLE = 0`), so its 94 %-of-mass term is
+maximised by holding the crate perpendicular; the one-subscript fix moves the ordering
+check 0.038 → **0.702** and the arm still trains to **0/60** (`ALIGN_FIX_PREREGISTRATION.md`).
 
-还有一条：**训练更久可以毁掉已学会的行为**——`control_v1` 在 0.6 M 是 39/60，在 1.2 M 变成 0/60，
-而五个手写探针都随预算变好。
+And: **longer training can destroy a learned behaviour** — `control_v1` scores 39/60 at
+0.6 M (seed 0) and 0/60 at 1.2 M, while all five hand-designed probes improve.
 
-## 7. 修复研究：本项目最主要的正面结果
+## 7. The repair study — the project's main positive result
 
-`REPAIR_TEST_PREREGISTRATION.md` · `REPAIR_TEST_FINDINGS.md` · `RECIPE_REPLICATION_PREREGISTRATION.md`
-*（oracle 撰写：它测的是「目标有多大」，不是「能不能被搜到」）*
+`runs/env_007/REPAIR_TEST_PREREGISTRATION.md` · `REPAIR_TEST_FINDINGS.md` ·
+`RECIPE_REPLICATION_PREREGISTRATION.md` *(oracle-authored: it measures the size of the
+target, not its discoverability)*
 
-两处局部编辑把两个独立的 LLM 候选各自从 **0/60** 提到 **23/60 = 38.3 %**（其中一个种子达到
-**43/60 = 71.7 %**）：
+Two localized edits take two independent LLM candidates from **0/60** to **23/60 = 38.3 %**
+each (one seed reached **43/60 = 71.7 %**):
 
-1. 候选**自己的 delta-progress 系数 ×50**（12 → 600）——让「行动」有利可图：`dock_entered`
-   0.00 → 0.97、最终目标距离 4.148 m → 0.140 m，但仍然 0/60，因为没有东西为「停稳」付钱；
-2. 在**瞬时成功谓词**上给**稠密的每步收益**（泊位内 ∧ 对齐 ∧ 慢）——让「停稳」有利可图。
-   单独用它什么也不发生（`r06`、`g01_stream` 与它们的 copy 对照组逐位等价，因为谓词从未被触达）。
+1. the candidate's **own delta-progress coefficient ×50** (12 → 600) — makes *acting*
+   profitable: `dock_entered` 0.00 → 0.97, goal distance 4.148 m → 0.140 m, still 0/60
+   because nothing pays for settling;
+2. a **dense per-step payoff on the instantaneous success predicate** (inside ∧ aligned ∧
+   slow) — makes *settling* profitable. Alone it does nothing (`r06`, `g01_stream` are
+   bit-for-bit equivalent to their copy controls, because the predicate is never reached).
 
-对照：叠加轻柔度**有害**（0/60，入坞 0.00）；把候选自己的速度罚 ×100 更糟（0/60，且被优势探针
-在读到结果**之前**就预测到了）；未改动的拷贝精确复现原候选。
+Controls: adding gentleness **hurts** (0/60, dock 0.00); raising the candidate's own speed
+penalty ×100 makes it worse (0/60, predicted in advance by the advantage probe);
+the untouched copy reproduces the base exactly.
 
-## 8. 证据通道不是瓶颈
+## 8. The evidence channel is not the bottleneck
 
-`REPAIR_LOOP_PREREGISTRATION.md` · `REPAIR_LOOP_FINDINGS.md`
+`runs/env_007/REPAIR_LOOP_PREREGISTRATION.md` · `REPAIR_LOOP_FINDINGS.md`
 
-管线自己的反思报告——已验证包含决定性的 `success_event` 激活证据——交给同一个算子，并配上
-「把每张组件表的行与列分别打乱」的 sham 对照，每臂 8 次修复：**real 0/8、sham 1/8**，
-Fisher p = 1.0000。所以天花板是**算子**，不是证据；在测过「多轮迭代」或「换一种 prompt 形状」
-之前，新增证据通道（含 P5）在本环境上被预测为无用。
+The pipeline's own reflection — verified to contain the decisive
+`success_event` activation evidence — was given to the operator, with a permuted-table
+sham control, 8 repairs per arm: **real 0/8, sham 1/8**, Fisher p = 1.0000. The ceiling
+is the **operator**, not the evidence, so new channels (including P5) are predicted
+worthless on this environment until iteration or a different prompt shape is tested.
 
-## 9. 优势尺度：是诊断，不是选择器
+## 9. Advantage scale: a diagnostic, not a selector
 
-`ADVANTAGE_PROBE_PREREGISTRATION.md` · `ADVANTAGE_PROBE_FINDINGS.md`
+`runs/env_007/ADVANTAGE_PROBE_PREREGISTRATION.md` · `ADVANTAGE_PROBE_FINDINGS.md`
 
-`A` = 七条脚本控制器上的每步平均生成回报 − `idle` 的，**不需要训练**即可算出。它回答了一个真问题：
-`A ≤ 0` 意味着**不作为才是最优**，这正是 v5/v7 整个「不动」家族；它还在读到结果之前就预测出哪些臂
-会让小车动起来（含 ×50 编辑的四个臂把 `A` 从 −0.259 抬到 +0.11…+0.14，而这四个正是入坞的），
-以及把候选自己的速度罚 ×100 会是灾难（`A` = −12.8）。
+`A` = mean per-step generated return over seven scripted controllers − that of `idle`,
+computed with **no training**. It answers a real question — `A ≤ 0` means *inaction is
+optimal*, which is the whole v5/v7 immobile family — and it predicted, before their
+results were read, which arms would move the cart (the four containing the ×50 edit flip
+`A` from −0.259 to +0.11…+0.14 and are the four whose policies dock) and that scaling the
+candidate's own speed penalty ×100 would be catastrophic (`A` = −12.8).
 
-但它作为选择器**被否掉**：AUPRC 0.413（基线 0.357），三个**失败**的 L0 候选反而占据池中最大的
-`A`（+0.39 / +0.32 / +0.17），高于所有能工作的臂——因为一个可刷分的稠密项在「行动」时付得更多。
+It is nevertheless **rejected as a selector**: AUPRC 0.413 (prevalence 0.357), and the
+three *failing* L0 candidates hold the largest `A` of the pool (+0.39, +0.32, +0.17),
+above every working arm — a dense farmable term pays more while acting than while idling.
 
-## 10. v7：删掉那条禁止关键成分的脚手架规则
+## 10. v7 — removing the scaffold rule that forbade the ingredient
 
-`V7_PROMPT_PREREGISTRATION.md` · 生成器 `make_prompt_v7.py` · diff `runs/env_007/v7_prompt.diff` ·
-prompt `prompts/eureka_01_initial_reward_v7.md`
+`runs/env_007/V7_PROMPT_PREREGISTRATION.md` · generator `make_prompt_v7.py` ·
+diff `runs/env_007/v7_prompt.diff` · prompt `prompts/eureka_01_initial_reward_v7.md`
 
-v5（第 112–119 行）禁止在成功状态上每步给分，并要求自检 ④ 把任何这种写法改掉。那条禁令的依据是一次
-真实测量，但归因错了：`control_v1` 在泊位里磨 43 步，真正原因是它的**推进项太弱**（`A = −0.26`），
-不是那条流。v7 把禁令换成「一次性事件**和**停稳期每步收益两者都要有」的规则，并把自检 ④ 反转。
+v5 (lines 112–119) banned a per-step payoff on the success state and its self-check ④
+forced the model to rewrite any such payoff. That ban was justified by a real measurement
+whose attribution was wrong: `control_v1` ground in the dock for 43 steps because its
+*approach* term was far too weak (`A = −0.26`), not because of the stream. v7 replaced the
+ban with a conditional rule requiring **both** a one-off event and a per-step settled
+payoff, and inverted self-check ④.
 
-| v7 结果 | 数值 |
+| v7 outcome | value |
 |---|---|
-| 在停稳状态上每步付钱的候选 | **8/8**（v5 家族：0/2） |
-| `A > 0` 的候选 | 4/8（v5 家族：1/8） |
-| 第一个进入泊位的未编辑 LLM 候选 | `cand_01`，`dock_entered` **0.18**（此前 35+ 个全部 0.00） |
-| 诚实命中率 | **1/8 命中，3/60 = 5.0 %**，对 0/16 基线单侧 Fisher p = 0.333 |
+| candidates that pay per step on a settled state | **8/8** (v5 family: 0/2) |
+| candidates with `A > 0` | 4/8 (v5 family: 1/8) |
+| first unedited LLM candidate ever to enter the dock | `cand_01`, `dock_entered` **0.18** (all 35+ earlier ones: 0.00) |
+| honest rate | **1/8 hits, 3/60 = 5.0 %**, one-sided Fisher p = 0.333 vs the 0/16 baseline |
 
-**读法：** prompt 修复是真的，但不够；家族在 `A` 上干净地分成两半，而承载关键成分的机制仍没被产出。
+**Reading:** the prompt fix is real but insufficient; the family splits cleanly on `A`,
+and the mechanic that carries the missing ingredient is still not produced.
 
-## 11. 难度是两因子的，且「停稳」接近抛硬币
+## 11. The difficulty is two-factor, and settling is near-coin-flip
 
-`SESSION_STATE.md` §5.7–§5.8 · `RIDGE_WIDTH_PREREGISTRATION.md`
+`SESSION_STATE.md` §5.7–§5.8 · `runs/env_007/RIDGE_WIDTH_PREREGISTRATION.md`
 
-对「工作配方唯一定义的系数」做单轴扫描，同一批 fresh 种子 35000–35059，随后补上 seed 1–2：
+Single-axis sweep of the one coefficient the working recipe sets, same fresh block
+35000–35059, then seeds 1–2 added:
 
-| 系数 | seed 0 | seed 1 | seed 2 | 平均 | 各 seed 的 `dock_entered` |
+| coefficient | seed 0 | seed 1 | seed 2 | mean | `dock_entered` per seed |
 |---|---:|---:|---:|---:|---|
 | ×50 (600) | 16/60 | — | — | (16/60) | 0.90 |
 | ×75 (900) | 0/60 | 4/60 | 0/60 | **2.2 %** | 0.07 / 0.48 / 0.00 |
 | ×100 (1200) | 31/60 | **43/60** | 0/60 | **41 %** | 0.95 / 0.78 / 0.95 |
 
-* **可达性由系数相当可靠地决定**；**停稳才是绑定且高方差的一步**——×100 seed 2 在 95 % 的回合里
-  入坞，却拿到 **0/60**。
-* 因此**单种子比较候选就是抽一次彩票**：必须把 `dock_entered` 与成功率**分开报**，并写明种子数。
-* 优势探针**看不见**这件事：`A` 随系数平滑单调（+0.141 / +0.331 / +0.521 / +1.281），而结果是锯齿状，
-  它把最差的那个臂（×200，0/60）排最高。建在 `A > 0` 上的闸门会放过 ×75 与 ×200。
-* 已记录的决定（用户）：**不再做多种子确认run**；系数**故意交给 LLM/搜索**，并附上实测警告——
-  尺度在这里是一阶且非单调的变量，所以*采样*型循环比*梯度跟随*型更合适。
+* **Reachability is set fairly reliably by the coefficient**; **settling is the binding,
+  high-variance step** — ×100 seed 2 docks in 95 % of episodes and scores **0/60**.
+* Therefore **single-seed candidate comparisons are one lottery draw**: report
+  `dock_entered` and success **separately** and state the seed count.
+* The advantage probe is **blind** to this: `A` is smoothly monotone in the coefficient
+  (+0.141 / +0.331 / +0.521 / +1.281) while the outcomes are jagged, ranking the worst
+  arm (×200, 0/60) highest. A gate built on `A > 0` would pass ×75 and ×200.
+* Decision recorded (user): **no further multi-seed confirmation runs**; the coefficient
+  is **deliberately left to the LLM/search**, with the measured caveat that scale is a
+  first-order, non-monotone variable here, so a *sampling* loop suits it better than a
+  gradient-following one.
 
-## 12. 引导消融：九个单轴「专家」编辑都会毁掉一个能工作的奖励
+## 12. Guidance ablations: nine single-axis "expert" edits destroy a working reward
 
-`OVERSHOOT_ABLATION_PREREGISTRATION.md` · `APPROACH_ABLATION_PREREGISTRATION.md`
+`runs/env_007/OVERSHOOT_ABLATION_PREREGISTRATION.md` ·
+`runs/env_007/APPROACH_ABLATION_PREREGISTRATION.md`
 
-对同一 fresh 块内匹配的 **16/60、入坞 0.90** 基线：
+Against a matched **16/60, dock 0.90** baseline in the same fresh block:
 
-| 想法 | 臂 | fresh-60 | 入坞 |
+| the idea | arm | fresh-60 | dock |
 |---|---|---:|---:|
-| 把越界做得很负 | `o01_overshoot`（−20/步悬崖） | **0/60** | 0.00 |
-| 同上，狠 10 倍 | `o04_overshoot_x10`（−200/步） | **0/60** | 0.00 |
-| 加轻柔/接近速度惩罚 | `o02_gentle` | **1/60** | 0.35 |
-| 悬崖 + 轻柔 | `o03_both` | **0/60** | 0.00 |
-| 奖励「接近」，状态（接近度）形式 | `p01_proximity` | **0/60** | 0.02 |
-| 接近，delta 形式 ×4 | `p02_progress_x200` | **0/60** | 0.72 |
-| 「又近又慢」漏斗 | `p05_funnel` | **0/60** | 0.07 |
-| 接近度 + 轻柔 / ×200 + 轻柔 | `p04`、`p03` | **0/60** | 0.10 / 0.53 |
+| make overshoot very negative | `o01_overshoot` (−20/step cliff) | **0/60** | 0.00 |
+| same, 10× harder | `o04_overshoot_x10` (−200/step) | **0/60** | 0.00 |
+| add a gentleness / closing-speed penalty | `o02_gentle` | **1/60** | 0.35 |
+| overshoot cliff + gentleness | `o03_both` | **0/60** | 0.00 |
+| reward approaching, state (proximity) form | `p01_proximity` | **0/60** | 0.02 |
+| approaching, delta form ×4 stronger | `p02_progress_x200` | **0/60** | 0.72 |
+| approaching, "near AND slow" funnel | `p05_funnel` | **0/60** | 0.07 |
+| proximity + gentleness / ×200 + gentleness | `p04`, `p03` | **0/60** | 0.10 / 0.53 |
 
-机制（测量，不是解释）：没有刹车时通往泊位的唯一路径是「推一把、让阻尼把货箱带进去」，
-所以抵达轨迹必然经过远侧边缘；−20/步的位置悬崖让**接近本身**变得不划算，`A` 从 +0.141 翻到
-−0.253，最优解变成*不接近*（入坞 0.90 → 0.00）。
+Mechanism (measured, not interpreted): with no brake the only route to the dock is to push
+and let drag stop the crate, so arriving trajectories pass near the far edge; a positional
+cliff at −20/step makes the **approach itself** unprofitable, `A` flips from +0.141 to
+−0.253, and the optimum becomes *not approaching* (dock 0.90 → 0.00).
 
-## 13. 已预注册、尚未运行
+## 13. Open, pre-registered, not yet run
 
-`RIDGE_RECOVERY_PREREGISTRATION.md` · 成本 `COMPUTE_LEDGER.md`
+`runs/env_007/RIDGE_RECOVERY_PREREGISTRATION.md` · costs `runs/env_007/COMPUTE_LEDGER.md`
 
-把两个方法的算子分别喂给一个「偏离山脊、且失败原因**已知**」的候选（`p02_progress_x200`：到得了、
-停不稳；`o01_overshoot`：回避），看它的诊断能否恢复投递。EUREKA 侧 =
-`build_reward_reflection` + `materialise_reward(mode="edit")`；CREATE 侧 =
-`pipeline/run_04_build_iteration_context.py` 然后 `pipeline/run_05_reward_revision.py`。
-2 算子 × 2 种子 × 4 修复 = 16 次训练。
+Seed each method's operator with an off-ridge candidate whose failure cause is **known**
+(`p02_progress_x200`: arrives, cannot settle; `o01_overshoot`: avoidance) and ask whether
+its diagnosis recovers delivery. EUREKA side = `build_reward_reflection` +
+`materialise_reward(mode="edit")`; CREATE side = `pipeline/run_04_build_iteration_context.py`
+then `pipeline/run_05_reward_revision.py`. 2 operators × 2 seeds × 4 repairs = 16 trainings.
 
 ---
 
-## 14. 补记：§13 写成之后的测量（v7 评分，2026-09-21）
+## 14. Addendum — measurements made after §13 was written (v7 scoring, 2026-09-21)
 
-v7 这一轮末尾新增了三个**免训练**诊断。它们对 v8 该写什么有直接影响；目前**尚未**写进任何预注册。
+Three training-free diagnostics were added at the end of the v7 round. They are recorded
+here because they bear on what any v8 prompt must say; they are **not** yet written into
+any pre-registration.
 
-**14a. 在 harness 裁剪下，一次性完成事件的价值恰好为零。**
-`probe_v7_shape.py` 在脚本成功轨迹（release_0.25，303 步）上回放奖励，另一路把同一轨迹在完成前一步
-截断、再用 40 步「保持停稳谓词为真但永不完成」续着，clip 20：
+**14a. Under the harness clip, a one-off completion event is worth exactly nothing.**
+`probe_v7_shape.py` replays a reward on the scripted success trajectory (release_0.25,
+303 steps) and on the same trajectory truncated one step before completion plus 40 steps
+that keep the settled predicate true without completing it, at clip 20:
 
-| 候选 | 终止步（raw → 裁剪） | 走到完成的累计 | 截断 + 40 步收割 |
+| candidate | terminal step (raw → clipped) | cumulative to completion | truncated + 40 farm steps |
 |---|---:|---:|---:|
 | `cand_00` | 320.0 → **20.0** | 96.7 | **876.7** |
 | `cand_01` | 300.0 → **20.0** | 3083.7 | **3263.7** |
 | `cand_02` | 320.0 → **20.0** | 333.4 | **1113.4** |
 
-一次性事件的 +300 被裁到与一个普通停稳步完全相同的值，所以它的贡献是 **0**；而因为 v7 候选把每步收益
-门控在 `not _PAID`（或在事件触发后清零），**不完成**比完成对 `cand_00` 多赚约 +780。
+The one-off's +300 is clipped to the same value as a single settled step, so it adds
+**zero**; and because v7 candidates gate the per-step payoff on `not _PAID` (or zero it
+once the event fires), *not completing* is worth ~+780 more than completing for `cand_00`.
 
-**14b. 原生奖励的累计塑形被几何界住。**
-`analyze_native_reward.py` 在 27 条脚本轨迹（9 控制器 × 3 种子）上分解原生奖励：塑形总和
-（approach + progress + dock_enter + action + time）落在 **−3.2 … +8.6**，在一条 303 步成功轨迹上是
-**+8.58**，而终止项是 **+299.84**——约 **1:35**，即接近稀疏。两个 telescope 项
-（`approach_cargo`、`progress`）的总量都被几何界住，所以绕圈、抖动、悬停都收不到额外收益。
+**14b. The native reward's cumulative shaping is bounded by geometry.**
+`analyze_native_reward.py` decomposes the native reward on 27 scripted trajectories
+(9 controllers × 3 seeds): the shaping total (approach + progress + dock_enter + action +
+time) spans **−3.2 … +8.6**, and on a successful 303-step trajectory it is **+8.58**
+against a terminal **+299.84** — a ratio of about **1:35**, i.e. near-sparse. Both
+telescoping terms (`approach_cargo`, `progress`) have totals bounded by geometry, so
+circling, jittering and hovering cannot collect anything extra.
 
-**14c. LLM 候选与这个比例差 2–4 个数量级。**
-`compare_shaping_scale.py`，同一条轨迹（塑形 = 除终止步外各步裁剪后之和；last40/step = 悬停策略的日薪）：
+**14c. LLM candidates sit 2–4 orders of magnitude away from that ratio.**
+`compare_shaping_scale.py`, same trajectory (shaping = every step except the terminal one,
+clipped; "last40/step" = what a hovering policy collects):
 
-| 奖励 | 塑形 | 终止 | 比例 | last40/步 |
+| reward | shaping | terminal | ratio | last40/step |
 |---|---:|---:|---:|---:|
-| native（参考） | 8.45 | 300 | **0.028** | 0.028 |
-| `probeE`（76.7 %） | 9.17 | 20 | 0.458 | 0.114 |
-| `probeD`（73.3 %） | 184.2 | 20 | 9.2 | 4.49 |
+| native (reference) | 8.45 | 300 | **0.028** | 0.028 |
+| `probeE` (76.7 %) | 9.17 | 20 | 0.458 | 0.114 |
+| `probeD` (73.3 %) | 184.2 | 20 | 9.2 | 4.49 |
 | v7 `cand_00` | 76.7 | 20 | 3.8 | 4.11 |
 | v7 `cand_02` | 313.4 | 20 | 15.7 | 4.57 |
-| v7 `cand_01`（= 那个 5 % 命中） | 3063.7 | 20 | **153** | 6.78 |
-| `r09`（oracle 修复，38.3 %） | 323.9 | 20 | 16.2 | 5.02 |
-| `q02`（×100，41 %） | 551.2 | 20 | 27.6 | 5.24 |
+| v7 `cand_01` (= the 5 % hit) | 3063.7 | 20 | **153** | 6.78 |
+| `r09` (oracle repair, 38.3 %) | 323.9 | 20 | 16.2 | 5.02 |
+| `q02` (×100, 41 %) | 551.2 | 20 | 27.6 | 5.24 |
 
-按比例排序与实测的 `dock_entered`/成功率排序一致：奖励的「塑形 : 终止」比例越接近原生，越学得动。
-这里每个奖励只有 **1 条轨迹**的观察，尚未预注册，也还没有做出因果断言。
-
-**由此得到的 v8 方向（尚未写入 prompt）**：v7 同时要求「停稳期每步收益必须存在且线性增长」和
-「完成状态下除一次性事件外其余组件必须恰好为 0」——这两条针对的是同一个状态，生成器只能二选一
-（8 个候选里 7 个把每步收益门控在 `not _PAID`）。v8 要把「其余组件为 0」收窄到**持久的状态型正项**，
-把每步收益明确豁免；同时把「塑形必须 telescope、累积有界」和「终止项必须是值目标的主导项」写成规则
-（v5–v7 从未提过这条），并保留「系数交给生成器」。
+Ordering by ratio tracks the measured `dock_entered`/success ordering: the closer a
+reward's shaping-to-terminal ratio is to the native reward's, the better it learns.
+Reported here as an observation with n = 1 trajectory per reward; it has not been
+pre-registered and no causal claim is made yet.
 
 ---
 
-## 15. 本仓库包含什么 / 不包含什么
+## 15. File map
 
-**包含**（全部是「过程」本身）：
-
-| 目录 | 内容 |
+| category | files |
 |---|---|
-| `configs/` | 全部实验配置（CREATE / EUREKA / 各 pilot / clip A-B） |
-| `prompts/` | prompt 谱系 v1→v7、EUREKA 编辑 prompt、CREATE 各阶段 prompt |
-| `pipeline/`, `training/`, `llm_clients/` | CREATE 与 EUREKA 两个驱动、PPO harness、模型客户端 |
-| `runs/env_007/*.md` | 每个阶段各一份预注册 + 结果（本文件即其索引） |
-| `runs/env_007/<实验目录>/` | 每个实验的奖励代码、逐候选生成记录、训练摘要、评测 JSON |
-| 根目录 `*.py` | 免训练诊断、评测、以及生成各消融/修复变体的脚本 |
+| entry / resume | `NEXT_SESSION.md`, `SESSION_STATE.md`, `HANDOFF_QUESTIONS.md`, this file |
+| environment | `custom_envs/fragile_cargo_dock_env.py`, `envs/env_007/`, `envs/env_007/task_spec_anonymized{,_v2}.yaml` |
+| harness | `training/train_sb3_wrapper.py`, `training/reward_wrapper.py`, `configs/env007_*.yaml`, `runs/env_007/train_queue.ps1` |
+| baseline | `run_fragilecargo_baseline.py`, `runs/env_007/CALIBRATION.md`, `runs/env_007/{baseline,ac3_s0..s3,calib_*,confirm_s*}/` |
+| prompts | `prompts/eureka_01_initial_reward{,_v2..v7}.md`, `prompts/eureka_02_reward_edit*.md`, `make_prompt_v7.py` |
+| generation-only tools | `pilot_generate_only.py`, `pilot_train_existing.py`, `pilot_ab_summary.py` |
+| training-free diagnostics | `analyze_terminal_dominance.py`, `trajectory_ranking_check.py`, `advantage_scale_probe.py`, `check_settled_stream.py`, `measure_release_ballistics.py`, `component_share_report.py`, `probe_v7_shape.py`, `analyze_native_reward.py`, `compare_shaping_scale.py` |
+| selection studies | `ladder_analysis.py`, `rung_analysis.py`, `mechanistic_readout.py`, `diagnose_ridge.py`, `eval_pool.py`, `eval_fresh_seeds.py`, `diagnose_control.py` |
+| oracle repairs and ablations | `make_repair_variants.py`, `make_recipe_replication.py`, `make_align_fix_variants.py`, `make_overshoot_variants.py`, `make_approach_variants.py`, `make_ridge_variants.py`, `run_repair_loop.py`, `repair_loop_analysis.py`, `v7_analysis.py` |
+| raw runs | `runs/env_007/{prompt_ladder,prompt_ladder_v7,prompt_ab,terminal_rule_pilot*,repair_test,align_fix_test,recipe_replication,repair_loop,overshoot_ablation,approach_ablation,ridge_width,rung_06m,rung_10m,ladder_train,v4_train,control_obs_only,passthrough_probe,ablation_probe,fragilecargo_create*,fragilecargo_eureka*}/` |
 
-**不包含**（都可从配置重跑，或体积过大）：
+## 16. Standing constraints (violating these invalidates the work)
 
-* 训练产生的 `model.zip` / `vecnormalize.pkl`（`best/` 下的小文件除外）、monitor CSV、tensorboard、
-  `*.mp4` 视频（占位静图 PNG 保留）；
-* 每个候选的**完整 prompt 记录** `prompt_records/`（约 5.6 MB，可由 `pilot_generate_only.py` 重跑复现）；
-* 旧环境（env_001/002/004/005）与论文写作产物，它们只在
-  [expert-reward-agent](https://github.com/Nicole-ying/expert-reward-agent) 主仓库里；
-* 完整训练日志（每个 1.2 M 步训练约 96 KB × 数百个）。
-
-## 16. 硬约束（违反即作废）
-
-* `EUREKA_DEEPSEEK_API_KEY` 用于生成/EUREKA 流程，`DEEPSEEK_API_KEY` 用于 CREATE。
-  密钥**只从环境变量读取，永不写入文件**；本仓库内的 `*.sh` 与 `runs/env_001/...` 的复现脚本都依赖
-  环境变量，仓库里不含任何密钥。
-* 生成只允许 `deepseek-flash`；必须导出 `DEEPSEEK_THINKING=disabled`。
-* **不要同时开 8 个训练。** 绑定资源是 Windows 页面文件 / commit 上限而不是内存；worker 会在
-  `import torch` 时以 `WinError 1455` 死掉，而父进程**挂在 0 CPU** 看起来像卡住。用
-  `runs/env_007/train_queue.ps1`，`-MaxParallel 4` 或更低。
-* `runs/env_007/passthrough_probe/reward.py` 与 `runs/env_007/ablation_probe/*` 会读 `info`，是诊断：
-  永远不要把它们放进任何 population / lineage / elite 集合。
-* 60 个新鲜种子 **30000–30059** 是诚实评测块，必须对任何选择过程保持留出。
+* `EUREKA_DEEPSEEK_API_KEY` for the generation/EUREKA flow, `DEEPSEEK_API_KEY` for CREATE.
+  Keys are read from the environment only and are **never** written to a file. The
+  reproduction scripts under `runs/env_001/ablation_eureka_feedback_v4/reproduction/`
+  expect the key in the environment.
+* Only `deepseek-flash` for generation; `DEEPSEEK_THINKING=disabled` must be exported.
+* **Do not launch 8 trainings at once.** The binding resource is the Windows page
+  file / commit limit, not RAM; workers then die during `import torch` with
+  `WinError 1455` and the parent hangs at 0 CPU. Use `runs/env_007/train_queue.ps1`
+  with `-MaxParallel 4` or lower.
+* `runs/env_007/passthrough_probe/reward.py` and `runs/env_007/ablation_probe/*` read
+  `info` and are diagnostics: never add them to a population, lineage or elite set.
+* The 60 fresh seeds **30000–30059** are the honest evaluation block and must stay held
+  out from any selection.

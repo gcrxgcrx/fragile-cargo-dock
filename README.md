@@ -183,7 +183,29 @@ prompt 谱系（`prompts/`）与全部实验配置（`configs/`）。它们在�
 `run_fragilecargo_baseline.py` 与全部免训练诊断脚本（`analyze_terminal_dominance.py` 等）在本仓库可直接运行。
 
 ---
-## 5. 标定结论（重要）
+## 5. 2026-09-21 那一轮：把「缺什么成分」问到了底
+
+完整过程与原始数据在 `runs/env_007/`，索引见 [`runs/env_007/RESEARCH_LOG.md`](runs/env_007/RESEARCH_LOG.md)；给外部评审的完整状态文档（含三份补充）在
+[`docs/external_reviews/fragilecargo_status_and_open_problems.md`](docs/external_reviews/fragilecargo_status_and_open_problems.md)。
+
+| 实验 | 预注册 + 结果 | 结论 |
+|---|---|---|
+| **单变量隔离**：`control_v1` vs `control_v1` + 一个仅用观测的接近速度惩罚 | `runs/env_007/CLOSE_SPEED_ISOLATION_{PREREGISTRATION,FINDINGS}.md` | 机制干净：`C0` 入坞率 0.90 却**平均连一步都停不住**（最大连续停稳步数 0.83），加那一项后 5-8 步、seed 0 从 0/60 到 46/60。**但 4 种子配对检验判 N（null）**（95 % 区间 [−79.5, +53.0]，p = 0.55）——单种子对比是一次抽样 |
+| **v8 prompt**：删掉「停稳期每步收益 vs 完成状态其余组件必须为 0」的自相矛盾 | `runs/env_007/V8_PROMPT_PREREGISTRATION.md`、`prompts/eureka_01_initial_reward_v8.md` | 形式修好了：7/8 候选不再关掉停稳收益；`cand_01` 的推进项每回合 **14.04**（v7 是 2747，修好 400 倍）、停稳项成为主导 → **4/60、入坞 0.70**（v7 最好 3/60、0.18）——**但仍停不住**（2.42 步） |
+| **系数强度假设** | `runs/env_007/CALIBRATION_TEST_PREREGISTRATION.md` | **被自己的实验否掉**：把 gentleness 系数放大 15× / 50×，入坞率 0.70 → **0.00**，策略连动都不动 |
+| **种子复制**（每臂 4 个 training seed，同一块） | `runs/env_007/SEED_REPLICATION_{PREREGISTRATION,FINDINGS}.md` | **手写奖励 `control_v1` 在 4 个种子上是 0 / 43 / 54 / 35 / 60。** 重读既有 rung 数据后，`probeC`（98.3 % 的臂）在 0.6M 是 25/0/0、`probeD`（73.3 %）在 1.0M 是 0/31/1 —— **LLM 臂与手写臂的成功率分布是重叠的** |
+| **种子 × 预算** | 同上 §2c | **1.2M 无法预测 3M**：`C1` 的好种子 45/60（1.2M）→ **3/60**（3M）；3M 下四个格子里三个是 0–3/60、只有一个是 51/60，而两臂入坞率都是 0.88–0.92 |
+
+**三条可执行的结论：**
+
+1. **不存在便宜的筛选法**：1.2M 看不出 3M 的结果。选择必须在你要报告的预算上、以 **>= 3 个 training seed** 为单位，报分布而不是单个数字。
+2. **项目里每一个 3M 单种子数字都是抽样**（本仓库 `experiments/` 里两个方法的 0/20 也一样）。**要修的是 pipeline 的选择指标**（当前用单种子 `mean_eval_reward` 排序），不是 prompt、不是生成器、不是证据通道。
+3. **唯一与结果同向的信号是策略行为统计量**，不是奖励函数的属性：训练中停稳项每回合实际收益（19→0/60、68→0/60、97→26、140→46、170→48、272→51，一处反序 380→13）。这解释了为什么五个**免训练**探针全部失败——它们测的是奖励函数，而这个测的是**策略轨迹**。
+
+---
+
+
+## 6. 标定结论（重要）
 
 完整报告见 [`runs/env_007/CALIBRATION.md`](runs/env_007/CALIBRATION.md)。
 
@@ -228,7 +250,7 @@ iteration:
 
 ---
 
-## 6. 快速开始
+## 7. 快速开始
 
 ### 安装
 
@@ -275,7 +297,7 @@ python record_fragilecargo_policies.py --seeds 20000,20018 --keep-frames
 
 ---
 
-## 7. 文件结构
+## 8. 文件结构
 ```
 .
 ├── README.md
@@ -324,7 +346,7 @@ python record_fragilecargo_policies.py --seeds 20000,20018 --keep-frames
     ├── fragilecargo_create{,_v2}/ · fragilecargo_eureka{,_v2,_v5}/  # 搜索过程的逐轮产物
     └── videos/ · reward_search_videos/ · overshoot_videos/          # 渲染静图
 ```
-## 8. 实现备忘（踩过的坑）
+## 9. 实现备忘（踩过的坑）
 
 1. **pybox2d 的刚体身份比较**。`fixture.body` 每次访问都返回**不同的 Python 包装对象**，所以 `a is body` 恒为 `False`（`a == body` 才比较底层指针）。最初用 `is` 判断接触对，导致 `contact_impulse` 恒为 0。现改为给两个刚体打 `userData` 标签来识别。
 2. **导流挡板是必需的**。货箱带角度时外形包络会超过缺口净宽，卡在缺口边沿，把任务变成"解卡谜题"而非"精确入库"。缺口两侧加 41° 导流挡板后解决。
@@ -337,7 +359,7 @@ python record_fragilecargo_policies.py --seeds 20000,20018 --keep-frames
 
 ---
 
-## 9. 与 CREATE 主管线的接入
+## 10. 与 CREATE 主管线的接入
 
 本仓库只包含环境与基线。若要接入 CREATE 迭代奖励搜索（`expert-reward-agent` 项目），需要：
 
@@ -349,7 +371,7 @@ python record_fragilecargo_policies.py --seeds 20000,20018 --keep-frames
 
 ---
 
-## 10. 来源与致谢
+## 11. 来源与致谢
 
 本环境为 [CREATE / expert-reward-agent](https://github.com/Nicole-ying/expert-reward-agent) 项目的奖励工程研究而构建，用于验证"外层奖励工程智能体观察训练证据 → 反思 → 语义局部化地编辑奖励程序"这一循环。
 
