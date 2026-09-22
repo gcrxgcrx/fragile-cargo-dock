@@ -1,0 +1,11 @@
+# Subagent Research Signal
+
+**Key Findings**: score=279.6, terminated=18/20, len=194.9; terminal_success=270 of ~281 episode sum (96.0% signed share) at 0.5% active rate.
+
+**Component Anomalies**: terminal_success dominates (>70% share); hard_hit and terminal_failure dead (0% active, 0.0 mean); dock_enter sparse (0.5% active, 1.8% share); dense terms progress (71.7% active) and approach_cargo (99.3% active) contribute ~1.4% and ~0.4%.
+
+**Training Dynamics**: Across 11 checkpoints: terminal_success 0.4->290.0, dock_enter 0.17->4.83, progress 1.34->4.04, total_reward 1.36->28.91; time_cost -0.80->-0.35, action_cost -0.20->-0.09 decaying.
+
+**Signal Quality**: Reward is effectively sparse binary: one-shot terminal_success gate at 0.5% active; dense shaping terms have near-zero net share; score_range=[8.6,310.6] with 18/20 terminated.
+
+**Evidence Confidence**: `medium`

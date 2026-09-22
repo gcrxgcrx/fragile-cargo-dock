@@ -50,6 +50,21 @@ def write_json(path, obj):
     Path(path).write_text(json.dumps(obj, ensure_ascii=False, indent=2), encoding="utf-8")
 
 
+def read_reward_structure_block(cfg):
+    """Return the optional reward-structure knowledge block declared by the config.
+
+    `inputs.reward_structure_context_path` is the config-level way to tell the pipeline
+    what the environment's own reward is made of (term semantics and weights) without
+    opening any privileged channel. When the key is absent — which is the case for every
+    config that existed before this option — the block is empty and every consumer behaves
+    exactly as before.
+    """
+    rel = (cfg.get("inputs") or {}).get("reward_structure_context_path")
+    if not rel:
+        return ""
+    return read_text(rel).strip()
+
+
 def make_run_dir(cfg, run_name):
     """Create only the directories used by the current direct-generation pipeline.
 

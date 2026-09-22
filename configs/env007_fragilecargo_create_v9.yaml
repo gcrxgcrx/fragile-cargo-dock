@@ -1,0 +1,59 @@
+extends: env007_fragilecargo_eureka_v9.yaml
+
+# ---------------------------------------------------------------------------
+# CREATE on env_007 with BOTH known defects addressed.
+#
+# CREATE = `pipeline/run_iterative_experiment.py` (single lineage, structured
+# diagnosis, semantic-localised edit, intervention memory). It is NOT the
+# population search; that is `configs/env007_fragilecargo_eureka_v9_fixedspec.yaml`.
+#
+# Two changes against the config CREATE was last run with
+# (`configs/env007_fragilecargo_eureka.yaml`, artifact `fragilecargo_create_v2`,
+# best 17.694 over 10 rounds):
+#
+# 1. `inputs.task_spec_path` -> `task_spec_anonymized_v2.yaml`.
+#    The v1 spec does not contain the dock geometry, so the environment analyzer
+#    cannot state what "fully inside the dock" means numerically; the resulting
+#    card says the dimensions are "not directly verifiable" and the generator
+#    guesses a tolerance 6-8x too wide. See runs/env_007/PIPELINE_CONTEXT_DIAGNOSIS.md.
+#    The measured cost on the EUREKA side was generations 0-2 being worthless.
+#
+# 2. `inputs.reward_structure_context_path` -> the v9 structure block.
+#    The single input that moved EUREKA from 4/60 to 58/60 was information about the
+#    reward's structure (nine named terms with semantics and weights), not the
+#    operator, the evidence channel, the search, or the coefficient scale. CREATE's
+#    generator prompt is a different shape (role decomposition -> signal mapping ->
+#    formula operator) and, unlike v9, tells the model *not* to write a terminal
+#    success term because `explicit_success_flag_available=false`. Under this config
+#    the block is appended to the environment card, after the generator's own prompt
+#    and the expert context, so the block's own precedence declaration applies.
+#
+#    The block is extracted verbatim from `prompts/eureka_01_initial_reward_v9.md` by
+#    `tools/extract_v9_structure_block.py`; its sha256 is recorded in the file header
+#    and in the run's `v9_structure_block.md`.
+#
+# Declared asymmetry: both CREATE runs were produced with prompt files that have since
+# changed on disk (the recorded prompt of `fragilecargo_create_v2` contains a
+# "必须落实的 failure modes" section that the current
+# `prompts/02_reward_generator_prompt.md` does not). No config can restore that, so the
+# comparison against the old CREATE baseline is confounded by the prompt revision as
+# well as by these two changes. See runs/env_007/CREATE_V9_PREREGISTRATION.md.
+# ---------------------------------------------------------------------------
+
+inputs:
+  task_spec_path: envs/env_007/task_spec_anonymized_v2.yaml
+  # Appended verbatim to environment_card.md by pipeline/run_01_environment_analyzer_md.py
+  # and copied into the generation dir as `v9_structure_block.md`. Read by the reward
+  # generator and (via context.include_reward_structure_in_reflection) by the
+  # reflection agent. Empty/absent => no injection, i.e. old behaviour.
+  reward_structure_context_path: runs/env_007/CREATE_V9_STRUCTURE.md
+
+context:
+  # The reflection agent normally sees only card sections 1-7 (raw facts) on the
+  # grounds that sections 9-12 are pre-digested design advice for the initial
+  # generator. The structure block is not design advice, it is reward information, and
+  # without it an edit round cannot know that the candidate is missing native terms.
+  include_reward_structure_in_reflection: true
+
+iteration:
+  experiment_prefix: fragilecargo_create_v9

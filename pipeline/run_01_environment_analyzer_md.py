@@ -1,6 +1,14 @@
 import argparse
 from pathlib import Path
-from .common import load_config, read_text, write_text, make_run_dir, record_prompt, record_response
+from .common import (
+    load_config,
+    read_reward_structure_block,
+    read_text,
+    write_text,
+    make_run_dir,
+    record_prompt,
+    record_response,
+)
 from llm_clients.deepseek_client import DeepSeekClient
 
 MOCK_ENV_MD = """# Env_001 环境理解卡片
@@ -102,10 +110,26 @@ def run(config_path, run_name, mock=False):
             temperature=llm_cfg["temperature_environment_analyzer"],
             max_tokens=llm_cfg["max_tokens_env"],
             json_mode=False,
+            # The card is the pipeline's only environment context; a truncated one silently
+            # removes the facts the generator needs (measured: 146 B / 4.6 KB / 9.1 KB
+            # responses with finish_reason='length', against a normal 14-20 KB). Anything
+            # shorter is retried with a larger budget instead of being written.
+            min_content_chars=int(llm_cfg.get("min_chars_env_card", 8000)),
         )
 
     write_text(run_dir / "environment_card.md", env_md)
     record_response(run_dir, "01_environment_analyzer", env_md)
+
+    # Optional reward-structure knowledge block (config: inputs.reward_structure_context_path).
+    # It is kept in its own file next to the card, not pasted into the card text, so that
+    # (a) the card stays exactly what the analyzer produced and (b) the block's provenance
+    # and hash are visible in the run directory. The reward generator and the reflection
+    # agent append it themselves; see read_reward_structure_block().
+    block = read_reward_structure_block(cfg)
+    if block:
+        write_text(run_dir / "v9_structure_block.md", block + "\n")
+        print(run_dir / "v9_structure_block.md")
+
     print(run_dir / "environment_card.md")
 
 

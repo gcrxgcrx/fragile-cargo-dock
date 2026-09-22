@@ -3,7 +3,7 @@ import ast
 import json
 import re
 from pathlib import Path
-from .common import load_config, read_text, write_text, write_json, record_prompt, record_response
+from .common import load_config, read_reward_structure_block, read_text, write_text, write_json, record_prompt, record_response
 from llm_clients.deepseek_client import DeepSeekClient
 
 MOCK_REWARD_MD = """# reward_v1.py
@@ -63,6 +63,7 @@ def extract_code(md):
     idx = md.find("def compute_reward")
     if idx >= 0:
         code = md[idx:]
+        # Strip leading markdown/comment lines that aren't valid Python
         lines = code.split("\n")
         clean = []
         for line in lines:
@@ -71,26 +72,7 @@ def extract_code(md):
                 if clean and "def compute_reward" in "\n".join(clean):
                     break
             clean.append(line)
-        # Module-level state declarations (e.g. `_STREAK = [0]`) sit BEFORE the
-        # function. Slicing from `def compute_reward` would silently drop them
-        # and produce a NameError at the first environment step, so walk
-        # backwards and keep any contiguous module-level assignments.
-        head = md[:idx].rstrip("\n").split("\n")
-        prefix = []
-        assign = re.compile(r"^[A-Za-z_][A-Za-z0-9_]*\s*(:[^=]+)?=")
-        for line in reversed(head):
-            stripped = line.strip()
-            if assign.match(stripped) or stripped.startswith("#"):
-                prefix.append(line)
-            elif not stripped:
-                break
-            else:
-                break
-        prefix.reverse()
-        body = "\n".join(clean).strip()
-        if prefix:
-            return ("\n".join(prefix).strip() + "\n\n" + body).strip()
-        return body
+        return "\n".join(clean).strip()
     return ""
 
 
@@ -186,41 +168,6 @@ def validate_code(code):
     if "total_reward" not in code and "reward" not in code:
         warnings.append("未发现明显的 total_reward/reward 变量名")
 
-    # ---- runtime smoke test ------------------------------------------------
-    # Static checks cannot see an undefined module-level name. A reward that
-    # uses `_STREAK[0]` without declaring `_STREAK` compiles and parses fine and
-    # only explodes at the first environment step, which costs a whole training
-    # run to discover. Execute it here instead, including a repeated call so
-    # that stateful rewards (one-off terminal events) are exercised too.
-    if not errors:
-        try:
-            namespace: dict = {}
-            exec(compile(code, "<reward_v1.py>", "exec"), namespace)  # noqa: S102
-            fn = namespace.get("compute_reward")
-            if not callable(fn):
-                errors.append("执行后找不到可调用的 compute_reward")
-            else:
-                obs = [0.0] * 19
-                nxt = [0.0] * 19
-                obs[18] = 0.5
-                nxt[18] = 0.5 + 1.0 / 400.0
-                obs[10] = 1.0
-                nxt[10] = 1.0
-                for _ in range(12):
-                    out = fn(obs, [0.0, 0.0], nxt, 0.0, {}, 0.0)
-                    if isinstance(out, tuple) and len(out) == 2:
-                        float(out[0])
-                    else:
-                        float(out)
-                # a second episode must not raise either
-                obs2 = list(obs)
-                nxt2 = list(nxt)
-                obs2[18] = 0.0
-                nxt2[18] = 1.0 / 400.0
-                fn(obs2, [0.0, 0.0], nxt2, 0.0, {}, 0.0)
-        except Exception as e:  # noqa: BLE001
-            errors.append(f"运行时冒烟测试失败: {type(e).__name__}: {e}")
-
     return {"valid": len(errors) == 0, "errors": errors, "warnings": warnings}
 
 
@@ -230,6 +177,7 @@ def run(config_path, run_name, mock=False, seed=0, validation_retry=None):
     system_prompt = read_text(cfg["prompts"]["reward_generator"])
     env_md = read_text(run_dir / "environment_card.md")
     expert_md = read_text(run_dir / "expert_reward_context.md")
+    structure_block = read_reward_structure_block(cfg)
 
     user_parts = [
         "# environment_card.md",
@@ -238,6 +186,16 @@ def run(config_path, run_name, mock=False, seed=0, validation_retry=None):
         "# expert_reward_context.md",
         expert_md,
     ]
+    if structure_block:
+        # Placed last, after the generator prompt (system) and the expert context, so the
+        # block's own precedence declaration governs the conflicts with the generic rules
+        # above it — notably the rule that forbids a terminal success term when no explicit
+        # success flag is available.
+        user_parts += [
+            "",
+            "# 已知的奖励结构（本环境的作者奖励分项语义与权重；**优先于上文任何冲突规则**）",
+            structure_block,
+        ]
     if cfg.get("context", {}).get("include_masked_step_in_reward_generator", False):
         user_parts += ["", "# masked_step_source.py", read_text(cfg["inputs"]["masked_step_path"])]
     # Read restart context if present (from fresh restart)

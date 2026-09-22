@@ -1,0 +1,1239 @@
+runner_env_id: FragileCargoDock-v0
+reward_path: runs/env_007/prompt_ladder_v9/cand_05/reward_v1.py
+reward_source: generated_function
+run_name: v9_family_05
+n_envs: 6
+total_timesteps: 1200000
+reward_clip: 20.0
+error_fallback: zero
+ppo_args:
+  policy: MlpPolicy
+  verbose: '1'
+  device: cpu
+  seed: '0'
+  learning_rate: '0.0003'
+  n_steps: '2048'
+  batch_size: '128'
+  gae_lambda: '0.95'
+  gamma: '0.999'
+  n_epochs: '10'
+  ent_coef: '0.005'
+  clip_range: '0.2'
+  max_grad_norm: '0.5'
+  vf_coef: '0.5'
+  policy_kwargs: '{''ortho_init'': True, ''activation_fn'': <class ''torch.nn.modules.activation.Tanh''>,
+    ''net_arch'': {''pi'': [128, 128], ''vf'': [128, 128]}}'
+  tensorboard_log: runs/env_007/tensorboard
+model_path: runs\env_007\prompt_ladder_v9\cand_05\training\model.zip
+monitor_dir: runs\env_007\prompt_ladder_v9\cand_05\training\monitor
+tensorboard_log: runs/env_007/tensorboard
+normalization:
+  normalize_obs: true
+  normalize_reward: true
+  clip_obs: 10.0
+  clip_normalized_reward: 10.0
+  vecnormalize_path: runs\env_007\prompt_ladder_v9\cand_05\training\vecnormalize.pkl
+external_eval:
+  eval_episodes: 20
+  eval_seed_offset: 10000
+  eval_seeds:
+  - 10000
+  - 10001
+  - 10002
+  - 10003
+  - 10004
+  - 10005
+  - 10006
+  - 10007
+  - 10008
+  - 10009
+  - 10010
+  - 10011
+  - 10012
+  - 10013
+  - 10014
+  - 10015
+  - 10016
+  - 10017
+  - 10018
+  - 10019
+  episode_rewards:
+  - 0.5988220826380023
+  - 0.25513197922512326
+  - 0.16564655874392456
+  - 0.7755747913120236
+  - 0.16674594696581996
+  - 0.9982731381574155
+  - 0.4832314789761414
+  - 0.6658116887478732
+  - 0.5028873587835867
+  - 0.43440850569866757
+  - 1.252498408867713
+  - 1.0222813536395732
+  - 0.9556075709841579
+  - 0.5066856213391239
+  - 1.8591238856103014
+  - 0.1765449529466823
+  - 0.6755810892324826
+  - 0.4477566721783248
+  - 0.8000830597672506
+  - 0.36412969716439997
+  episode_lengths:
+  - 400
+  - 400
+  - 400
+  - 400
+  - 400
+  - 400
+  - 400
+  - 400
+  - 400
+  - 400
+  - 400
+  - 400
+  - 400
+  - 400
+  - 400
+  - 400
+  - 400
+  - 400
+  - 400
+  - 400
+  episode_terminated:
+  - false
+  - false
+  - false
+  - false
+  - false
+  - false
+  - false
+  - false
+  - false
+  - false
+  - false
+  - false
+  - false
+  - false
+  - false
+  - false
+  - false
+  - false
+  - false
+  - false
+  mean_eval_reward: 0.6553412920489293
+  mean_episode_length: 400
+  min_eval_reward: 0.16564655874392456
+  max_eval_reward: 1.8591238856103014
+  termination_breakdown:
+    terminated: 0
+    truncated: 20
+  final_policy_component_evaluation:
+    action_cost:
+      episode_sum_mean: -0.035277320727715146
+      episode_abs_sum_mean: 0.035277320727715146
+      signed_contribution_share: -0.011153421779349242
+      magnitude_share: 0.011153421779349242
+      active_rate: 1.0
+    approach_cargo:
+      episode_sum_mean: 1.1686178356409074
+      episode_abs_sum_mean: 1.8481519132852555
+      signed_contribution_share: 0.3694749870710339
+      magnitude_share: 0.5843192559968775
+      active_rate: 1.0
+    bounds_guard:
+      episode_sum_mean: 0.0
+      episode_abs_sum_mean: 0.0
+      signed_contribution_share: 0.0
+      magnitude_share: 0.0
+      active_rate: 0.0
+    dock_enter:
+      episode_sum_mean: 0.0
+      episode_abs_sum_mean: 0.0
+      signed_contribution_share: 0.0
+      magnitude_share: 0.0
+      active_rate: 0.0
+    hard_hit:
+      episode_sum_mean: 0.0
+      episode_abs_sum_mean: 0.0
+      signed_contribution_share: 0.0
+      magnitude_share: 0.0
+      active_rate: 0.0
+    progress:
+      episode_sum_mean: 0.4088886022567749
+      episode_abs_sum_mean: 0.4382596969604492
+      signed_contribution_share: 0.1292758902224534
+      magnitude_share: 0.13856197546344293
+      active_rate: 0.438375
+    roughness:
+      episode_sum_mean: -0.04122568174495882
+      episode_abs_sum_mean: 0.04122568174495882
+      signed_contribution_share: -0.013034079889221936
+      magnitude_share: 0.013034079889221936
+      active_rate: 0.015
+    settle_hold:
+      episode_sum_mean: 0.0
+      episode_abs_sum_mean: 0.0
+      signed_contribution_share: 0.0
+      magnitude_share: 0.0
+      active_rate: 0.0
+    terminal_failure:
+      episode_sum_mean: 0.0
+      episode_abs_sum_mean: 0.0
+      signed_contribution_share: 0.0
+      magnitude_share: 0.0
+      active_rate: 0.0
+    terminal_success:
+      episode_sum_mean: 0.0
+      episode_abs_sum_mean: 0.0
+      signed_contribution_share: 0.0
+      magnitude_share: 0.0
+      active_rate: 0.0
+    time_cost:
+      episode_sum_mean: -0.8000000000000006
+      episode_abs_sum_mean: 0.8000000000000006
+      signed_contribution_share: -0.2529312668711083
+      magnitude_share: 0.2529312668711083
+      active_rate: 1.0
+  final_policy_component_error_count: 0
+train_duration_sec: 629.7
+component_summary:
+  steps_seen: 1204224
+  reward_error_count_max: 0
+  component_stats:
+    component.action_cost:
+      count: 1204224
+      mean: -0.0005037125009139087
+      abs_mean: 0.0005037125009139087
+      nonzero_rate: 1.0
+      mean_when_active: -0.0005037125009139087
+      abs_mean_when_active: 0.0005037125009139087
+      min: -0.0010000000474974513
+      max: -2.437066382032782e-10
+    component.approach_cargo:
+      count: 1204224
+      mean: 0.0022839925331689204
+      abs_mean: 0.005667485970470003
+      nonzero_rate: 0.9999593098958334
+      mean_when_active: 0.002284085472844736
+      abs_mean_when_active: 0.0056677165904484555
+      min: -0.04211258888244629
+      max: 0.05535697937011719
+    component.bounds_guard:
+      count: 1204224
+      mean: -0.0007663259526131022
+      abs_mean: 0.0007663259526131022
+      nonzero_rate: 0.0008885390093537415
+      mean_when_active: -0.8624561719248228
+      abs_mean_when_active: 0.8624561719248228
+      min: -3.956188678741455
+      max: 0.0
+    component.dock_enter:
+      count: 1204224
+      mean: 0.0
+      abs_mean: 0.0
+      nonzero_rate: 0.0
+      mean_when_active: 0.0
+      abs_mean_when_active: 0.0
+      min: 0.0
+      max: 0.0
+    component.hard_hit:
+      count: 1204224
+      mean: -2.076025722789116e-06
+      abs_mean: 2.076025722789116e-06
+      nonzero_rate: 4.152051445578232e-06
+      mean_when_active: -0.5
+      abs_mean_when_active: 0.5
+      min: -0.5
+      max: 0.0
+    component.progress:
+      count: 1204224
+      mean: 0.0002881917564180952
+      abs_mean: 0.0003305939688932524
+      nonzero_rate: 0.170733185852466
+      mean_when_active: 0.0016879656698207902
+      abs_mean_when_active: 0.0019363193350057054
+      min: -0.04523038864135742
+      max: 0.045102834701538086
+    component.roughness:
+      count: 1204224
+      mean: -0.00015132533878511848
+      abs_mean: 0.00015132533878511848
+      nonzero_rate: 0.005607760682397959
+      mean_when_active: -0.026984985158177183
+      abs_mean_when_active: 0.026984985158177183
+      min: -0.23395907878875732
+      max: -0.0
+    component.settle_hold:
+      count: 1204224
+      mean: 0.0
+      abs_mean: 0.0
+      nonzero_rate: 0.0
+      mean_when_active: 0.0
+      abs_mean_when_active: 0.0
+      min: 0.0
+      max: 0.0
+    component.terminal_failure:
+      count: 1204224
+      mean: -0.0007473692602040816
+      abs_mean: 0.0007473692602040816
+      nonzero_rate: 7.473692602040816e-06
+      mean_when_active: -100.0
+      abs_mean_when_active: 100.0
+      min: -100.0
+      max: 0.0
+    component.terminal_success:
+      count: 1204224
+      mean: 0.0
+      abs_mean: 0.0
+      nonzero_rate: 0.0
+      mean_when_active: 0.0
+      abs_mean_when_active: 0.0
+      min: 0.0
+      max: 0.0
+    component.time_cost:
+      count: 1204224
+      mean: -0.001999999999964186
+      abs_mean: 0.001999999999964186
+      nonzero_rate: 1.0
+      mean_when_active: -0.001999999999964186
+      abs_mean_when_active: 0.001999999999964186
+      min: -0.002
+      max: -0.002
+    component.total_reward:
+      count: 1204224
+      mean: -0.0009728231589042596
+      abs_mean: 0.006762331680770419
+      nonzero_rate: 1.0
+      mean_when_active: -0.0009728231589042596
+      abs_mean_when_active: 0.006762331680770419
+      min: -20.0
+      max: 0.053122036159038544
+    generated_reward:
+      count: 1204224
+      mean: -0.0009728231589042596
+      abs_mean: 0.006762331680770419
+      nonzero_rate: 1.0
+      mean_when_active: -0.0009728231589042596
+      abs_mean_when_active: 0.006762331680770419
+      min: -20.0
+      max: 0.053122036159038544
+    original_env_reward:
+      count: 1204224
+      mean: -0.0007356127559034031
+      abs_mean: 0.006516535311852765
+      nonzero_rate: 1.0
+      mean_when_active: -0.0007356127559034031
+      abs_mean_when_active: 0.006516535311852765
+      min: -100.02766236039803
+      max: 0.053122088178335414
+  episode_component_sum_stats:
+    action_cost:
+      count: 3008
+      mean: -0.2014317473110002
+      abs_mean: 0.2014317473110002
+      min: -0.2384814460956477
+      max: -0.10647033346521084
+    approach_cargo:
+      count: 3008
+      mean: 0.9121528170368773
+      abs_mean: 0.9879307207909036
+      min: -3.1049855947494507
+      max: 2.341736853122711
+    bounds_guard:
+      count: 3008
+      mean: -0.3067912579652794
+      abs_mean: 0.3067912579652794
+      min: -138.1203979253769
+      max: 0.0
+    dock_enter:
+      count: 3008
+      mean: 0.0
+      abs_mean: 0.0
+      min: 0.0
+      max: 0.0
+    hard_hit:
+      count: 3008
+      mean: -0.0008311170212765958
+      abs_mean: 0.0008311170212765958
+      min: -0.5
+      max: 0.0
+    progress:
+      count: 3008
+      mean: 0.11487515877060434
+      abs_mean: 0.12646389170054426
+      min: -2.092957019805908
+      max: 4.32641139626503
+    roughness:
+      count: 3008
+      mean: -0.06056302706610159
+      abs_mean: 0.06056302706610159
+      min: -3.933712324127555
+      max: 0.0
+    settle_hold:
+      count: 3008
+      mean: 0.0
+      abs_mean: 0.0
+      min: 0.0
+      max: 0.0
+    terminal_failure:
+      count: 3008
+      mean: -0.2992021276595745
+      abs_mean: 0.2992021276595745
+      min: -100.0
+      max: 0.0
+    terminal_success:
+      count: 3008
+      mean: 0.0
+      abs_mean: 0.0
+      min: 0.0
+      max: 0.0
+    time_cost:
+      count: 3008
+      mean: -0.7996815159574465
+      abs_mean: 0.7996815159574465
+      min: -0.8000000000000006
+      max: -0.3940000000000003
+    total_reward:
+      count: 3008
+      mean: -0.3909391263390175
+      abs_mean: 0.7898201072387545
+      min: -157.8582598140929
+      max: 3.381140385521576
+  monitor_snapshots: &id001
+  - steps: 120000
+    episodes: 300
+    mean_generated_reward: -0.011396543648445124
+    top_components:
+    - name: total_reward
+      episode_sum_mean: -4.559819415851574
+      mean: -0.011396543648445124
+      active_rate: 1.0
+      abs_frac_of_total: 0.3961748057713113
+      magnitude_share: 0.3961748057713113
+    - name: bounds_guard
+      episode_sum_mean: -3.047409323652585
+      mean: -0.007618523309131464
+      active_rate: 0.008775
+      abs_frac_of_total: 0.18364597629924037
+      magnitude_share: 0.18364597629924037
+    - name: terminal_failure
+      episode_sum_mean: -3.0
+      mean: -0.0075
+      active_rate: 7.5e-05
+      abs_frac_of_total: 0.18078894903339537
+      magnitude_share: 0.18078894903339537
+    - name: time_cost
+      episode_sum_mean: -0.7968066666666708
+      mean: -0.002000000000003482
+      active_rate: 1.0
+      abs_frac_of_total: 0.04821038640898937
+      magnitude_share: 0.04821038640898937
+    - name: action_cost
+      episode_sum_mean: -0.2077514048017762
+      mean: -0.0005215540137808564
+      active_rate: 1.0
+      abs_frac_of_total: 0.012572160268745339
+      magnitude_share: 0.012572160268745339
+    - name: roughness
+      episode_sum_mean: -0.05662889436770153
+      mean: -0.00014159608969809294
+      active_rate: 0.003825
+      abs_frac_of_total: 0.0034132010991675473
+      magnitude_share: 0.0034132010991675473
+    - name: progress
+      episode_sum_mean: 0.02501285950342814
+      mean: 6.278641025225321e-05
+      active_rate: 0.06875
+      abs_frac_of_total: 0.0042964998477204
+      magnitude_share: 0.0042964998477204
+    - name: approach_cargo
+      episode_sum_mean: 0.011745646198590597
+      mean: 4.229743480682373e-05
+      active_rate: 0.999825
+      abs_frac_of_total: 0.17089802127143025
+      magnitude_share: 0.17089802127143025
+    - name: dock_enter
+      episode_sum_mean: 0.0
+      mean: 0.0
+      active_rate: 0.0
+      abs_frac_of_total: 0.0
+      magnitude_share: 0.0
+    - name: hard_hit
+      episode_sum_mean: 0.0
+      mean: 0.0
+      active_rate: 0.0
+      abs_frac_of_total: 0.0
+      magnitude_share: 0.0
+    - name: settle_hold
+      episode_sum_mean: 0.0
+      mean: 0.0
+      active_rate: 0.0
+      abs_frac_of_total: 0.0
+      magnitude_share: 0.0
+    - name: terminal_success
+      episode_sum_mean: 0.0
+      mean: 0.0
+      active_rate: 0.0
+      abs_frac_of_total: 0.0
+      magnitude_share: 0.0
+  - steps: 240000
+    episodes: 300
+    mean_generated_reward: -0.0006835807785915677
+    top_components:
+    - name: time_cost
+      episode_sum_mean: -0.8000000000000043
+      mean: -0.002000000000003482
+      active_rate: 1.0
+      abs_frac_of_total: 0.11555656636806534
+      magnitude_share: 0.11555656636806534
+    - name: approach_cargo
+      episode_sum_mean: 0.7747247091929118
+      mean: 0.0019633067786693575
+      active_rate: 0.9999416666666666
+      abs_frac_of_total: 0.4045627672629854
+      magnitude_share: 0.4045627672629854
+    - name: total_reward
+      episode_sum_mean: -0.2839360973269989
+      mean: -0.0006835807785915677
+      active_rate: 1.0
+      abs_frac_of_total: 0.4198037985194639
+      magnitude_share: 0.4198037985194639
+    - name: action_cost
+      episode_sum_mean: -0.2169553841864509
+      mean: -0.0005423935935293428
+      active_rate: 1.0
+      abs_frac_of_total: 0.03133857064408892
+      magnitude_share: 0.03133857064408892
+    - name: roughness
+      episode_sum_mean: -0.09391948685583582
+      mean: -0.00023477486336075042
+      active_rate: 0.005358333333333333
+      abs_frac_of_total: 0.013564888539726396
+      magnitude_share: 0.013564888539726396
+    - name: progress
+      episode_sum_mean: 0.05388080517450968
+      mean: 0.00013444775144259136
+      active_rate: 0.09410833333333334
+      abs_frac_of_total: 0.01493266581907031
+      magnitude_share: 0.01493266581907031
+    - name: hard_hit
+      episode_sum_mean: -0.0016666666666666668
+      mean: -4.166666666666667e-06
+      active_rate: 8.333333333333334e-06
+      abs_frac_of_total: 0.00024074284659971696
+      magnitude_share: 0.00024074284659971696
+    - name: dock_enter
+      episode_sum_mean: 0.0
+      mean: 0.0
+      active_rate: 0.0
+      abs_frac_of_total: 0.0
+      magnitude_share: 0.0
+    - name: settle_hold
+      episode_sum_mean: 0.0
+      mean: 0.0
+      active_rate: 0.0
+      abs_frac_of_total: 0.0
+      magnitude_share: 0.0
+    - name: terminal_success
+      episode_sum_mean: 0.0
+      mean: 0.0
+      active_rate: 0.0
+      abs_frac_of_total: 0.0
+      magnitude_share: 0.0
+    - name: terminal_failure
+      episode_sum_mean: 0.0
+      mean: 0.0
+      active_rate: 0.0
+      abs_frac_of_total: 0.0
+      magnitude_share: 0.0
+    - name: bounds_guard
+      episode_sum_mean: 0.0
+      mean: 0.0
+      active_rate: 0.0
+      abs_frac_of_total: 0.0
+      magnitude_share: 0.0
+  - steps: 360000
+    episodes: 300
+    mean_generated_reward: 7.189443676616065e-05
+    top_components:
+    - name: approach_cargo
+      episode_sum_mean: 1.0021932353576024
+      mean: 0.0024943920662005743
+      active_rate: 0.9999833333333333
+      abs_frac_of_total: 0.4022707830700376
+      magnitude_share: 0.4022707830700376
+    - name: time_cost
+      episode_sum_mean: -0.8000000000000043
+      mean: -0.002000000000003482
+      active_rate: 1.0
+      abs_frac_of_total: 0.13311362747821268
+      magnitude_share: 0.13311362747821268
+    - name: action_cost
+      episode_sum_mean: -0.2150922344478288
+      mean: -0.0005377211930923879
+      active_rate: 1.0
+      abs_frac_of_total: 0.03578900929215779
+      magnitude_share: 0.03578900929215779
+    - name: progress
+      episode_sum_mean: 0.11292356888453166
+      mean: 0.00028230892221132916
+      active_rate: 0.1473
+      abs_frac_of_total: 0.02041367676235901
+      magnitude_share: 0.02041367676235901
+    - name: roughness
+      episode_sum_mean: -0.06683407363771646
+      mean: -0.00016708518409429114
+      active_rate: 0.005608333333333333
+      abs_frac_of_total: 0.011120657476308667
+      magnitude_share: 0.011120657476308667
+    - name: total_reward
+      episode_sum_mean: 0.03319042636857678
+      mean: 7.189443676616065e-05
+      active_rate: 1.0
+      abs_frac_of_total: 0.3972922459209242
+      magnitude_share: 0.3972922459209242
+    - name: dock_enter
+      episode_sum_mean: 0.0
+      mean: 0.0
+      active_rate: 0.0
+      abs_frac_of_total: 0.0
+      magnitude_share: 0.0
+    - name: hard_hit
+      episode_sum_mean: 0.0
+      mean: 0.0
+      active_rate: 0.0
+      abs_frac_of_total: 0.0
+      magnitude_share: 0.0
+    - name: settle_hold
+      episode_sum_mean: 0.0
+      mean: 0.0
+      active_rate: 0.0
+      abs_frac_of_total: 0.0
+      magnitude_share: 0.0
+    - name: terminal_success
+      episode_sum_mean: 0.0
+      mean: 0.0
+      active_rate: 0.0
+      abs_frac_of_total: 0.0
+      magnitude_share: 0.0
+    - name: terminal_failure
+      episode_sum_mean: 0.0
+      mean: 0.0
+      active_rate: 0.0
+      abs_frac_of_total: 0.0
+      magnitude_share: 0.0
+    - name: bounds_guard
+      episode_sum_mean: 0.0
+      mean: 0.0
+      active_rate: 0.0
+      abs_frac_of_total: 0.0
+      magnitude_share: 0.0
+  - steps: 480000
+    episodes: 300
+    mean_generated_reward: 1.3830043003933193e-05
+    top_components:
+    - name: approach_cargo
+      episode_sum_mean: 0.9842936825752259
+      mean: 0.0024614296674728394
+      active_rate: 0.999975
+      abs_frac_of_total: 0.39817662367902706
+      magnitude_share: 0.39817662367902706
+    - name: time_cost
+      episode_sum_mean: -0.8000000000000043
+      mean: -0.002000000000003482
+      active_rate: 1.0
+      abs_frac_of_total: 0.14553445787090694
+      magnitude_share: 0.14553445787090694
+    - name: action_cost
+      episode_sum_mean: -0.2134225501620792
+      mean: -0.0005336205270100391
+      active_rate: 1.0
+      abs_frac_of_total: 0.038830087053529236
+      magnitude_share: 0.038830087053529236
+    - name: progress
+      episode_sum_mean: 0.06950794110695521
+      mean: 0.00017376985276738803
+      active_rate: 0.07725833333333333
+      abs_frac_of_total: 0.012767025599634019
+      magnitude_share: 0.012767025599634019
+    - name: roughness
+      episode_sum_mean: -0.03509951581035542
+      mean: -8.774878952588854e-05
+      active_rate: 0.0033833333333333332
+      abs_frac_of_total: 0.006385236256228136
+      magnitude_share: 0.006385236256228136
+    - name: total_reward
+      episode_sum_mean: 0.00527949338274387
+      mean: 1.3830043003933193e-05
+      active_rate: 1.0
+      abs_frac_of_total: 0.39830656954067467
+      magnitude_share: 0.39830656954067467
+    - name: dock_enter
+      episode_sum_mean: 0.0
+      mean: 0.0
+      active_rate: 0.0
+      abs_frac_of_total: 0.0
+      magnitude_share: 0.0
+    - name: hard_hit
+      episode_sum_mean: 0.0
+      mean: 0.0
+      active_rate: 0.0
+      abs_frac_of_total: 0.0
+      magnitude_share: 0.0
+    - name: settle_hold
+      episode_sum_mean: 0.0
+      mean: 0.0
+      active_rate: 0.0
+      abs_frac_of_total: 0.0
+      magnitude_share: 0.0
+    - name: terminal_success
+      episode_sum_mean: 0.0
+      mean: 0.0
+      active_rate: 0.0
+      abs_frac_of_total: 0.0
+      magnitude_share: 0.0
+    - name: terminal_failure
+      episode_sum_mean: 0.0
+      mean: 0.0
+      active_rate: 0.0
+      abs_frac_of_total: 0.0
+      magnitude_share: 0.0
+    - name: bounds_guard
+      episode_sum_mean: 0.0
+      mean: 0.0
+      active_rate: 0.0
+      abs_frac_of_total: 0.0
+      magnitude_share: 0.0
+  - steps: 600000
+    episodes: 300
+    mean_generated_reward: 6.258311001486921e-05
+    top_components:
+    - name: approach_cargo
+      episode_sum_mean: 1.02064499715964
+      mean: 0.0025524706333875657
+      active_rate: 0.999975
+      abs_frac_of_total: 0.38523259417527544
+      magnitude_share: 0.38523259417527544
+    - name: time_cost
+      episode_sum_mean: -0.8000000000000043
+      mean: -0.002000000000003482
+      active_rate: 1.0
+      abs_frac_of_total: 0.14453231547219683
+      magnitude_share: 0.14453231547219683
+    - name: action_cost
+      episode_sum_mean: -0.20961839423557252
+      mean: -0.0005238774998088176
+      active_rate: 1.0
+      abs_frac_of_total: 0.03785861403551097
+      magnitude_share: 0.03785861403551097
+    - name: progress
+      episode_sum_mean: 0.07592481444279353
+      mean: 0.00018993321036299068
+      active_rate: 0.12724166666666667
+      abs_frac_of_total: 0.018243193408981447
+      magnitude_share: 0.018243193408981447
+    - name: roughness
+      episode_sum_mean: -0.06234565124356957
+      mean: -0.00015594308319401832
+      active_rate: 0.006183333333333333
+      abs_frac_of_total: 0.011269407447932827
+      magnitude_share: 0.011269407447932827
+    - name: total_reward
+      episode_sum_mean: 0.02460570582576717
+      mean: 6.258311001486921e-05
+      active_rate: 1.0
+      abs_frac_of_total: 0.40286387546010244
+      magnitude_share: 0.40286387546010244
+    - name: dock_enter
+      episode_sum_mean: 0.0
+      mean: 0.0
+      active_rate: 0.0
+      abs_frac_of_total: 0.0
+      magnitude_share: 0.0
+    - name: hard_hit
+      episode_sum_mean: 0.0
+      mean: 0.0
+      active_rate: 0.0
+      abs_frac_of_total: 0.0
+      magnitude_share: 0.0
+    - name: settle_hold
+      episode_sum_mean: 0.0
+      mean: 0.0
+      active_rate: 0.0
+      abs_frac_of_total: 0.0
+      magnitude_share: 0.0
+    - name: terminal_success
+      episode_sum_mean: 0.0
+      mean: 0.0
+      active_rate: 0.0
+      abs_frac_of_total: 0.0
+      magnitude_share: 0.0
+    - name: terminal_failure
+      episode_sum_mean: 0.0
+      mean: 0.0
+      active_rate: 0.0
+      abs_frac_of_total: 0.0
+      magnitude_share: 0.0
+    - name: bounds_guard
+      episode_sum_mean: 0.0
+      mean: 0.0
+      active_rate: 0.0
+      abs_frac_of_total: 0.0
+      magnitude_share: 0.0
+  - steps: 720000
+    episodes: 300
+    mean_generated_reward: -0.00013351947676371007
+    top_components:
+    - name: approach_cargo
+      episode_sum_mean: 0.9491911152998607
+      mean: 0.002371807621916135
+      active_rate: 0.9999583333333333
+      abs_frac_of_total: 0.37332970532032694
+      magnitude_share: 0.37332970532032694
+    - name: time_cost
+      episode_sum_mean: -0.8000000000000043
+      mean: -0.002000000000003482
+      active_rate: 1.0
+      abs_frac_of_total: 0.15264497799100119
+      magnitude_share: 0.15264497799100119
+    - name: action_cost
+      episode_sum_mean: -0.20874476632362993
+      mean: -0.0005219788310030421
+      active_rate: 1.0
+      abs_frac_of_total: 0.03983872358504458
+      magnitude_share: 0.03983872358504458
+    - name: progress
+      episode_sum_mean: 0.07460404396057128
+      mean: 0.00018680744369824727
+      active_rate: 0.127625
+      abs_frac_of_total: 0.01838469797285566
+      magnitude_share: 0.01838469797285566
+    - name: total_reward
+      episode_sum_mean: -0.05299627271946519
+      mean: -0.00013351947676371007
+      active_rate: 1.0
+      abs_frac_of_total: 0.40281519899054946
+      magnitude_share: 0.40281519899054946
+    - name: roughness
+      episode_sum_mean: -0.039362250385589354
+      mean: -9.844467319765613e-05
+      active_rate: 0.0033833333333333332
+      abs_frac_of_total: 0.007513542486780681
+      magnitude_share: 0.007513542486780681
+    - name: bounds_guard
+      episode_sum_mean: -0.028684356212615968
+      mean: -7.171089053153991e-05
+      active_rate: 0.00014166666666666668
+      abs_frac_of_total: 0.005473153653441474
+      magnitude_share: 0.005473153653441474
+    - name: dock_enter
+      episode_sum_mean: 0.0
+      mean: 0.0
+      active_rate: 0.0
+      abs_frac_of_total: 0.0
+      magnitude_share: 0.0
+    - name: hard_hit
+      episode_sum_mean: 0.0
+      mean: 0.0
+      active_rate: 0.0
+      abs_frac_of_total: 0.0
+      magnitude_share: 0.0
+    - name: settle_hold
+      episode_sum_mean: 0.0
+      mean: 0.0
+      active_rate: 0.0
+      abs_frac_of_total: 0.0
+      magnitude_share: 0.0
+    - name: terminal_success
+      episode_sum_mean: 0.0
+      mean: 0.0
+      active_rate: 0.0
+      abs_frac_of_total: 0.0
+      magnitude_share: 0.0
+    - name: terminal_failure
+      episode_sum_mean: 0.0
+      mean: 0.0
+      active_rate: 0.0
+      abs_frac_of_total: 0.0
+      magnitude_share: 0.0
+  - steps: 840000
+    episodes: 300
+    mean_generated_reward: 0.00016624859937195045
+    top_components:
+    - name: approach_cargo
+      episode_sum_mean: 1.0065729242563248
+      mean: 0.002528921960790952
+      active_rate: 0.9999833333333333
+      abs_frac_of_total: 0.3870025779425314
+      magnitude_share: 0.3870025779425314
+    - name: time_cost
+      episode_sum_mean: -0.8000000000000043
+      mean: -0.002000000000003482
+      active_rate: 1.0
+      abs_frac_of_total: 0.14988667090927169
+      magnitude_share: 0.14988667090927169
+    - name: action_cost
+      episode_sum_mean: -0.20110369670338826
+      mean: -0.0005026467355740434
+      active_rate: 1.0
+      abs_frac_of_total: 0.03767002291923759
+      magnitude_share: 0.03767002291923759
+    - name: progress
+      episode_sum_mean: 0.08307773033777872
+      mean: 0.00020862385630607605
+      active_rate: 0.13988333333333333
+      abs_frac_of_total: 0.015845210098775684
+      magnitude_share: 0.015845210098775684
+    - name: total_reward
+      episode_sum_mean: 0.0611834550932205
+      mean: 0.00016624859937195045
+      active_rate: 1.0
+      abs_frac_of_total: 0.4044506330181355
+      magnitude_share: 0.4044506330181355
+    - name: roughness
+      episode_sum_mean: -0.027363444070300225
+      mean: -6.865033536132614e-05
+      active_rate: 0.0031416666666666667
+      abs_frac_of_total: 0.005144885112048157
+      magnitude_share: 0.005144885112048157
+    - name: dock_enter
+      episode_sum_mean: 0.0
+      mean: 0.0
+      active_rate: 0.0
+      abs_frac_of_total: 0.0
+      magnitude_share: 0.0
+    - name: hard_hit
+      episode_sum_mean: 0.0
+      mean: 0.0
+      active_rate: 0.0
+      abs_frac_of_total: 0.0
+      magnitude_share: 0.0
+    - name: settle_hold
+      episode_sum_mean: 0.0
+      mean: 0.0
+      active_rate: 0.0
+      abs_frac_of_total: 0.0
+      magnitude_share: 0.0
+    - name: terminal_success
+      episode_sum_mean: 0.0
+      mean: 0.0
+      active_rate: 0.0
+      abs_frac_of_total: 0.0
+      magnitude_share: 0.0
+    - name: terminal_failure
+      episode_sum_mean: 0.0
+      mean: 0.0
+      active_rate: 0.0
+      abs_frac_of_total: 0.0
+      magnitude_share: 0.0
+    - name: bounds_guard
+      episode_sum_mean: 0.0
+      mean: 0.0
+      active_rate: 0.0
+      abs_frac_of_total: 0.0
+      magnitude_share: 0.0
+  - steps: 960000
+    episodes: 300
+    mean_generated_reward: 0.0004724405757287362
+    top_components:
+    - name: approach_cargo
+      episode_sum_mean: 1.1063084318240484
+      mean: 0.0027627376769979793
+      active_rate: 0.9999833333333333
+      abs_frac_of_total: 0.378447288745473
+      magnitude_share: 0.378447288745473
+    - name: time_cost
+      episode_sum_mean: -0.8000000000000043
+      mean: -0.002000000000003482
+      active_rate: 1.0
+      abs_frac_of_total: 0.14976115632063938
+      magnitude_share: 0.14976115632063938
+    - name: total_reward
+      episode_sum_mean: 0.18922923734295183
+      mean: 0.0004724405757287362
+      active_rate: 1.0
+      abs_frac_of_total: 0.39605948338528124
+      magnitude_share: 0.39605948338528124
+    - name: action_cost
+      episode_sum_mean: -0.18626693810239628
+      mean: -0.00046551825041904276
+      active_rate: 1.0
+      abs_frac_of_total: 0.03485827573549771
+      magnitude_share: 0.03485827573549771
+    - name: progress
+      episode_sum_mean: 0.14238772789637247
+      mean: 0.00035788934826850894
+      active_rate: 0.20989166666666667
+      abs_frac_of_total: 0.02719550593479068
+      magnitude_share: 0.02719550593479068
+    - name: roughness
+      episode_sum_mean: -0.07153326165116596
+      mean: -0.00017850139245350268
+      active_rate: 0.005883333333333333
+      abs_frac_of_total: 0.013366287469317135
+      magnitude_share: 0.013366287469317135
+    - name: hard_hit
+      episode_sum_mean: -0.0016666666666666668
+      mean: -4.166666666666667e-06
+      active_rate: 8.333333333333334e-06
+      abs_frac_of_total: 0.00031200240900078883
+      magnitude_share: 0.00031200240900078883
+    - name: dock_enter
+      episode_sum_mean: 0.0
+      mean: 0.0
+      active_rate: 0.0
+      abs_frac_of_total: 0.0
+      magnitude_share: 0.0
+    - name: settle_hold
+      episode_sum_mean: 0.0
+      mean: 0.0
+      active_rate: 0.0
+      abs_frac_of_total: 0.0
+      magnitude_share: 0.0
+    - name: terminal_success
+      episode_sum_mean: 0.0
+      mean: 0.0
+      active_rate: 0.0
+      abs_frac_of_total: 0.0
+      magnitude_share: 0.0
+    - name: terminal_failure
+      episode_sum_mean: 0.0
+      mean: 0.0
+      active_rate: 0.0
+      abs_frac_of_total: 0.0
+      magnitude_share: 0.0
+    - name: bounds_guard
+      episode_sum_mean: 0.0
+      mean: 0.0
+      active_rate: 0.0
+      abs_frac_of_total: 0.0
+      magnitude_share: 0.0
+  - steps: 1080000
+    episodes: 300
+    mean_generated_reward: 0.0005820415228168713
+    top_components:
+    - name: approach_cargo
+      episode_sum_mean: 1.0819462466239929
+      mean: 0.0027093762770295142
+      active_rate: 0.9999916666666666
+      abs_frac_of_total: 0.3749040318367489
+      magnitude_share: 0.3749040318367489
+    - name: time_cost
+      episode_sum_mean: -0.8000000000000043
+      mean: -0.002000000000003482
+      active_rate: 1.0
+      abs_frac_of_total: 0.14543483874834853
+      magnitude_share: 0.14543483874834853
+    - name: total_reward
+      episode_sum_mean: 0.2318781924697881
+      mean: 0.0005820415228168713
+      active_rate: 1.0
+      abs_frac_of_total: 0.3904059025939536
+      magnitude_share: 0.3904059025939536
+    - name: progress
+      episode_sum_mean: 0.2171338431040446
+      mean: 0.0005406798164049784
+      active_rate: 0.31414166666666665
+      abs_frac_of_total: 0.04067894171429598
+      magnitude_share: 0.04067894171429598
+    - name: action_cost
+      episode_sum_mean: -0.17707288932750204
+      mean: -0.00044270002903614347
+      active_rate: 1.0
+      abs_frac_of_total: 0.032192003668324316
+      magnitude_share: 0.032192003668324316
+    - name: roughness
+      episode_sum_mean: -0.08512894977849404
+      mean: -0.00021281439618408817
+      active_rate: 0.008908333333333334
+      abs_frac_of_total: 0.015475313696153067
+      magnitude_share: 0.015475313696153067
+    - name: hard_hit
+      episode_sum_mean: -0.005
+      mean: -1.25e-05
+      active_rate: 2.5e-05
+      abs_frac_of_total: 0.0009089677421755957
+      magnitude_share: 0.0009089677421755957
+    - name: dock_enter
+      episode_sum_mean: 0.0
+      mean: 0.0
+      active_rate: 0.0
+      abs_frac_of_total: 0.0
+      magnitude_share: 0.0
+    - name: settle_hold
+      episode_sum_mean: 0.0
+      mean: 0.0
+      active_rate: 0.0
+      abs_frac_of_total: 0.0
+      magnitude_share: 0.0
+    - name: terminal_success
+      episode_sum_mean: 0.0
+      mean: 0.0
+      active_rate: 0.0
+      abs_frac_of_total: 0.0
+      magnitude_share: 0.0
+    - name: terminal_failure
+      episode_sum_mean: 0.0
+      mean: 0.0
+      active_rate: 0.0
+      abs_frac_of_total: 0.0
+      magnitude_share: 0.0
+    - name: bounds_guard
+      episode_sum_mean: 0.0
+      mean: 0.0
+      active_rate: 0.0
+      abs_frac_of_total: 0.0
+      magnitude_share: 0.0
+  - steps: 1200000
+    episodes: 300
+    mean_generated_reward: 0.0010499707664722033
+    top_components:
+    - name: approach_cargo
+      episode_sum_mean: 1.1826747101545334
+      mean: 0.002946091847618421
+      active_rate: 0.999975
+      abs_frac_of_total: 0.379296858167569
+      magnitude_share: 0.379296858167569
+    - name: time_cost
+      episode_sum_mean: -0.8000000000000043
+      mean: -0.002000000000003482
+      active_rate: 1.0
+      abs_frac_of_total: 0.13828477527448452
+      magnitude_share: 0.13828477527448452
+    - name: total_reward
+      episode_sum_mean: 0.4216975526379732
+      mean: 0.0010499707664722033
+      active_rate: 1.0
+      abs_frac_of_total: 0.38883627447867974
+      magnitude_share: 0.38883627447867974
+    - name: progress
+      episode_sum_mean: 0.28555689334869383
+      mean: 0.0007203934113184611
+      active_rate: 0.391775
+      abs_frac_of_total: 0.050954818319002795
+      magnitude_share: 0.050954818319002795
+    - name: action_cost
+      episode_sum_mean: -0.17900831167495915
+      mean: -0.0004474590414689325
+      active_rate: 1.0
+      abs_frac_of_total: 0.030938386496979924
+      magnitude_share: 0.030938386496979924
+    - name: roughness
+      episode_sum_mean: -0.06752567989361372
+      mean: -0.00016905530258270194
+      active_rate: 0.01025
+      abs_frac_of_total: 0.011688887263284108
+      magnitude_share: 0.011688887263284108
+    - name: dock_enter
+      episode_sum_mean: 0.0
+      mean: 0.0
+      active_rate: 0.0
+      abs_frac_of_total: 0.0
+      magnitude_share: 0.0
+    - name: hard_hit
+      episode_sum_mean: 0.0
+      mean: 0.0
+      active_rate: 0.0
+      abs_frac_of_total: 0.0
+      magnitude_share: 0.0
+    - name: settle_hold
+      episode_sum_mean: 0.0
+      mean: 0.0
+      active_rate: 0.0
+      abs_frac_of_total: 0.0
+      magnitude_share: 0.0
+    - name: terminal_success
+      episode_sum_mean: 0.0
+      mean: 0.0
+      active_rate: 0.0
+      abs_frac_of_total: 0.0
+      magnitude_share: 0.0
+    - name: terminal_failure
+      episode_sum_mean: 0.0
+      mean: 0.0
+      active_rate: 0.0
+      abs_frac_of_total: 0.0
+      magnitude_share: 0.0
+    - name: bounds_guard
+      episode_sum_mean: 0.0
+      mean: 0.0
+      active_rate: 0.0
+      abs_frac_of_total: 0.0
+      magnitude_share: 0.0
+  - steps: 1204224
+    episodes: 8
+    mean_generated_reward: 0.0009136331076605887
+    top_components:
+    - name: approach_cargo
+      episode_sum_mean: 0.9583705067634583
+      mean: 0.002485508635414369
+      active_rate: 1.0
+      abs_frac_of_total: 0.3735766236915819
+      magnitude_share: 0.3735766236915819
+    - name: time_cost
+      episode_sum_mean: -0.8000000000000006
+      mean: -0.0019999999999998795
+      active_rate: 1.0
+      abs_frac_of_total: 0.1419975211832901
+      magnitude_share: 0.1419975211832901
+    - name: progress
+      episode_sum_mean: 0.4426761567592621
+      mean: 0.0009778946299444544
+      active_rate: 0.4365530303030303
+      abs_frac_of_total: 0.06942930671528584
+      magnitude_share: 0.06942930671528584
+    - name: total_reward
+      episode_sum_mean: 0.37017810066754464
+      mean: 0.0009136331076605887
+      active_rate: 1.0
+      abs_frac_of_total: 0.3759635586441927
+      magnitude_share: 0.3759635586441927
+    - name: action_cost
+      episode_sum_mean: -0.17446561522677406
+      mean: -0.00043710154683561755
+      active_rate: 1.0
+      abs_frac_of_total: 0.031033668078021603
+      magnitude_share: 0.031033668078021603
+    - name: roughness
+      episode_sum_mean: -0.05640288831637008
+      mean: -0.00011266846943478662
+      active_rate: 0.009943181818181818
+      abs_frac_of_total: 0.007999321687627974
+      magnitude_share: 0.007999321687627974
+    - name: dock_enter
+      episode_sum_mean: 0.0
+      mean: 0.0
+      active_rate: 0.0
+      abs_frac_of_total: 0.0
+      magnitude_share: 0.0
+    - name: hard_hit
+      episode_sum_mean: 0.0
+      mean: 0.0
+      active_rate: 0.0
+      abs_frac_of_total: 0.0
+      magnitude_share: 0.0
+    - name: settle_hold
+      episode_sum_mean: 0.0
+      mean: 0.0
+      active_rate: 0.0
+      abs_frac_of_total: 0.0
+      magnitude_share: 0.0
+    - name: terminal_success
+      episode_sum_mean: 0.0
+      mean: 0.0
+      active_rate: 0.0
+      abs_frac_of_total: 0.0
+      magnitude_share: 0.0
+    - name: terminal_failure
+      episode_sum_mean: 0.0
+      mean: 0.0
+      active_rate: 0.0
+      abs_frac_of_total: 0.0
+      magnitude_share: 0.0
+    - name: bounds_guard
+      episode_sum_mean: 0.0
+      mean: 0.0
+      active_rate: 0.0
+      abs_frac_of_total: 0.0
+      magnitude_share: 0.0
+monitor_snapshots: *id001

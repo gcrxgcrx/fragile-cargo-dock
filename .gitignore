@@ -1,14 +1,54 @@
-﻿__pycache__/
-*.py[cod]
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+.env
 *.egg-info/
-.pytest_cache/
-
-# Training artefacts that are cheap to regenerate
-*.monitor.csv
-events.out.tfevents.*
-
-# Training logs (one per run: cheap to regenerate from the configs)
+dist/
+build/
+.idea/
+.vscode/
+# Logs — track experiment logs; ignore only temp/root logs
 *.log
+!logs/*.log
+!runs/**/*.log
 
-# Videos (large binaries; the still PNGs next to them are kept)
-*.mp4
+# Model zips — track best policies; ignore intermediate training zips
+*.zip
+!runs/**/best/**/*.zip
+
+# Model binaries — ignore intermediate; keep best
+*.pkl
+*.pt
+*.onnx
+*.pb
+*.h5
+*.bin
+!runs/**/best/**/*.zip
+!runs/**/best/**/*.pkl
+
+# Monitor CSV (can be large)
+**/monitor*.csv
+
+# Tensorboard event files (large, reproducible from training)
+runs/**/tensorboard/
+events.out.*
+
+# GIFs (large binary, reproducible from model)
+*.gif
+runs/**/*.gif
+
+# Large root-level logs (auto-generated, content preserved in runs/)
+exp_*.log
+unconstrained_*.log
+paper_lander_*.log
+
+# Exclude large log files (>5MB) while keeping smaller ones
+logs/exp_*.log
+logs/paper_*.log
+logs/lander_*.log
+logs/baseline_*.log
+logs/chat_gen_*.log
+logs/unconstrained_*.log
+

@@ -94,9 +94,19 @@ def run_investigator(
     client: Any = None,
     model: str = "deepseek-chat",
     max_tokens: int = 2000,
+    max_turns: int = 3,
 ) -> Dict[str, Any]:
     """Single-call evidence scout. Pre-loads all data, sends one prompt,
-    returns a structured JSON signal. No function calling, no multi-turn."""
+    returns a structured JSON signal. No function calling, no multi-turn.
+
+    `max_turns` is accepted for interface compatibility with
+    `subagent_investigator.max_turns` in the configs: this investigator is single-call by
+    design (see the module docstring), so the value has no effect. It used to be absent,
+    which made every reflection call raise `TypeError: run_investigator() got an unexpected
+    keyword argument 'max_turns'`; the caller catches that and continues without a signal,
+    so the whole subagent stage was silently skipped in every round of the previous CREATE
+    run. `turns_used` in the returned dict is the honest count (0 or 1).
+    """
 
     # Pre-load all data
     summary = _read_training_summary(train_dir)

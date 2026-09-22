@@ -1,0 +1,1 @@
+分析：20/20 评估回合全部 truncation、`dock_enter` 在约 70% 回合触发（+5 一次性），说明策略已能把货箱送到泊位中心，但 `settle_bonus` 与 `terminal_success` 激活率≈0%，即 "在泊位∧对齐∧慢" 这一二值谓词从未成立——完

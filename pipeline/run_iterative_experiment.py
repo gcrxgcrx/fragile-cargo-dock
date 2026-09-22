@@ -11,13 +11,6 @@ from pathlib import Path
 
 from .common import load_config
 
-# Register repository-local custom environments. Registration lives in one
-# place so that adding an environment does not require editing this file.
-_REPO_ROOT = Path(__file__).resolve().parents[1]
-if str(_REPO_ROOT) not in sys.path:
-    sys.path.insert(0, str(_REPO_ROOT))
-from custom_envs import registration as _custom_env_registration  # noqa: E402,F401
-
 
 def run_cmd(cmd):
     cmd = [sys.executable if arg == "python" else arg for arg in cmd]
@@ -434,7 +427,7 @@ def write_experiment_summary(cfg, prefix, seed, stopped_reason, best_iter, best_
     (exp_root / "experiment_summary.md").write_text(text, encoding="utf-8")
 
 
-def run_iterative_experiment(config_path, prefix=None, rounds=None, total_timesteps=None, eval_episodes=None, mock=None, seed=0, resume_from=None):
+def run_iterative_experiment(config_path, prefix=None, rounds=None, total_timesteps=None, eval_episodes=None, mock=None, seed=0, resume_from=None, no_early_stop=False, no_early_stop_all=False):
     cfg = load_config(config_path)
     iter_cfg = cfg.get("iteration", {})
     train_cfg = cfg.get("training", {})
@@ -454,10 +447,24 @@ def run_iterative_experiment(config_path, prefix=None, rounds=None, total_timest
 
     target_score = float(iter_cfg.get("target_score", 200.0))
     min_improvement = float(iter_cfg.get("min_meaningful_improvement", 5.0))
-    stop_after_solved_drop = bool(iter_cfg.get("stop_after_solved_drop", True))
+    stop_after_solved_drop = bool(iter_cfg.get("stop_after_solved_drop", True)) and not no_early_stop
     stop_when_solved_and_identical = bool(iter_cfg.get("stop_when_solved_and_identical", True))
     patience_after_solved = int(iter_cfg.get("no_improvement_patience_after_solved", 2))
     patience_unsolved = int(iter_cfg.get("no_improvement_patience_unsolved", 3))
+    # `no_early_stop` (from --no-early-stop) only disables the drop rule. The patience rule
+    # `stop_solved_no_improvement_keep_best` fired on its own in runs/env_007/fragilecargo_create_v9
+    # after rounds 4 and 7, because `no_improve_count` carried over from the pre-resume phase while
+    # `best_iter` did not. A fixed-budget comparison run needs every round trained, so
+    # --no-early-stop-all disables the adaptive stops entirely and is reported as a deliberate
+    # change to the search protocol, not as CREATE's own stopping behaviour.
+    #
+    # This override MUST come after the config reads above: an earlier version of this block sat
+    # before them, so `patience_after_solved = rounds` was immediately overwritten by the config's
+    # value of 2 and the flag silently did nothing (the lineage still stopped after round 7).
+    if no_early_stop_all:
+        stop_after_solved_drop = False
+        patience_after_solved = rounds
+        patience_unsolved = rounds
     retry_identical_unsolved = bool(iter_cfg.get("retry_identical_when_unsolved", True))
     max_identical_retries = int(iter_cfg.get("max_identical_revision_retries", 2))
     use_reflection_agent = bool(iter_cfg.get("use_reflection_agent", False))
@@ -506,30 +513,55 @@ def run_iterative_experiment(config_path, prefix=None, rounds=None, total_timest
                 same_skeleton_count = 1
             last_skeleton_fingerprint = fp
         print(f"Resume: reconstructed same_skeleton_count={same_skeleton_count} from {start_iter-1} historical iterations")
-        # Reconstruct no_improve_count from memory (count consecutive no_improvement from the end)
+        # Reconstruct no_improve_count and solved_seen from the memory table's action column.
+        #
+        # The decision strings are recorded verbatim in the last column (`action`), so they must
+        # be read from that column. Testing the whole line for a substring never matches:
+        # `write_experiment_summary`/`run_06_update_reward_memory` record `target_solved_new_best`
+        # or `target_solved_no_improvement`, neither of which contains the bare `target_solved`
+        # followed by a word boundary the old check relied on, and the skeleton column can
+        # contain arbitrary component names. Consequence of the old check: resuming a lineage
+        # whose best round had already solved the target reconstructed `solved_seen = False`,
+        # so every solved-dependent stop rule was silently disabled for the rest of the resume.
         mem = Path(memory_path)
         if mem.exists():
-            lines = mem.read_text(encoding="utf-8").splitlines()
-            for line in reversed(lines):
-                if "no_meaningful_improvement" in line:
+            for line in mem.read_text(encoding="utf-8").splitlines():
+                if not line.startswith("|") or line.startswith("|---"):
+                    continue
+                cols = [c.strip() for c in line.strip().strip("|").split("|")]
+                if len(cols) < 8 or "action" in cols[0].lower():
+                    continue
+                decision = cols[-1]
+                if decision.startswith("no_meaningful_improvement"):
                     no_improve_count += 1
-                elif "new_best" in line or "target_solved" in line:
-                    break
-        print(f"Resume: reconstructed no_improve_count={no_improve_count}")
+                elif decision in ("new_best", "target_solved"):
+                    no_improve_count = 0
+                elif decision.startswith(("target_solved", "stop_after_solved")):
+                    no_improve_count = 0
+                    solved_seen = True
+        print(f"Resume: reconstructed no_improve_count={no_improve_count}, solved_seen={solved_seen}")
         # Read best score from memory
         import re
         mem = Path(memory_path)
         if mem.exists():
+            best_rows = []
             for line in mem.read_text(encoding="utf-8").splitlines():
                 if line.startswith("|") and re.match(r"\|\s*\d+\s*\|", line):
                     cols = [c.strip() for c in line.split("|")]
                     try:
-                        s = float(cols[3])
-                        if best_score is None or s > best_score:
-                            best_score = s
-                            best_iter = int(cols[1])
-                    except: pass
-            if best_score is not None:
+                        best_rows.append((int(cols[1]), float(cols[3])))
+                    except (ValueError, IndexError):
+                        pass
+            if best_rows:
+                # `best` (column 3) is the running best, so it is non-decreasing; the iteration
+                # that first reached it is the earliest row with that value. Taking max() over
+                # the column without the iteration is not enough: ties then leave best_iter at
+                # None, and a later round that merely *ties* the best is treated as an
+                # improvement, which resets no_improve_count and changes when the patience rule
+                # fires (observed in runs/env_007/fragilecargo_create_v9 after the round-2 stop).
+                peak = max(score for _, score in best_rows)
+                best_iter = min(it for it, score in best_rows if score == peak)
+                best_score = peak
                 solved_seen = best_score >= target_score
                 # Find best reward path
                 bp = experiment_root_for(cfg, prefix, seed) / "best" / "best_reward.py"
@@ -1054,6 +1086,24 @@ def main():
     ap.add_argument("--eval-episodes", type=int, default=None)
     ap.add_argument("--seed", type=int, default=0)
     ap.add_argument("--resume-from", type=int, default=None)
+    ap.add_argument(
+        "--no-early-stop",
+        action="store_true",
+        help=(
+            "Ignore the stop_after_solved_drop condition, i.e. do not stop the lineage just "
+            "because a round scored above target_score and the next round scored below it. "
+            "Used to finish the budgeted rounds after exactly that early stop fired."
+        ),
+    )
+    ap.add_argument(
+        "--no-early-stop-all",
+        action="store_true",
+        help=(
+            "Disable every adaptive stop rule (drop and patience) so the lineage trains all "
+            "--rounds regardless of scores. For fixed-budget method comparisons; report runs "
+            "made with this flag separately from runs that used CREATE's own stopping."
+        ),
+    )
     ap.add_argument("--mock", action="store_true")
     args = ap.parse_args()
 
@@ -1067,6 +1117,8 @@ def main():
         mock=mock,
         seed=args.seed,
         resume_from=args.resume_from,
+        no_early_stop=args.no_early_stop,
+        no_early_stop_all=args.no_early_stop_all,
     )
 
 

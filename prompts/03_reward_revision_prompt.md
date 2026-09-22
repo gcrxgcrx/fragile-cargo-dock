@@ -63,5 +63,3 @@ def compute_reward(obs, action, next_obs, original_reward, info, training_progre
     return float(total_reward), components
 ```
 函数签名必须一致。components 只含公式中的组件（不含 total_reward）。不 import/class/try/except。
-
-IMPORTANT: You must output ONLY the Python function definition, starting with `def compute_reward(` and ending with `return ...`. Do not include any explanations, markdown code blocks, comments, or extra text.

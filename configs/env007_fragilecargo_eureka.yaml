@@ -27,6 +27,12 @@ llm:
   # max_tokens apply to the non-thinking path.
   max_tokens_env: 8192
   max_tokens_reward: 16384
+  # The environment card is the only environment context the rest of the pipeline gets, so a
+  # truncated card silently removes the facts the generator needs. Measured on this environment
+  # (tools/diagnose_analyzer_truncation.py): the analyzer returns finish_reason='length' on half
+  # of all calls, with lengths of 146 B / 4.6 KB / 9.1 KB against a normal 14-20 KB. Responses
+  # shorter than this are retried with a doubled token budget instead of being written to disk.
+  min_chars_env_card: 8000
 
 inputs:
   task_spec_path: envs/env_007/task_spec_anonymized.yaml

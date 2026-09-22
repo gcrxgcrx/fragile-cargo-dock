@@ -265,7 +265,7 @@ def _compact_route_context(cfg, environment_card_md, expert_context_md=""):
     return "\n".join(compact)
 
 
-def build_user_prompt(feedback_md, memory_md, previous_code, best_code, environment_card_md="", cfg=None, expert_context_md="", cumulative_record="", component_delta="", is_rebuild=False, research_signal=""):
+def build_user_prompt(feedback_md, memory_md, previous_code, best_code, environment_card_md="", cfg=None, expert_context_md="", cumulative_record="", component_delta="", is_rebuild=False, research_signal="", structure_block=""):
     """Assemble the reflection agent's user prompt — focused, no generic templates."""
     parts = []
 
@@ -316,6 +316,17 @@ def build_user_prompt(feedback_md, memory_md, previous_code, best_code, environm
         parts.append(
             "# 6. 环境事实（只据此理解任务和变量，不猜测环境名称）\n"
             f"{environment_summary}"
+        )
+
+    if structure_block:
+        # Reward information, not design advice: the nine terms of the environment's own
+        # reward with their semantics and weights, and the precedence declaration that
+        # overrides conflicting generic rules. Without it an edit round can diagnose that
+        # a candidate is weak but cannot know which native term it failed to re-express.
+        parts.append(
+            "# 6.5. 已知的奖励结构（本环境的作者奖励分项语义与权重；"
+            "优先于上文任何与之冲突的通用规则）\n"
+            f"{structure_block}"
         )
 
     if is_rebuild:
@@ -536,6 +547,19 @@ def run_reflection_agent(
         if expert_path.exists():
             expert_context_md = read_text(str(expert_path))
 
+    # Optional reward-structure knowledge block, written next to the card by
+    # pipeline/run_01_environment_analyzer_md.py from
+    # `inputs.reward_structure_context_path`. The reflection agent's `_environment_summary`
+    # deliberately keeps only the card's raw facts (sections 1-7) and drops the card's
+    # design-advice sections, so the block is appended here instead. Gated by
+    # `context.include_reward_structure_in_reflection` so that existing configs are
+    # unaffected.
+    structure_block = ""
+    if environment_card_path and cfg.get("context", {}).get("include_reward_structure_in_reflection"):
+        structure_path = Path(environment_card_path).parent / "v9_structure_block.md"
+        if structure_path.exists():
+            structure_block = read_text(str(structure_path)).strip()
+
     memory_md = ""
     if not ablation_cfg.get("disable_memory", False) and Path(memory_path).exists():
         memory_md = read_text(memory_path)
@@ -626,7 +650,7 @@ def run_reflection_agent(
             "Return a complete reward function whose executable code is materially different from every historical reward. "
             "Do not merely rename variables or comments.\n\n"
             f"# Rejected duplicate draft\n```python\n{duplicate_draft}\n```\n\n"
-        ) + build_user_prompt(feedback_md, memory_md, previous_code, best_code, environment_card_md, cfg, expert_context_md, cumulative_record, component_delta, is_rebuild, research_signal)
+        ) + build_user_prompt(feedback_md, memory_md, previous_code, best_code, environment_card_md, cfg, expert_context_md, cumulative_record, component_delta, is_rebuild, research_signal, structure_block)
     elif validation_retry:
         failed_draft_path = run_dir / f"reward_{reward_version}.md"
         failed_draft = read_text(failed_draft_path) if failed_draft_path.exists() else ""
@@ -636,9 +660,9 @@ def run_reflection_agent(
             "这是代码格式修复，不要重新诊断、不要调用工具、不要改变原定修改方向。"
             "直接输出修复后的完整 Python 代码。\n\n"
             f"# 被截断或无效的上一版草稿\n{failed_draft}\n\n"
-        ) + build_user_prompt(feedback_md, "", previous_code, best_code, environment_card_md, cfg, "", cumulative_record, "", False, research_signal)
+        ) + build_user_prompt(feedback_md, "", previous_code, best_code, environment_card_md, cfg, "", cumulative_record, "", False, research_signal, structure_block)
     else:
-        user_prompt = build_user_prompt(feedback_md, memory_md, previous_code, best_code, environment_card_md, cfg, expert_context_md, cumulative_record, component_delta, is_rebuild, research_signal)
+        user_prompt = build_user_prompt(feedback_md, memory_md, previous_code, best_code, environment_card_md, cfg, expert_context_md, cumulative_record, component_delta, is_rebuild, research_signal, structure_block)
 
     write_text(run_dir / f"llm_inputs/reward_{reward_version}_reflection_agent.input.md", user_prompt)
     record_prompt(run_dir, "agent_reflection", system_prompt, user_prompt)

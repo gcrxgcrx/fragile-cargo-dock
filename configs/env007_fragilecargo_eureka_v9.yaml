@@ -1,0 +1,21 @@
+﻿extends: env007_fragilecargo_eureka_baseline.yaml
+
+# ---------------------------------------------------------------------------
+# EUREKA-style population search with the **v9** initial-reward prompt.
+#
+# Identical to env007_fragilecargo_eureka_baseline.yaml except that the prompt now
+# states the reward's structure (per-term semantics and weights) while keeping every
+# privileged channel closed - see prompts/eureka_01_initial_reward_v9.md and
+# runs/env_007/V9_STRUCTURE_FINDINGS.md.
+#
+# Why run it now: the v9 family's measured success distribution is 58/55/25/6/0/0/0/0 out of
+# 60 on one fresh block (3 of 8 above 20/60), and the pipeline's own selection metric ranks
+# those candidates correctly (309.6/309.7/294.6/234.5/156.7/36.1/1.97/~0). Under the old
+# prompt every candidate scored ~0, which is why the earlier API run was a degenerate 0/20.
+# ---------------------------------------------------------------------------
+
+prompts:
+  eureka_initial: prompts/eureka_01_initial_reward_v9.md
+
+iteration:
+  experiment_prefix: fragilecargo_eureka_v9

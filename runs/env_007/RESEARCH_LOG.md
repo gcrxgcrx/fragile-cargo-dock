@@ -248,7 +248,6 @@ then `pipeline/run_05_reward_revision.py`. 2 operators × 2 seeds × 4 repairs =
 ---
 
 ## 14. Addendum — measurements made after §13 was written (v7 scoring, 2026-09-21)
-
 Three training-free diagnostics were added at the end of the v7 round. They are recorded
 here because they bear on what any v8 prompt must say; they are **not** yet written into
 any pre-registration.
@@ -328,3 +327,55 @@ pre-registered and no causal claim is made yet.
   `info` and are diagnostics: never add them to a population, lineage or elite set.
 * The 60 fresh seeds **30000–30059** are the honest evaluation block and must stay held
   out from any selection.
+
+---
+
+## 17. CREATE with the fixed spec + the v9 structure block (2026-09-22, after §16)
+
+Pre-registration `CREATE_V9_PREREGISTRATION.md`, write-up `CREATE_V9_FINDINGS.md`, raw
+`runs/env_007/fragilecargo_create_v9/`. `configs/env007_fragilecargo_create_v9.yaml` = CREATE
+(`pipeline/run_iterative_experiment`, single lineage) with **two** changes against the run the
+baseline numbers came from: `inputs.task_spec_path` -> `task_spec_anonymized_v2.yaml` (the geometry
+the analyzer never saw, `PIPELINE_CONTEXT_DIAGNOSIS.md`) and
+`inputs.reward_structure_context_path` -> `runs/env_007/CREATE_V9_STRUCTURE.md`, the nine native
+reward terms with their weights, extracted verbatim from `prompts/eureka_01_initial_reward_v9.md`
+by `tools/extract_v9_structure_block.py` and injected into the generator's and the reflection
+agent's prompts.
+
+10 rounds × 3 M steps, seed 0 (30 M env steps, same budget as EUREKA and as the v2 baseline).
+Training score is the pipeline's 20-episode evaluation; **fresh** is the unused block
+41000-41059, 60 episodes:
+
+| round | training (20 eps) | fresh 41000 | round | training | fresh |
+|---:|---:|---:|---:|---:|---:|
+| 1 | 279.630 (18/20) | **55/60** | 6 | 309.545 (20/20) | **56/60** |
+| 2 | 204.458 (13/20) | 25/60 | 7 | 294.207 (19/20) | **56/60** |
+| 3 | 279.630 (18/20) | **55/60** | 8 | 309.545 (20/20) | **56/60** |
+| 4 | 263.777 (17/20) | 51/60 | 9 | **309.773 (20/20)** | 53/60 |
+| 5 | 309.545 (20/20) | **56/60** | 10 | 53.867 (3/20) | 1/60 |
+
+**n = 10 rounds, mean 46.4/60, sd 17.6, best 56/60, 8 of 10 rounds ≥ 50/60.**
+
+* CREATE's **round 1** was already delivery-level (55/60), against a baseline whose best round was
+  17.694 in training and 0-1/60 fresh. Round 1's realised composition is `terminal_success` **95.97 %**
+  of return against the native reward's ~96 % (`§14b`); the v2 baseline's round-1 mass sat in
+  `crate_dock_alignment` (80.8 %), i.e. in a term that pays without completing.
+* Rounds 5-8 hold at the ceiling (training 309.545, fresh 56/60), matching the best candidate of the
+  full EUREKA-v9 run. Round 10 is the failure mode that matters: dock 0.80 but 1/60 — it arrives and
+  cannot settle, the same signature as §11's settling variance.
+* **n = 1 training seed**, and the comparison against `fragilecargo_create_v2` is confounded by a
+  prompt revision that no config can restore (see the pre-registration §4). The structure block is
+  supplied text, not something CREATE discovered.
+* Three pipeline defects were found and fixed while running this, all independent of the result and
+  all documented in the pre-registration §5: truncated environment cards were accepted as valid
+  (the analyzer returns `finish_reason='length'` on ~half of calls on this environment; a 146-byte
+  card was fed to the generator — now guarded by `llm.min_chars_env_card`), the subagent
+  investigator raised `TypeError` on every call and was silently skipped in **every round of the v2
+  baseline too**, and on resume `solved_seen` was reconstructed by a substring test that could never
+  match.
+* Protocol note: the run was stopped by CREATE's own stop rules twice (after rounds 2 and 4), and a
+  third stop after round 7 exposed that the new `--no-early-stop-all` override had been placed
+  before the config read and was inert. Rounds 8-10 ran with adaptive stops disabled; scores are
+  unaffected (each round is scored by its own training run).
+
+---

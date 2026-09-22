@@ -1,0 +1,721 @@
+{
+  "runner_env_id": "FragileCargoDock-v0",
+  "reward_path": "runs/env_007/passthrough_probe/reward.py",
+  "reward_source": "generated_function",
+  "run_name": "passthrough_s3",
+  "n_envs": 6,
+  "total_timesteps": 1200000,
+  "reward_clip": 20.0,
+  "error_fallback": "zero",
+  "ppo_args": {
+    "policy": "MlpPolicy",
+    "verbose": "1",
+    "device": "cpu",
+    "seed": "3",
+    "learning_rate": "0.0003",
+    "n_steps": "2048",
+    "batch_size": "128",
+    "gae_lambda": "0.95",
+    "gamma": "0.999",
+    "n_epochs": "10",
+    "ent_coef": "0.005",
+    "clip_range": "0.2",
+    "max_grad_norm": "0.5",
+    "vf_coef": "0.5",
+    "policy_kwargs": "{'ortho_init': True, 'activation_fn': <class 'torch.nn.modules.activation.Tanh'>, 'net_arch': {'pi': [128, 128], 'vf': [128, 128]}}",
+    "tensorboard_log": "runs/env_007/tensorboard"
+  },
+  "model_path": "runs\\env_007\\passthrough_probe\\seed3\\model.zip",
+  "monitor_dir": "runs\\env_007\\passthrough_probe\\seed3\\monitor",
+  "tensorboard_log": "runs/env_007/tensorboard",
+  "normalization": {
+    "normalize_obs": true,
+    "normalize_reward": true,
+    "clip_obs": 10.0,
+    "clip_normalized_reward": 10.0,
+    "vecnormalize_path": "runs\\env_007\\passthrough_probe\\seed3\\vecnormalize.pkl"
+  },
+  "external_eval": {
+    "eval_episodes": 20,
+    "eval_seed_offset": 10000,
+    "eval_seeds": [
+      10000,
+      10001,
+      10002,
+      10003,
+      10004,
+      10005,
+      10006,
+      10007,
+      10008,
+      10009,
+      10010,
+      10011,
+      10012,
+      10013,
+      10014,
+      10015,
+      10016,
+      10017,
+      10018,
+      10019
+    ],
+    "episode_rewards": [
+      309.3882515493077,
+      309.3655231196269,
+      309.3235719663331,
+      309.6203798005813,
+      309.18860478607695,
+      309.8134169428542,
+      309.702019261104,
+      309.95178080331175,
+      309.616412016665,
+      309.3833088813552,
+      4.908189290951319,
+      309.9765327800412,
+      309.74199921790847,
+      309.42287989134655,
+      309.7205570073629,
+      309.42043568221857,
+      309.6063111636497,
+      309.3382969417708,
+      309.6171188836531,
+      309.4941743542719
+    ],
+    "episode_lengths": [
+      166,
+      164,
+      229,
+      179,
+      158,
+      172,
+      157,
+      197,
+      175,
+      159,
+      400,
+      190,
+      183,
+      153,
+      170,
+      160,
+      159,
+      157,
+      160,
+      191
+    ],
+    "episode_terminated": [
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      false,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true
+    ],
+    "mean_eval_reward": 294.32998821701955,
+    "mean_episode_length": 183.95,
+    "min_eval_reward": 4.908189290951319,
+    "max_eval_reward": 309.9765327800412,
+    "termination_breakdown": {
+      "terminated": 19,
+      "truncated": 1
+    },
+    "final_policy_component_evaluation": {
+      "native_passthrough": {
+        "episode_sum_mean": 294.32998821701955,
+        "episode_abs_sum_mean": 294.7907959494579,
+        "signed_contribution_share": 0.9984368313435493,
+        "magnitude_share": 1.0,
+        "active_rate": 1.0
+      }
+    },
+    "final_policy_component_error_count": 0
+  },
+  "train_duration_sec": 647.6,
+  "component_summary": {
+    "steps_seen": 1204224,
+    "reward_error_count_max": 0,
+    "component_stats": {
+      "component.native_passthrough": {
+        "count": 1204224,
+        "mean": 0.5666332769297464,
+        "abs_mean": 0.571802175564903,
+        "nonzero_rate": 1.0,
+        "mean_when_active": 0.5666332769297464,
+        "abs_mean_when_active": 0.571802175564903,
+        "min": -100.02255585685378,
+        "max": 300.0080502210985
+      },
+      "component.total_reward": {
+        "count": 1204224,
+        "mean": 0.059160890503518,
+        "abs_mean": 0.0636653146857604,
+        "nonzero_rate": 1.0,
+        "mean_when_active": 0.059160890503518,
+        "abs_mean_when_active": 0.0636653146857604,
+        "min": -20.0,
+        "max": 20.0
+      },
+      "generated_reward": {
+        "count": 1204224,
+        "mean": 0.059160890503518,
+        "abs_mean": 0.0636653146857604,
+        "nonzero_rate": 1.0,
+        "mean_when_active": 0.059160890503518,
+        "abs_mean_when_active": 0.0636653146857604,
+        "min": -20.0,
+        "max": 20.0
+      },
+      "original_env_reward": {
+        "count": 1204224,
+        "mean": 0.5666332769297464,
+        "abs_mean": 0.571802175564903,
+        "nonzero_rate": 1.0,
+        "mean_when_active": 0.5666332769297464,
+        "abs_mean_when_active": 0.571802175564903,
+        "min": -100.02255585685378,
+        "max": 300.0080502210985
+      }
+    },
+    "episode_component_sum_stats": {
+      "native_passthrough": {
+        "count": 4085,
+        "mean": 167.03245009253507,
+        "abs_mean": 167.32742160254048,
+        "min": -103.02655618876003,
+        "max": 310.5125784959007
+      },
+      "total_reward": {
+        "count": 4085,
+        "mean": 17.43381433445592,
+        "abs_mean": 17.53290430625142,
+        "min": -23.00836484315968,
+        "max": 30.51306988042179
+      }
+    },
+    "monitor_snapshots": [
+      {
+        "steps": 120000,
+        "episodes": 300,
+        "mean_generated_reward": 6.223525798474884e-05,
+        "top_components": [
+          {
+            "name": "native_passthrough",
+            "episode_sum_mean": -0.5115682936297975,
+            "mean": -0.0012714303369252404,
+            "active_rate": 1.0,
+            "abs_frac_of_total": 0.5410973227807131,
+            "magnitude_share": 0.5410973227807131
+          },
+          {
+            "name": "total_reward",
+            "episode_sum_mean": 0.021897944334212695,
+            "mean": 6.223525798474884e-05,
+            "active_rate": 1.0,
+            "abs_frac_of_total": 0.45890267721928685,
+            "magnitude_share": 0.45890267721928685
+          }
+        ]
+      },
+      {
+        "steps": 240000,
+        "episodes": 300,
+        "mean_generated_reward": 0.0038487707814625835,
+        "top_components": [
+          {
+            "name": "total_reward",
+            "episode_sum_mean": 1.5381921213947145,
+            "mean": 0.0038487707814625835,
+            "active_rate": 1.0,
+            "abs_frac_of_total": 0.46169788067513834,
+            "magnitude_share": 0.46169788067513834
+          },
+          {
+            "name": "native_passthrough",
+            "episode_sum_mean": 0.7380315533793841,
+            "mean": 0.0018483693614242396,
+            "active_rate": 1.0,
+            "abs_frac_of_total": 0.5383021193248616,
+            "magnitude_share": 0.5383021193248616
+          }
+        ]
+      },
+      {
+        "steps": 360000,
+        "episodes": 301,
+        "mean_generated_reward": 0.013647739547935843,
+        "top_components": [
+          {
+            "name": "native_passthrough",
+            "episode_sum_mean": 19.358901376489847,
+            "mean": 0.04864756230513558,
+            "active_rate": 1.0,
+            "abs_frac_of_total": 0.7313999888210153,
+            "magnitude_share": 0.7313999888210153
+          },
+          {
+            "name": "total_reward",
+            "episode_sum_mean": 5.405483665978235,
+            "mean": 0.013647739547935843,
+            "active_rate": 1.0,
+            "abs_frac_of_total": 0.26860001117898474,
+            "magnitude_share": 0.26860001117898474
+          }
+        ]
+      },
+      {
+        "steps": 480000,
+        "episodes": 333,
+        "mean_generated_reward": 0.02954313391985977,
+        "top_components": [
+          {
+            "name": "native_passthrough",
+            "episode_sum_mean": 80.39939850847742,
+            "mean": 0.2232065972704019,
+            "active_rate": 1.0,
+            "abs_frac_of_total": 0.8729519329001919,
+            "magnitude_share": 0.8729519329001919
+          },
+          {
+            "name": "total_reward",
+            "episode_sum_mean": 10.610763066841015,
+            "mean": 0.02954313391985977,
+            "active_rate": 1.0,
+            "abs_frac_of_total": 0.12704806709980812,
+            "magnitude_share": 0.12704806709980812
+          }
+        ]
+      },
+      {
+        "steps": 600000,
+        "episodes": 372,
+        "mean_generated_reward": 0.04993086745629951,
+        "top_components": [
+          {
+            "name": "native_passthrough",
+            "episode_sum_mean": 141.81593482548598,
+            "mean": 0.4395910955629958,
+            "active_rate": 1.0,
+            "abs_frac_of_total": 0.892560091607553,
+            "magnitude_share": 0.892560091607553
+          },
+          {
+            "name": "total_reward",
+            "episode_sum_mean": 16.119087049131043,
+            "mean": 0.04993086745629951,
+            "active_rate": 1.0,
+            "abs_frac_of_total": 0.10743990839244705,
+            "magnitude_share": 0.10743990839244705
+          }
+        ]
+      },
+      {
+        "steps": 720000,
+        "episodes": 407,
+        "mean_generated_reward": 0.06376992811770212,
+        "top_components": [
+          {
+            "name": "native_passthrough",
+            "episode_sum_mean": 170.84489950978121,
+            "mean": 0.5794274264601015,
+            "active_rate": 1.0,
+            "abs_frac_of_total": 0.8961598404300793,
+            "magnitude_share": 0.8961598404300793
+          },
+          {
+            "name": "total_reward",
+            "episode_sum_mean": 18.80829066189996,
+            "mean": 0.06376992811770212,
+            "active_rate": 1.0,
+            "abs_frac_of_total": 0.10384015956992057,
+            "magnitude_share": 0.10384015956992057
+          }
+        ]
+      },
+      {
+        "steps": 840000,
+        "episodes": 476,
+        "mean_generated_reward": 0.09171846322286711,
+        "top_components": [
+          {
+            "name": "native_passthrough",
+            "episode_sum_mean": 233.0908456925534,
+            "mean": 0.9247057293160754,
+            "active_rate": 1.0,
+            "abs_frac_of_total": 0.9073633275061764,
+            "magnitude_share": 0.9073633275061764
+          },
+          {
+            "name": "total_reward",
+            "episode_sum_mean": 23.09405592115694,
+            "mean": 0.09171846322286711,
+            "active_rate": 1.0,
+            "abs_frac_of_total": 0.09263667249382351,
+            "magnitude_share": 0.09263667249382351
+          }
+        ]
+      },
+      {
+        "steps": 960000,
+        "episodes": 496,
+        "mean_generated_reward": 0.101029953972531,
+        "top_components": [
+          {
+            "name": "native_passthrough",
+            "episode_sum_mean": 248.02070142516936,
+            "mean": 1.0250170845476867,
+            "active_rate": 1.0,
+            "abs_frac_of_total": 0.9080605847424069,
+            "magnitude_share": 0.9080605847424069
+          },
+          {
+            "name": "total_reward",
+            "episode_sum_mean": 24.475427898922007,
+            "mean": 0.101029953972531,
+            "active_rate": 1.0,
+            "abs_frac_of_total": 0.09193941525759301,
+            "magnitude_share": 0.09193941525759301
+          }
+        ]
+      },
+      {
+        "steps": 1080000,
+        "episodes": 519,
+        "mean_generated_reward": 0.1103153750120368,
+        "top_components": [
+          {
+            "name": "native_passthrough",
+            "episode_sum_mean": 256.9001322363214,
+            "mean": 1.111300194116975,
+            "active_rate": 1.0,
+            "abs_frac_of_total": 0.9075786636887835,
+            "magnitude_share": 0.9075786636887835
+          },
+          {
+            "name": "total_reward",
+            "episode_sum_mean": 25.458555564662067,
+            "mean": 0.1103153750120368,
+            "active_rate": 1.0,
+            "abs_frac_of_total": 0.09242133631121655,
+            "magnitude_share": 0.09242133631121655
+          }
+        ]
+      },
+      {
+        "steps": 1200000,
+        "episodes": 561,
+        "mean_generated_reward": 0.12567275303676373,
+        "top_components": [
+          {
+            "name": "native_passthrough",
+            "episode_sum_mean": 275.93808101560296,
+            "mean": 1.2899874748458082,
+            "active_rate": 1.0,
+            "abs_frac_of_total": 0.9095173891594015,
+            "magnitude_share": 0.9095173891594015
+          },
+          {
+            "name": "total_reward",
+            "episode_sum_mean": 26.886803623295002,
+            "mean": 0.12567275303676373,
+            "active_rate": 1.0,
+            "abs_frac_of_total": 0.09048261084059843,
+            "magnitude_share": 0.09048261084059843
+          }
+        ]
+      },
+      {
+        "steps": 1204224,
+        "episodes": 20,
+        "mean_generated_reward": 0.11795875157574995,
+        "top_components": [
+          {
+            "name": "native_passthrough",
+            "episode_sum_mean": 263.4123119963987,
+            "mean": 1.2448340112457086,
+            "active_rate": 1.0,
+            "abs_frac_of_total": 0.9114834920683683,
+            "magnitude_share": 0.9114834920683683
+          },
+          {
+            "name": "total_reward",
+            "episode_sum_mean": 25.41625715410322,
+            "mean": 0.11795875157574995,
+            "active_rate": 1.0,
+            "abs_frac_of_total": 0.0885165079316316,
+            "magnitude_share": 0.0885165079316316
+          }
+        ]
+      }
+    ]
+  },
+  "monitor_snapshots": [
+    {
+      "steps": 120000,
+      "episodes": 300,
+      "mean_generated_reward": 6.223525798474884e-05,
+      "top_components": [
+        {
+          "name": "native_passthrough",
+          "episode_sum_mean": -0.5115682936297975,
+          "mean": -0.0012714303369252404,
+          "active_rate": 1.0,
+          "abs_frac_of_total": 0.5410973227807131,
+          "magnitude_share": 0.5410973227807131
+        },
+        {
+          "name": "total_reward",
+          "episode_sum_mean": 0.021897944334212695,
+          "mean": 6.223525798474884e-05,
+          "active_rate": 1.0,
+          "abs_frac_of_total": 0.45890267721928685,
+          "magnitude_share": 0.45890267721928685
+        }
+      ]
+    },
+    {
+      "steps": 240000,
+      "episodes": 300,
+      "mean_generated_reward": 0.0038487707814625835,
+      "top_components": [
+        {
+          "name": "total_reward",
+          "episode_sum_mean": 1.5381921213947145,
+          "mean": 0.0038487707814625835,
+          "active_rate": 1.0,
+          "abs_frac_of_total": 0.46169788067513834,
+          "magnitude_share": 0.46169788067513834
+        },
+        {
+          "name": "native_passthrough",
+          "episode_sum_mean": 0.7380315533793841,
+          "mean": 0.0018483693614242396,
+          "active_rate": 1.0,
+          "abs_frac_of_total": 0.5383021193248616,
+          "magnitude_share": 0.5383021193248616
+        }
+      ]
+    },
+    {
+      "steps": 360000,
+      "episodes": 301,
+      "mean_generated_reward": 0.013647739547935843,
+      "top_components": [
+        {
+          "name": "native_passthrough",
+          "episode_sum_mean": 19.358901376489847,
+          "mean": 0.04864756230513558,
+          "active_rate": 1.0,
+          "abs_frac_of_total": 0.7313999888210153,
+          "magnitude_share": 0.7313999888210153
+        },
+        {
+          "name": "total_reward",
+          "episode_sum_mean": 5.405483665978235,
+          "mean": 0.013647739547935843,
+          "active_rate": 1.0,
+          "abs_frac_of_total": 0.26860001117898474,
+          "magnitude_share": 0.26860001117898474
+        }
+      ]
+    },
+    {
+      "steps": 480000,
+      "episodes": 333,
+      "mean_generated_reward": 0.02954313391985977,
+      "top_components": [
+        {
+          "name": "native_passthrough",
+          "episode_sum_mean": 80.39939850847742,
+          "mean": 0.2232065972704019,
+          "active_rate": 1.0,
+          "abs_frac_of_total": 0.8729519329001919,
+          "magnitude_share": 0.8729519329001919
+        },
+        {
+          "name": "total_reward",
+          "episode_sum_mean": 10.610763066841015,
+          "mean": 0.02954313391985977,
+          "active_rate": 1.0,
+          "abs_frac_of_total": 0.12704806709980812,
+          "magnitude_share": 0.12704806709980812
+        }
+      ]
+    },
+    {
+      "steps": 600000,
+      "episodes": 372,
+      "mean_generated_reward": 0.04993086745629951,
+      "top_components": [
+        {
+          "name": "native_passthrough",
+          "episode_sum_mean": 141.81593482548598,
+          "mean": 0.4395910955629958,
+          "active_rate": 1.0,
+          "abs_frac_of_total": 0.892560091607553,
+          "magnitude_share": 0.892560091607553
+        },
+        {
+          "name": "total_reward",
+          "episode_sum_mean": 16.119087049131043,
+          "mean": 0.04993086745629951,
+          "active_rate": 1.0,
+          "abs_frac_of_total": 0.10743990839244705,
+          "magnitude_share": 0.10743990839244705
+        }
+      ]
+    },
+    {
+      "steps": 720000,
+      "episodes": 407,
+      "mean_generated_reward": 0.06376992811770212,
+      "top_components": [
+        {
+          "name": "native_passthrough",
+          "episode_sum_mean": 170.84489950978121,
+          "mean": 0.5794274264601015,
+          "active_rate": 1.0,
+          "abs_frac_of_total": 0.8961598404300793,
+          "magnitude_share": 0.8961598404300793
+        },
+        {
+          "name": "total_reward",
+          "episode_sum_mean": 18.80829066189996,
+          "mean": 0.06376992811770212,
+          "active_rate": 1.0,
+          "abs_frac_of_total": 0.10384015956992057,
+          "magnitude_share": 0.10384015956992057
+        }
+      ]
+    },
+    {
+      "steps": 840000,
+      "episodes": 476,
+      "mean_generated_reward": 0.09171846322286711,
+      "top_components": [
+        {
+          "name": "native_passthrough",
+          "episode_sum_mean": 233.0908456925534,
+          "mean": 0.9247057293160754,
+          "active_rate": 1.0,
+          "abs_frac_of_total": 0.9073633275061764,
+          "magnitude_share": 0.9073633275061764
+        },
+        {
+          "name": "total_reward",
+          "episode_sum_mean": 23.09405592115694,
+          "mean": 0.09171846322286711,
+          "active_rate": 1.0,
+          "abs_frac_of_total": 0.09263667249382351,
+          "magnitude_share": 0.09263667249382351
+        }
+      ]
+    },
+    {
+      "steps": 960000,
+      "episodes": 496,
+      "mean_generated_reward": 0.101029953972531,
+      "top_components": [
+        {
+          "name": "native_passthrough",
+          "episode_sum_mean": 248.02070142516936,
+          "mean": 1.0250170845476867,
+          "active_rate": 1.0,
+          "abs_frac_of_total": 0.9080605847424069,
+          "magnitude_share": 0.9080605847424069
+        },
+        {
+          "name": "total_reward",
+          "episode_sum_mean": 24.475427898922007,
+          "mean": 0.101029953972531,
+          "active_rate": 1.0,
+          "abs_frac_of_total": 0.09193941525759301,
+          "magnitude_share": 0.09193941525759301
+        }
+      ]
+    },
+    {
+      "steps": 1080000,
+      "episodes": 519,
+      "mean_generated_reward": 0.1103153750120368,
+      "top_components": [
+        {
+          "name": "native_passthrough",
+          "episode_sum_mean": 256.9001322363214,
+          "mean": 1.111300194116975,
+          "active_rate": 1.0,
+          "abs_frac_of_total": 0.9075786636887835,
+          "magnitude_share": 0.9075786636887835
+        },
+        {
+          "name": "total_reward",
+          "episode_sum_mean": 25.458555564662067,
+          "mean": 0.1103153750120368,
+          "active_rate": 1.0,
+          "abs_frac_of_total": 0.09242133631121655,
+          "magnitude_share": 0.09242133631121655
+        }
+      ]
+    },
+    {
+      "steps": 1200000,
+      "episodes": 561,
+      "mean_generated_reward": 0.12567275303676373,
+      "top_components": [
+        {
+          "name": "native_passthrough",
+          "episode_sum_mean": 275.93808101560296,
+          "mean": 1.2899874748458082,
+          "active_rate": 1.0,
+          "abs_frac_of_total": 0.9095173891594015,
+          "magnitude_share": 0.9095173891594015
+        },
+        {
+          "name": "total_reward",
+          "episode_sum_mean": 26.886803623295002,
+          "mean": 0.12567275303676373,
+          "active_rate": 1.0,
+          "abs_frac_of_total": 0.09048261084059843,
+          "magnitude_share": 0.09048261084059843
+        }
+      ]
+    },
+    {
+      "steps": 1204224,
+      "episodes": 20,
+      "mean_generated_reward": 0.11795875157574995,
+      "top_components": [
+        {
+          "name": "native_passthrough",
+          "episode_sum_mean": 263.4123119963987,
+          "mean": 1.2448340112457086,
+          "active_rate": 1.0,
+          "abs_frac_of_total": 0.9114834920683683,
+          "magnitude_share": 0.9114834920683683
+        },
+        {
+          "name": "total_reward",
+          "episode_sum_mean": 25.41625715410322,
+          "mean": 0.11795875157574995,
+          "active_rate": 1.0,
+          "abs_frac_of_total": 0.0885165079316316,
+          "magnitude_share": 0.0885165079316316
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,137 @@
+runner_env_id: Ant-v4
+reward_path: null
+reward_source: official_environment
+run_name: ant_baseline/seed_0
+n_envs: 1
+total_timesteps: 1000000
+reward_clip: 20.0
+error_fallback: zero
+ppo_args:
+  policy: MlpPolicy
+  verbose: '1'
+  device: cpu
+  seed: '0'
+  n_steps: '2048'
+  batch_size: '64'
+  gae_lambda: '0.95'
+  gamma: '0.99'
+  n_epochs: '10'
+  ent_coef: '0.0'
+  learning_rate: '0.0003'
+  clip_range: '0.2'
+  vf_coef: '0.5'
+  max_grad_norm: '0.5'
+  policy_kwargs: '{''ortho_init'': True, ''activation_fn'': <class ''torch.nn.modules.activation.Tanh''>,
+    ''net_arch'': {''pi'': [64, 64], ''vf'': [64, 64]}}'
+  tensorboard_log: runs/env_005/tensorboard
+model_path: runs\env_005\baseline\seed_0\model.zip
+monitor_dir: runs\env_005\baseline\seed_0\monitor
+tensorboard_log: runs/env_005/tensorboard
+normalization:
+  normalize_obs: true
+  normalize_reward: false
+  clip_obs: 10.0
+  clip_normalized_reward: 10.0
+  vecnormalize_path: runs\env_005\baseline\seed_0\vecnormalize.pkl
+external_eval:
+  eval_episodes: 20
+  eval_seed_offset: 10000
+  eval_seeds:
+  - 10000
+  - 10001
+  - 10002
+  - 10003
+  - 10004
+  - 10005
+  - 10006
+  - 10007
+  - 10008
+  - 10009
+  - 10010
+  - 10011
+  - 10012
+  - 10013
+  - 10014
+  - 10015
+  - 10016
+  - 10017
+  - 10018
+  - 10019
+  episode_rewards:
+  - 3773.2136114510595
+  - 3762.5287267675285
+  - 3654.1228325155826
+  - 3607.4218604729217
+  - 3649.7858094163284
+  - 3606.1646726462923
+  - 3623.373482802219
+  - 3579.540745744
+  - 3594.1849060441205
+  - 1304.917741849111
+  - 2571.3272007753235
+  - 3561.399212366469
+  - 2262.031486856482
+  - 1637.0122848532963
+  - 3014.5621958777006
+  - 3629.3677188177735
+  - 3675.8768262317467
+  - 3368.114835292557
+  - 3425.007377408687
+  - 616.8348283720258
+  episode_lengths:
+  - 1000
+  - 1000
+  - 1000
+  - 1000
+  - 1000
+  - 1000
+  - 1000
+  - 1000
+  - 1000
+  - 346
+  - 666
+  - 1000
+  - 1000
+  - 445
+  - 1000
+  - 1000
+  - 1000
+  - 1000
+  - 1000
+  - 160
+  episode_terminated:
+  - false
+  - false
+  - false
+  - false
+  - false
+  - false
+  - false
+  - false
+  - false
+  - true
+  - true
+  - false
+  - false
+  - true
+  - false
+  - false
+  - false
+  - false
+  - false
+  - true
+  mean_eval_reward: 3095.8394178280614
+  mean_episode_length: 880.85
+  min_eval_reward: 616.8348283720258
+  max_eval_reward: 3773.2136114510595
+  termination_breakdown:
+    terminated: 4
+    truncated: 16
+  final_policy_component_evaluation: {}
+  final_policy_component_error_count: 0
+train_duration_sec: 1171.6
+component_summary:
+  steps_seen: 1001472
+  reward_error_count_max: 0
+  component_stats: {}
+  episode_component_sum_stats: {}

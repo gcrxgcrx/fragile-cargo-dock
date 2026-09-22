@@ -1,0 +1,30 @@
+{
+  "turns_used": 1,
+  "signal": {
+    "key_findings": {
+      "score": "mean_eval_reward=309.545, range tight [309.12, 310.57]",
+      "termination": "20/20 terminated, 0 truncated, reward_errors=0",
+      "composition": "terminal_success=95.5% signed share (episode_sum=300) dominates; all others <2%",
+      "scale": "generated_reward mean=0.0999 vs original_env_reward=0.9120 (training_summary)"
+    },
+    "component_anomalies": {
+      "dominating": "terminal_success 95.5% signed+magnitude share; one-shot active_rate 0.6%",
+      "dead": "hard_hit, terminal_failure both 0.0% nonzero, 0.0% active across all 11 checkpoints",
+      "self_cancelling": "action_cost(-0.078), time_cost(-0.362), roughness(-0.045) near-zero signed shares despite 100%/100%/20.7% active rates",
+      "low_active": "dock_enter and terminal_success active 0.3-0.6% (one-shot)"
+    },
+    "training_dynamics": {
+      "growing": "total_reward 1.342->28.752, terminal_success 0->264, dock_enter 0.180->4.500, progress 1.376->3.840, settle 0.004->2.376 over 11 checkpoints",
+      "settling": "approach_cargo 1.072->1.052 flat; action_cost -0.199->-0.118; time_cost -0.799->-0.433 (costs shrink)",
+      "plateau": "no explicit plateau flagged; terminal_success saturated at 264 by final"
+    },
+    "signal_quality": {
+      "thresholds": "dock_enter tolerance (0.024/0.030) rarely crossed (0.6%)",
+      "coupling": "terminal_success (300) and dock_enter (5) both tied to same containment event; terminal dominates",
+      "missing_attractor": "score variance tiny (range 1.45) suggests saturated behavior; no early_terminal (0/20)"
+    },
+    "confidence": "medium"
+  },
+  "tool_trace": [],
+  "signal_produced": true
+}

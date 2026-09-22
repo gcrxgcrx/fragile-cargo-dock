@@ -1,6 +1,6 @@
 import json, os, time
 class DeepSeekClient:
-    def __init__(self, api_key_env="DEEPSEEK_API_KEY", base_url="https://api.deepseek.com", thinking=None):
+    def __init__(self, api_key_env="DEEPSEEK_API_KEY", base_url="https://api.deepseek.com"):
         from openai import OpenAI
         # Fix SSL cert path for conda environments that have broken or missing cacert.pem
         ssl_cert = os.environ.get("SSL_CERT_FILE", "")
@@ -13,35 +13,32 @@ class DeepSeekClient:
         api_key=os.environ.get(api_key_env)
         if not api_key: raise RuntimeError(f"Missing API key environment variable: {api_key_env}")
         self.client=OpenAI(api_key=api_key, base_url=base_url)
+    def completion(self, max_empty_retries=1, max_connection_retries=5, min_content_chars=0, min_content_retries=3, **kwargs):
+        """Call the API, retrying when the response is unusable.
 
-        # Thinking mode is on by default on DeepSeek models and it IGNORES
-        # `temperature` (the parameter is accepted but has no effect). Flows
-        # that rely on temperature for sampling diversity - e.g. the EUREKA
-        # population search - must disable it. Passing thinking=None keeps the
-        # previous behaviour unless DEEPSEEK_THINKING says otherwise, so a whole
-        # process tree can opt out without touching every call site:
-        #     set DEEPSEEK_THINKING=disabled
-        if thinking is None:
-            env_value = os.environ.get("DEEPSEEK_THINKING", "").strip().lower()
-            if env_value in ("0", "false", "disabled", "off", "none"):
-                thinking = False
-        self.extra_body = {}
-        if thinking is not None:
-            self.extra_body["thinking"] = {"type": "enabled" if thinking else "disabled"}
+        Two kinds of unusable response are handled:
 
-    def completion(self, max_empty_retries=1, max_connection_retries=5, **kwargs):
+        * empty content (`finish_reason='length'` with nothing returned) — the historical
+          case, retried with a larger `max_tokens`;
+        * **truncated but non-empty** content, i.e. shorter than `min_content_chars`. This
+          was measured on the env_007 environment analyzer: 2 of 4 calls came back with
+          `finish_reason='length'` and 4.6 KB / 9.1 KB instead of the usual 14-20 KB, and
+          because the text was non-empty the caller wrote a half-sentence environment card
+          to disk and handed it to the reward generator. Callers that know their expected
+          output size should set `min_content_chars`; the retry count for this case is
+          `min_content_retries` (raising `max_tokens` does not help — the model stops short
+          at the same budget, so the useful response is simply a fresh sample).
+        """
         from openai import APIConnectionError, APITimeoutError
 
         base_max_tokens = kwargs.get("max_tokens")
         finish_reason = None
-        for attempt in range(max_empty_retries + 1):
+        content = ""
+        attempts = max(max_empty_retries, min_content_retries) + 1
+        for attempt in range(attempts):
             request_kwargs = dict(kwargs)
             if base_max_tokens and attempt:
                 request_kwargs["max_tokens"] = base_max_tokens * (attempt + 1)
-            if self.extra_body:
-                extra = dict(request_kwargs.get("extra_body") or {})
-                extra.update(self.extra_body)
-                request_kwargs["extra_body"] = extra
             for connection_attempt in range(max_connection_retries + 1):
                 try:
                     response = self.client.chat.completions.create(**request_kwargs)
@@ -59,15 +56,34 @@ class DeepSeekClient:
             choice = response.choices[0]
             finish_reason = choice.finish_reason
             message = choice.message
-            if (message.content or "").strip() or message.tool_calls:
+            content = message.content or ""
+            if message.tool_calls:
                 return response
+            if content.strip() and len(content) >= min_content_chars:
+                return response
+            if attempt < attempts - 1:
+                if content.strip():
+                    print(
+                        f"DeepSeek returned truncated content "
+                        f"({len(content)} chars < {min_content_chars}, finish_reason={finish_reason!r}); "
+                        f"retry {attempt + 1}/{attempts - 1}",
+                        flush=True,
+                    )
+                else:
+                    print(
+                        f"DeepSeek returned empty content (finish_reason={finish_reason!r}); "
+                        f"retry {attempt + 1}/{attempts - 1} with max_tokens="
+                        f"{request_kwargs.get('max_tokens')}",
+                        flush=True,
+                    )
         raise RuntimeError(
-            "DeepSeek returned an empty response after "
-            f"{max_empty_retries + 1} attempts; finish_reason={finish_reason!r}"
+            f"DeepSeek returned an unusable response after {attempts} attempts; "
+            f"finish_reason={finish_reason!r}, content_chars={len(content)}, "
+            f"required_min_content_chars={min_content_chars}"
         )
-    def chat(self, model, system_prompt, user_prompt, temperature=0.2, max_tokens=4096, json_mode=False):
+    def chat(self, model, system_prompt, user_prompt, temperature=0.2, max_tokens=4096, json_mode=False, min_content_chars=0):
         kwargs={}
         if json_mode: kwargs["response_format"]={"type":"json_object"}
-        r=self.completion(model=model,messages=[{"role":"system","content":system_prompt},{"role":"user","content":user_prompt}],temperature=temperature,max_tokens=max_tokens,**kwargs)
+        r=self.completion(model=model,messages=[{"role":"system","content":system_prompt},{"role":"user","content":user_prompt}],temperature=temperature,max_tokens=max_tokens,min_content_chars=min_content_chars,**kwargs)
         return r.choices[0].message.content
     def chat_json(self,*args,**kwargs): return json.loads(self.chat(*args,json_mode=True,**kwargs))

@@ -1,0 +1,21 @@
+﻿extends: env007_fragilecargo_eureka_v9.yaml
+
+# ---------------------------------------------------------------------------
+# THE CONTEXT FIX (see runs/env_007/PIPELINE_CONTEXT_DIAGNOSIS.md)
+#
+# The v9 pipeline config inherited `inputs.task_spec_path` from
+# env007_fragilecargo_eureka.yaml -> envs/env_007/task_spec_anonymized.yaml, whose text does
+# NOT contain the dock geometry. The environment analyzer therefore could not state what
+# "fully inside the dock" means numerically; its card says the dimensions are "not directly
+# verifiable", and all eight generated candidates either omitted the success tolerance or
+# guessed one 6-8x too wide (0.20 / 0.25 instead of 0.024 / 0.030). A reward whose completion
+# predicate is that wide fires in states the environment never terminates in, so it farms its
+# shaping terms and scores 0-6.7 with 0/20 success terminations.
+#
+# `task_spec_anonymized_v2.yaml` is a strict superset of v1 (same 22 fields, +1 line) that adds
+# the "GEOMETRY OF 'FULLY INSIDE THE DOCK'" block. This config is otherwise identical to
+# env007_fragilecargo_eureka_v9.yaml, so the spec is the only changed input.
+# ---------------------------------------------------------------------------
+
+inputs:
+  task_spec_path: envs/env_007/task_spec_anonymized_v2.yaml

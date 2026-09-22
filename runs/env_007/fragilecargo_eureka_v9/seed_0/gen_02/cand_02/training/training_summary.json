@@ -1,0 +1,2721 @@
+{
+  "runner_env_id": "FragileCargoDock-v0",
+  "reward_path": "runs\\env_007\\fragilecargo_eureka_v9\\seed_0\\gen_02\\cand_02\\reward_v1.py",
+  "reward_source": "generated_function",
+  "run_name": "fragilecargo_eureka_v9/seed_0/gen_02/cand_02/training",
+  "n_envs": 6,
+  "total_timesteps": 3000000,
+  "reward_clip": 20.0,
+  "error_fallback": "zero",
+  "ppo_args": {
+    "policy": "MlpPolicy",
+    "verbose": "1",
+    "device": "cpu",
+    "seed": "0",
+    "learning_rate": "0.0003",
+    "n_steps": "2048",
+    "batch_size": "128",
+    "gae_lambda": "0.95",
+    "gamma": "0.999",
+    "n_epochs": "10",
+    "ent_coef": "0.005",
+    "clip_range": "0.2",
+    "max_grad_norm": "0.5",
+    "vf_coef": "0.5",
+    "policy_kwargs": "{'ortho_init': True, 'activation_fn': <class 'torch.nn.modules.activation.Tanh'>, 'net_arch': {'pi': [128, 128], 'vf': [128, 128]}}",
+    "tensorboard_log": "runs/env_007/tensorboard"
+  },
+  "model_path": "runs\\env_007\\fragilecargo_eureka_v9\\seed_0\\gen_02\\cand_02\\training\\model.zip",
+  "monitor_dir": "runs\\env_007\\fragilecargo_eureka_v9\\seed_0\\gen_02\\cand_02\\training\\monitor",
+  "tensorboard_log": "runs/env_007/tensorboard",
+  "normalization": {
+    "normalize_obs": true,
+    "normalize_reward": true,
+    "clip_obs": 10.0,
+    "clip_normalized_reward": 10.0,
+    "vecnormalize_path": "runs\\env_007\\fragilecargo_eureka_v9\\seed_0\\gen_02\\cand_02\\training\\vecnormalize.pkl"
+  },
+  "external_eval": {
+    "eval_episodes": 20,
+    "eval_seed_offset": 10000,
+    "eval_seeds": [
+      10000,
+      10001,
+      10002,
+      10003,
+      10004,
+      10005,
+      10006,
+      10007,
+      10008,
+      10009,
+      10010,
+      10011,
+      10012,
+      10013,
+      10014,
+      10015,
+      10016,
+      10017,
+      10018,
+      10019
+    ],
+    "episode_rewards": [
+      3.4134354767523742,
+      3.663968330616099,
+      3.4837633918362707,
+      1.212064151644912,
+      3.3398007301753236,
+      3.6626409964429887,
+      3.4357779509950017,
+      3.8322429315509074,
+      3.5092155067812145,
+      3.5377701055335766,
+      -97.36703907397363,
+      0.21039044965436135,
+      3.7305136296898467,
+      3.5376422278768938,
+      3.1368176599907907,
+      3.656716424329254,
+      3.9311639450624907,
+      3.498349173412262,
+      3.45435967796179,
+      3.5422800771826144
+    ],
+    "episode_lengths": [
+      400,
+      400,
+      400,
+      400,
+      400,
+      400,
+      400,
+      400,
+      400,
+      400,
+      296,
+      400,
+      400,
+      400,
+      400,
+      400,
+      400,
+      400,
+      400,
+      400
+    ],
+    "episode_terminated": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      true,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
+    ],
+    "mean_eval_reward": -1.7789063118242328,
+    "mean_episode_length": 394.8,
+    "min_eval_reward": -97.36703907397363,
+    "max_eval_reward": 3.9311639450624907,
+    "termination_breakdown": {
+      "terminated": 1,
+      "truncated": 19
+    },
+    "final_policy_component_evaluation": {
+      "action_cost": {
+        "episode_sum_mean": -0.07139446099025058,
+        "episode_abs_sum_mean": 0.07139446099025058,
+        "signed_contribution_share": -0.0011189558722918508,
+        "magnitude_share": 0.0011189558722918508,
+        "active_rate": 1.0
+      },
+      "approach_cargo": {
+        "episode_sum_mean": 0.47772384055964634,
+        "episode_abs_sum_mean": 1.4079972811658727,
+        "signed_contribution_share": 0.007487302086376546,
+        "magnitude_share": 0.022067353742563547,
+        "active_rate": 0.9969604863221885
+      },
+      "bounds_penalty": {
+        "episode_sum_mean": -0.3589578032493591,
+        "episode_abs_sum_mean": 0.3589578032493591,
+        "signed_contribution_share": -0.005625897811676208,
+        "magnitude_share": 0.005625897811676208,
+        "active_rate": 0.01279128672745694
+      },
+      "dock_bonus": {
+        "episode_sum_mean": 30.062579532194682,
+        "episode_abs_sum_mean": 30.062579532194682,
+        "signed_contribution_share": 0.4711668025392564,
+        "magnitude_share": 0.4711668025392564,
+        "active_rate": 0.5630699088145896
+      },
+      "dock_hold_bonus": {
+        "episode_sum_mean": 12.0,
+        "episode_abs_sum_mean": 12.0,
+        "signed_contribution_share": 0.1880744007484814,
+        "magnitude_share": 0.1880744007484814,
+        "active_rate": 0.002026342451874367
+      },
+      "dwell": {
+        "episode_sum_mean": 11.98424790352583,
+        "episode_abs_sum_mean": 11.98424790352583,
+        "signed_contribution_share": 0.18782752023973873,
+        "magnitude_share": 0.18782752023973873,
+        "active_rate": 0.060790273556231005
+      },
+      "hard_hit": {
+        "episode_sum_mean": -0.05,
+        "episode_abs_sum_mean": 0.05,
+        "signed_contribution_share": -0.0007836433364520058,
+        "magnitude_share": 0.0007836433364520058,
+        "active_rate": 0.00025329280648429586
+      },
+      "progress": {
+        "episode_sum_mean": 5.375477999076248,
+        "episode_abs_sum_mean": 6.001333687081933,
+        "signed_contribution_share": 0.08424915028440925,
+        "magnitude_share": 0.09405810307413408,
+        "active_rate": 0.49848024316109424
+      },
+      "roughness": {
+        "episode_sum_mean": -0.22322600580773724,
+        "episode_abs_sum_mean": 0.22322600580773724,
+        "signed_contribution_share": -0.0034985914394806005,
+        "magnitude_share": 0.0034985914394806005,
+        "active_rate": 0.022163120567375887
+      },
+      "safety_guard": {
+        "episode_sum_mean": -1.25,
+        "episode_abs_sum_mean": 1.25,
+        "signed_contribution_share": -0.019591083411300145,
+        "magnitude_share": 0.019591083411300145,
+        "active_rate": 0.00012664640324214793
+      },
+      "time_cost": {
+        "episode_sum_mean": -0.3948000000000003,
+        "episode_abs_sum_mean": 0.3948000000000003,
+        "signed_contribution_share": -0.006187647784625043,
+        "magnitude_share": 0.006187647784625043,
+        "active_rate": 1.0
+      }
+    },
+    "final_policy_component_error_count": 0
+  },
+  "train_duration_sec": 1511.3,
+  "component_summary": {
+    "steps_seen": 3010560,
+    "reward_error_count_max": 0,
+    "component_stats": {
+      "component.action_cost": {
+        "count": 3010560,
+        "mean": -0.0003618390982780765,
+        "abs_mean": 0.0003618390982780765,
+        "nonzero_rate": 1.0,
+        "mean_when_active": -0.0003618390982780765,
+        "abs_mean_when_active": 0.0003618390982780765,
+        "min": -0.0007999999797903001,
+        "max": -1.2508202806849056e-10
+      },
+      "component.approach_cargo": {
+        "count": 3010560,
+        "mean": 0.001525844325136286,
+        "abs_mean": 0.0035768433391600587,
+        "nonzero_rate": 0.9981780798256803,
+        "mean_when_active": 0.0015286293658169255,
+        "abs_mean_when_active": 0.003583371956820281,
+        "min": -0.02392369695007801,
+        "max": 0.0419098399579525
+      },
+      "component.bounds_penalty": {
+        "count": 3010560,
+        "mean": -0.0005793554159150567,
+        "abs_mean": 0.0005793554159150567,
+        "nonzero_rate": 0.0031319754464285716,
+        "mean_when_active": -0.18498082945564037,
+        "abs_mean_when_active": 0.18498082945564037,
+        "min": -0.7874032258987427,
+        "max": 0.0
+      },
+      "component.dock_bonus": {
+        "count": 3010560,
+        "mean": 0.03228884609319271,
+        "abs_mean": 0.03228884609319271,
+        "nonzero_rate": 0.3701085512329932,
+        "mean_when_active": 0.0872415565261177,
+        "abs_mean_when_active": 0.0872415565261177,
+        "min": 0.0,
+        "max": 0.26195794343948364
+      },
+      "component.dock_hold_bonus": {
+        "count": 3010560,
+        "mean": 0.019830197704081634,
+        "abs_mean": 0.019830197704081634,
+        "nonzero_rate": 0.0013220131802721088,
+        "mean_when_active": 15.0,
+        "abs_mean_when_active": 15.0,
+        "min": 0.0,
+        "max": 15.0
+      },
+      "component.dwell": {
+        "count": 3010560,
+        "mean": 0.018836989420858926,
+        "abs_mean": 0.018836989420858926,
+        "nonzero_rate": 0.03792218059098639,
+        "mean_when_active": 0.4967274857959047,
+        "abs_mean_when_active": 0.4967274857959047,
+        "min": 0.0,
+        "max": 0.5
+      },
+      "component.hard_hit": {
+        "count": 3010560,
+        "mean": -0.00010596035289115646,
+        "abs_mean": 0.00010596035289115646,
+        "nonzero_rate": 0.00021192070578231293,
+        "mean_when_active": -0.5,
+        "abs_mean_when_active": 0.5,
+        "min": -0.5,
+        "max": 0.0
+      },
+      "component.progress": {
+        "count": 3010560,
+        "mean": 0.01208587727243602,
+        "abs_mean": 0.013263944934006143,
+        "nonzero_rate": 0.5695950255102041,
+        "mean_when_active": 0.0212183687201452,
+        "abs_mean_when_active": 0.023286623548239755,
+        "min": -0.0838918536901474,
+        "max": 0.0889844298362732
+      },
+      "component.roughness": {
+        "count": 3010560,
+        "mean": -0.00041941643283759165,
+        "abs_mean": 0.00041941643283759165,
+        "nonzero_rate": 0.019591039540816327,
+        "mean_when_active": -0.021408584876967444,
+        "abs_mean_when_active": 0.021408584876967444,
+        "min": -0.6068972945213318,
+        "max": -0.0
+      },
+      "component.safety_guard": {
+        "count": 3010560,
+        "mean": -0.0009383636267006803,
+        "abs_mean": 0.0009383636267006803,
+        "nonzero_rate": 3.753454506802721e-05,
+        "mean_when_active": -25.0,
+        "abs_mean_when_active": 25.0,
+        "min": -25.0,
+        "max": 0.0
+      },
+      "component.time_cost": {
+        "count": 3010560,
+        "mean": -0.0010000000000513468,
+        "abs_mean": 0.0010000000000513468,
+        "nonzero_rate": 1.0,
+        "mean_when_active": -0.0010000000000513468,
+        "abs_mean_when_active": 0.0010000000000513468,
+        "min": -0.001,
+        "max": -0.001
+      },
+      "component.total_reward": {
+        "count": 3010560,
+        "mean": 0.08136884204435428,
+        "abs_mean": 0.08654628562379757,
+        "nonzero_rate": 1.0,
+        "mean_when_active": 0.08136884204435428,
+        "abs_mean_when_active": 0.08654628562379757,
+        "min": -20.0,
+        "max": 15.748225212097168
+      },
+      "generated_reward": {
+        "count": 3010560,
+        "mean": 0.08136884204435428,
+        "abs_mean": 0.08654628562379757,
+        "nonzero_rate": 1.0,
+        "mean_when_active": 0.08136884204435428,
+        "abs_mean_when_active": 0.08654628562379757,
+        "min": -20.0,
+        "max": 15.748225212097168
+      },
+      "original_env_reward": {
+        "count": 3010560,
+        "mean": 0.053761521677771255,
+        "abs_mean": 0.06265137420654424,
+        "nonzero_rate": 1.0,
+        "mean_when_active": 0.053761521677771255,
+        "abs_mean_when_active": 0.06265137420654424,
+        "min": -100.05305483523881,
+        "max": 300.00800187940433
+      }
+    },
+    "episode_component_sum_stats": {
+      "action_cost": {
+        "count": 7733,
+        "mean": -0.14082794808113527,
+        "abs_mean": 0.14082794808113527,
+        "min": -0.2637099750118068,
+        "max": -0.06533246693660999
+      },
+      "approach_cargo": {
+        "count": 7733,
+        "mean": 0.5935321286118669,
+        "abs_mean": 0.6057500958216159,
+        "min": -1.5125802683733127,
+        "max": 1.4630790574291836
+      },
+      "bounds_penalty": {
+        "count": 7733,
+        "mean": -0.22555078765514458,
+        "abs_mean": 0.22555078765514458,
+        "min": -94.74535989761353,
+        "max": 0.0
+      },
+      "dock_bonus": {
+        "count": 7733,
+        "mean": 12.569979145432644,
+        "abs_mean": 12.569979145432644,
+        "min": 0.0,
+        "max": 43.72974983268068
+      },
+      "dock_hold_bonus": {
+        "count": 7733,
+        "mean": 7.718220612957455,
+        "abs_mean": 7.718220612957455,
+        "min": 0.0,
+        "max": 15.0
+      },
+      "dwell": {
+        "count": 7733,
+        "mean": 7.3320691842712495,
+        "abs_mean": 7.3320691842712495,
+        "min": 0.0,
+        "max": 15.0
+      },
+      "hard_hit": {
+        "count": 7733,
+        "mean": -0.04112246217509376,
+        "abs_mean": 0.04112246217509376,
+        "min": -5.0,
+        "max": 0.0
+      },
+      "progress": {
+        "count": 7733,
+        "mean": 4.70272748818395,
+        "abs_mean": 4.727132895870626,
+        "min": -3.953488826751709,
+        "max": 6.7772926446050406
+      },
+      "roughness": {
+        "count": 7733,
+        "mean": -0.16298006555027672,
+        "abs_mean": 0.16298006555027672,
+        "min": -3.6384760091314092,
+        "max": 0.0
+      },
+      "safety_guard": {
+        "count": 7733,
+        "mean": -0.36531747058062847,
+        "abs_mean": 0.36531747058062847,
+        "min": -25.0,
+        "max": 0.0
+      },
+      "time_cost": {
+        "count": 7733,
+        "mean": -0.38921246605462223,
+        "abs_mean": 0.38921246605462223,
+        "min": -0.4000000000000003,
+        "max": -0.17000000000000012
+      },
+      "total_reward": {
+        "count": 7733,
+        "mean": 31.671724531117338,
+        "abs_mean": 32.57115413190852,
+        "min": -113.85802696819883,
+        "max": 79.42518338625086
+      }
+    },
+    "monitor_snapshots": [
+      {
+        "steps": 300000,
+        "episodes": 750,
+        "mean_generated_reward": 0.0011166067067427017,
+        "top_components": [
+          {
+            "name": "progress",
+            "episode_sum_mean": 0.872109744668007,
+            "mean": 0.0021901431480050087,
+            "active_rate": 0.43646,
+            "abs_frac_of_total": 0.18495625762800075,
+            "magnitude_share": 0.18495625762800075
+          },
+          {
+            "name": "approach_cargo",
+            "episode_sum_mean": 0.47285469627716875,
+            "mean": 0.0011906249771100222,
+            "active_rate": 0.99981,
+            "abs_frac_of_total": 0.19994430453239714,
+            "magnitude_share": 0.19994430453239714
+          },
+          {
+            "name": "total_reward",
+            "episode_sum_mean": 0.4403389770316426,
+            "mean": 0.0011166067067427017,
+            "active_rate": 1.0,
+            "abs_frac_of_total": 0.43467230489159214,
+            "magnitude_share": 0.43467230489159214
+          },
+          {
+            "name": "time_cost",
+            "episode_sum_mean": -0.3994413333333334,
+            "mean": -0.0009999999999993927,
+            "active_rate": 1.0,
+            "abs_frac_of_total": 0.0545526824569424,
+            "magnitude_share": 0.0545526824569424
+          },
+          {
+            "name": "safety_guard",
+            "episode_sum_mean": -0.3333333333333333,
+            "mean": -0.0008333333333333334,
+            "active_rate": 3.3333333333333335e-05,
+            "abs_frac_of_total": 0.04546056871414628,
+            "magnitude_share": 0.04546056871414628
+          },
+          {
+            "name": "bounds_penalty",
+            "episode_sum_mean": -0.16001857964197794,
+            "mean": -0.00040004644910494484,
+            "active_rate": 0.00242,
+            "abs_frac_of_total": 0.02182360690606268,
+            "magnitude_share": 0.02182360690606268
+          },
+          {
+            "name": "action_cost",
+            "episode_sum_mean": -0.1593226518120183,
+            "mean": -0.00039888008143946856,
+            "active_rate": 1.0,
+            "abs_frac_of_total": 0.021759978421179868,
+            "magnitude_share": 0.021759978421179868
+          },
+          {
+            "name": "roughness",
+            "episode_sum_mean": -0.08863122144077075,
+            "mean": -0.00022220569368605757,
+            "active_rate": 0.014113333333333334,
+            "abs_frac_of_total": 0.012121916647787471,
+            "magnitude_share": 0.012121916647787471
+          },
+          {
+            "name": "dock_bonus",
+            "episode_sum_mean": 0.0642483822578823,
+            "mean": 0.00016062095564470577,
+            "active_rate": 0.0053,
+            "abs_frac_of_total": 0.008762303989221586,
+            "magnitude_share": 0.008762303989221586
+          },
+          {
+            "name": "dock_hold_bonus",
+            "episode_sum_mean": 0.06,
+            "mean": 0.00015,
+            "active_rate": 1e-05,
+            "abs_frac_of_total": 0.00818290236854633,
+            "magnitude_share": 0.00818290236854633
+          },
+          {
+            "name": "dwell",
+            "episode_sum_mean": 0.048255729039510094,
+            "mean": 0.00012063932259877523,
+            "active_rate": 0.00025,
+            "abs_frac_of_total": 0.006581198657555617,
+            "magnitude_share": 0.006581198657555617
+          },
+          {
+            "name": "hard_hit",
+            "episode_sum_mean": -0.008666666666666666,
+            "mean": -2.1666666666666667e-05,
+            "active_rate": 4.3333333333333334e-05,
+            "abs_frac_of_total": 0.0011819747865678032,
+            "magnitude_share": 0.0011819747865678032
+          }
+        ]
+      },
+      {
+        "steps": 600000,
+        "episodes": 756,
+        "mean_generated_reward": 0.01874741887144822,
+        "top_components": [
+          {
+            "name": "total_reward",
+            "episode_sum_mean": 7.412628947555537,
+            "mean": 0.01874741887144822,
+            "active_rate": 1.0,
+            "abs_frac_of_total": 0.464908195636166,
+            "magnitude_share": 0.464908195636166
+          },
+          {
+            "name": "progress",
+            "episode_sum_mean": 3.1509120082119284,
+            "mean": 0.008009328273182424,
+            "active_rate": 0.6889833333333333,
+            "abs_frac_of_total": 0.189854794829128,
+            "magnitude_share": 0.189854794829128
+          },
+          {
+            "name": "dock_bonus",
+            "episode_sum_mean": 1.7969300016941896,
+            "mean": 0.0045282998765156755,
+            "active_rate": 0.09960666666666666,
+            "abs_frac_of_total": 0.09163665734312544,
+            "magnitude_share": 0.09163665734312544
+          },
+          {
+            "name": "dock_hold_bonus",
+            "episode_sum_mean": 1.3492063492063493,
+            "mean": 0.0034,
+            "active_rate": 0.00022666666666666666,
+            "abs_frac_of_total": 0.0688038874329943,
+            "magnitude_share": 0.0688038874329943
+          },
+          {
+            "name": "dwell",
+            "episode_sum_mean": 1.3143414821101245,
+            "mean": 0.0033121405349175134,
+            "active_rate": 0.0069433333333333335,
+            "abs_frac_of_total": 0.06702592486080063,
+            "magnitude_share": 0.06702592486080063
+          },
+          {
+            "name": "approach_cargo",
+            "episode_sum_mean": 0.6716422494806538,
+            "mean": 0.0016969000808205212,
+            "active_rate": 0.9992066666666667,
+            "abs_frac_of_total": 0.07176530763282342,
+            "magnitude_share": 0.07176530763282342
+          },
+          {
+            "name": "time_cost",
+            "episode_sum_mean": -0.395410052910053,
+            "mean": -0.0009999999999993927,
+            "active_rate": 1.0,
+            "abs_frac_of_total": 0.020236437480280152,
+            "magnitude_share": 0.020236437480280152
+          },
+          {
+            "name": "action_cost",
+            "episode_sum_mean": -0.15953538874659987,
+            "mean": -0.0004035652996099692,
+            "active_rate": 1.0,
+            "abs_frac_of_total": 0.00816672395477263,
+            "magnitude_share": 0.00816672395477263
+          },
+          {
+            "name": "roughness",
+            "episode_sum_mean": -0.14502881498015435,
+            "mean": -0.0003662038014631371,
+            "active_rate": 0.01998,
+            "abs_frac_of_total": 0.0074106603333542,
+            "magnitude_share": 0.0074106603333542
+          },
+          {
+            "name": "safety_guard",
+            "episode_sum_mean": -0.13227513227513227,
+            "mean": -0.0003333333333333333,
+            "active_rate": 1.3333333333333333e-05,
+            "abs_frac_of_total": 0.006745479160097481,
+            "magnitude_share": 0.006745479160097481
+          },
+          {
+            "name": "bounds_penalty",
+            "episode_sum_mean": -0.038472287080906054,
+            "mean": -9.695016344388326e-05,
+            "active_rate": 0.0006633333333333334,
+            "abs_frac_of_total": 0.001961925921236277,
+            "magnitude_share": 0.001961925921236277
+          },
+          {
+            "name": "hard_hit",
+            "episode_sum_mean": -0.0291005291005291,
+            "mean": -7.333333333333333e-05,
+            "active_rate": 0.00014666666666666666,
+            "abs_frac_of_total": 0.0014840054152214456,
+            "magnitude_share": 0.0014840054152214456
+          }
+        ]
+      },
+      {
+        "steps": 900000,
+        "episodes": 785,
+        "mean_generated_reward": 0.04181617535554455,
+        "top_components": [
+          {
+            "name": "total_reward",
+            "episode_sum_mean": 15.779068751603063,
+            "mean": 0.04181617535554455,
+            "active_rate": 1.0,
+            "abs_frac_of_total": 0.4789793225387128,
+            "magnitude_share": 0.4789793225387128
+          },
+          {
+            "name": "progress",
+            "episode_sum_mean": 4.740987992993182,
+            "mean": 0.012398725889708537,
+            "active_rate": 0.6734366666666667,
+            "abs_frac_of_total": 0.14286337779397573,
+            "magnitude_share": 0.14286337779397573
+          },
+          {
+            "name": "dock_bonus",
+            "episode_sum_mean": 4.543492031277441,
+            "mean": 0.012125321264949387,
+            "active_rate": 0.23082666666666668,
+            "abs_frac_of_total": 0.1187126845342873,
+            "magnitude_share": 0.1187126845342873
+          },
+          {
+            "name": "dock_hold_bonus",
+            "episode_sum_mean": 3.9745222929936306,
+            "mean": 0.01055,
+            "active_rate": 0.0007033333333333334,
+            "abs_frac_of_total": 0.10328953719825079,
+            "magnitude_share": 0.10328953719825079
+          },
+          {
+            "name": "dwell",
+            "episode_sum_mean": 3.2553398831634763,
+            "mean": 0.008667630785504976,
+            "active_rate": 0.017533333333333335,
+            "abs_frac_of_total": 0.08486024383318673,
+            "magnitude_share": 0.08486024383318673
+          },
+          {
+            "name": "approach_cargo",
+            "episode_sum_mean": 0.6440969585229696,
+            "mean": 0.0016844548763905174,
+            "active_rate": 0.99805,
+            "abs_frac_of_total": 0.03363551186768078,
+            "magnitude_share": 0.03363551186768078
+          },
+          {
+            "name": "safety_guard",
+            "episode_sum_mean": -0.4140127388535032,
+            "mean": -0.0010833333333333333,
+            "active_rate": 4.3333333333333334e-05,
+            "abs_frac_of_total": 0.01060635058117899,
+            "magnitude_share": 0.01060635058117899
+          },
+          {
+            "name": "time_cost",
+            "episode_sum_mean": -0.3823936305732486,
+            "mean": -0.0009999999999993927,
+            "active_rate": 1.0,
+            "abs_frac_of_total": 0.009790477459543893,
+            "magnitude_share": 0.009790477459543893
+          },
+          {
+            "name": "bounds_penalty",
+            "episode_sum_mean": -0.3537828068824331,
+            "mean": -0.0009257316780090332,
+            "active_rate": 0.0064533333333333335,
+            "abs_frac_of_total": 0.009063355127138689,
+            "magnitude_share": 0.009063355127138689
+          },
+          {
+            "name": "action_cost",
+            "episode_sum_mean": -0.1467713955715749,
+            "mean": -0.00038363051107045927,
+            "active_rate": 1.0,
+            "abs_frac_of_total": 0.003755925871430916,
+            "magnitude_share": 0.003755925871430916
+          },
+          {
+            "name": "roughness",
+            "episode_sum_mean": -0.1422447950328598,
+            "mean": -0.0003738300826462118,
+            "active_rate": 0.019513333333333334,
+            "abs_frac_of_total": 0.0036599749978493894,
+            "magnitude_share": 0.0036599749978493894
+          },
+          {
+            "name": "hard_hit",
+            "episode_sum_mean": -0.030573248407643312,
+            "mean": -8e-05,
+            "active_rate": 0.00016,
+            "abs_frac_of_total": 0.0007832381967639871,
+            "magnitude_share": 0.0007832381967639871
+          }
+        ]
+      },
+      {
+        "steps": 1200000,
+        "episodes": 788,
+        "mean_generated_reward": 0.058899092798351,
+        "top_components": [
+          {
+            "name": "total_reward",
+            "episode_sum_mean": 22.623847648809573,
+            "mean": 0.058899092798351,
+            "active_rate": 1.0,
+            "abs_frac_of_total": 0.48238564965128095,
+            "magnitude_share": 0.48238564965128095
+          },
+          {
+            "name": "dock_bonus",
+            "episode_sum_mean": 7.831080003773268,
+            "mean": 0.020349116232989822,
+            "active_rate": 0.31808,
+            "abs_frac_of_total": 0.1495341218031393,
+            "magnitude_share": 0.1495341218031393
+          },
+          {
+            "name": "dock_hold_bonus",
+            "episode_sum_mean": 5.615482233502538,
+            "mean": 0.0146,
+            "active_rate": 0.0009733333333333333,
+            "abs_frac_of_total": 0.10728712506867745,
+            "magnitude_share": 0.10728712506867745
+          },
+          {
+            "name": "progress",
+            "episode_sum_mean": 5.038711870442261,
+            "mean": 0.013228559866183593,
+            "active_rate": 0.6107766666666666,
+            "abs_frac_of_total": 0.11197823935870056,
+            "magnitude_share": 0.11197823935870056
+          },
+          {
+            "name": "dwell",
+            "episode_sum_mean": 4.927521792538275,
+            "mean": 0.012793465817173322,
+            "active_rate": 0.02578333333333333,
+            "abs_frac_of_total": 0.09401192925951535,
+            "magnitude_share": 0.09401192925951535
+          },
+          {
+            "name": "approach_cargo",
+            "episode_sum_mean": 0.5983094359674017,
+            "mean": 0.0015690741488007932,
+            "active_rate": 0.99884,
+            "abs_frac_of_total": 0.026311215518889576,
+            "magnitude_share": 0.026311215518889576
+          },
+          {
+            "name": "safety_guard",
+            "episode_sum_mean": -0.41243654822335024,
+            "mean": -0.0010833333333333333,
+            "active_rate": 4.3333333333333334e-05,
+            "abs_frac_of_total": 0.00796080265920552,
+            "magnitude_share": 0.00796080265920552
+          },
+          {
+            "name": "time_cost",
+            "episode_sum_mean": -0.3812093908629442,
+            "mean": -0.0009999999999993927,
+            "active_rate": 1.0,
+            "abs_frac_of_total": 0.007348433223877555,
+            "magnitude_share": 0.007348433223877555
+          },
+          {
+            "name": "bounds_penalty",
+            "episode_sum_mean": -0.3017201459952417,
+            "mean": -0.0007925182501475016,
+            "active_rate": 0.00489,
+            "abs_frac_of_total": 0.005823767439916741,
+            "magnitude_share": 0.005823767439916741
+          },
+          {
+            "name": "roughness",
+            "episode_sum_mean": -0.19491963278224503,
+            "mean": -0.0005109735040515511,
+            "active_rate": 0.024126666666666668,
+            "abs_frac_of_total": 0.003754854673695831,
+            "magnitude_share": 0.003754854673695831
+          },
+          {
+            "name": "action_cost",
+            "episode_sum_mean": -0.14054848008499193,
+            "mean": -0.0003687591470141142,
+            "active_rate": 1.0,
+            "abs_frac_of_total": 0.00270980196752891,
+            "magnitude_share": 0.00270980196752891
+          },
+          {
+            "name": "hard_hit",
+            "episode_sum_mean": -0.04631979695431472,
+            "mean": -0.00012166666666666667,
+            "active_rate": 0.00024333333333333333,
+            "abs_frac_of_total": 0.0008940593755723121,
+            "magnitude_share": 0.0008940593755723121
+          }
+        ]
+      },
+      {
+        "steps": 1500000,
+        "episodes": 794,
+        "mean_generated_reward": 0.07786176155132125,
+        "top_components": [
+          {
+            "name": "total_reward",
+            "episode_sum_mean": 29.387617199055637,
+            "mean": 0.07786176155132125,
+            "active_rate": 1.0,
+            "abs_frac_of_total": 0.4845233442563591,
+            "magnitude_share": 0.4845233442563591
+          },
+          {
+            "name": "dock_bonus",
+            "episode_sum_mean": 10.811589543081066,
+            "mean": 0.028602887164083955,
+            "active_rate": 0.41364666666666666,
+            "abs_frac_of_total": 0.16670620535538,
+            "magnitude_share": 0.16670620535538
+          },
+          {
+            "name": "dock_hold_bonus",
+            "episode_sum_mean": 7.405541561712846,
+            "mean": 0.01965,
+            "active_rate": 0.00131,
+            "abs_frac_of_total": 0.1145260936926165,
+            "magnitude_share": 0.1145260936926165
+          },
+          {
+            "name": "dwell",
+            "episode_sum_mean": 6.557145066352875,
+            "mean": 0.01737612920373678,
+            "active_rate": 0.035146666666666666,
+            "abs_frac_of_total": 0.1012732926820442,
+            "magnitude_share": 0.1012732926820442
+          },
+          {
+            "name": "progress",
+            "episode_sum_mean": 5.388997931259166,
+            "mean": 0.014278933004688781,
+            "active_rate": 0.59118,
+            "abs_frac_of_total": 0.08947027118163778,
+            "magnitude_share": 0.08947027118163778
+          },
+          {
+            "name": "approach_cargo",
+            "episode_sum_mean": 0.5779505577563329,
+            "mean": 0.001536032226950553,
+            "active_rate": 0.9986466666666667,
+            "abs_frac_of_total": 0.021646917103670015,
+            "magnitude_share": 0.021646917103670015
+          },
+          {
+            "name": "time_cost",
+            "episode_sum_mean": -0.37791561712846355,
+            "mean": -0.0009999999999993927,
+            "active_rate": 1.0,
+            "abs_frac_of_total": 0.005828299933462949,
+            "magnitude_share": 0.005828299933462949
+          },
+          {
+            "name": "bounds_penalty",
+            "episode_sum_mean": -0.36359954375764286,
+            "mean": -0.0009623267924785614,
+            "active_rate": 0.004676666666666667,
+            "abs_frac_of_total": 0.005608729180575819,
+            "magnitude_share": 0.005608729180575819
+          },
+          {
+            "name": "safety_guard",
+            "episode_sum_mean": -0.28337531486146095,
+            "mean": -0.00075,
+            "active_rate": 3e-05,
+            "abs_frac_of_total": 0.004371224950099867,
+            "magnitude_share": 0.004371224950099867
+          },
+          {
+            "name": "roughness",
+            "episode_sum_mean": -0.19381269009333701,
+            "mean": -0.0005128973148487885,
+            "active_rate": 0.02327,
+            "abs_frac_of_total": 0.002989319386008335,
+            "magnitude_share": 0.002989319386008335
+          },
+          {
+            "name": "action_cost",
+            "episode_sum_mean": -0.14084664068534145,
+            "mean": -0.00037272334637912974,
+            "active_rate": 1.0,
+            "abs_frac_of_total": 0.0021723434549028886,
+            "magnitude_share": 0.0021723434549028886
+          },
+          {
+            "name": "hard_hit",
+            "episode_sum_mean": -0.057304785894206546,
+            "mean": -0.00015166666666666668,
+            "active_rate": 0.00030333333333333335,
+            "abs_frac_of_total": 0.0008839588232424174,
+            "magnitude_share": 0.0008839588232424174
+          }
+        ]
+      },
+      {
+        "steps": 1800000,
+        "episodes": 776,
+        "mean_generated_reward": 0.10029811700103416,
+        "top_components": [
+          {
+            "name": "total_reward",
+            "episode_sum_mean": 38.58171049809592,
+            "mean": 0.10029811700103416,
+            "active_rate": 1.0,
+            "abs_frac_of_total": 0.48858990338309694,
+            "magnitude_share": 0.48858990338309694
+          },
+          {
+            "name": "dock_bonus",
+            "episode_sum_mean": 15.601081359737858,
+            "mean": 0.04053130573450756,
+            "active_rate": 0.4670666666666667,
+            "abs_frac_of_total": 0.18339088464137507,
+            "magnitude_share": 0.18339088464137507
+          },
+          {
+            "name": "dock_hold_bonus",
+            "episode_sum_mean": 9.664948453608247,
+            "mean": 0.02515,
+            "active_rate": 0.0016766666666666666,
+            "abs_frac_of_total": 0.11379551349622022,
+            "magnitude_share": 0.11379551349622022
+          },
+          {
+            "name": "dwell",
+            "episode_sum_mean": 9.150343644211894,
+            "mean": 0.023846277334392072,
+            "active_rate": 0.04801,
+            "abs_frac_of_total": 0.10789659539723352,
+            "magnitude_share": 0.10789659539723352
+          },
+          {
+            "name": "progress",
+            "episode_sum_mean": 5.29506864072815,
+            "mean": 0.013701708891902429,
+            "active_rate": 0.57429,
+            "abs_frac_of_total": 0.06786197875065132,
+            "magnitude_share": 0.06786197875065132
+          },
+          {
+            "name": "safety_guard",
+            "episode_sum_mean": -0.7087628865979382,
+            "mean": -0.0018333333333333333,
+            "active_rate": 7.333333333333333e-05,
+            "abs_frac_of_total": 0.00829523292550313,
+            "magnitude_share": 0.00829523292550313
+          },
+          {
+            "name": "approach_cargo",
+            "episode_sum_mean": 0.6583586867218024,
+            "mean": 0.0016977645927472194,
+            "active_rate": 0.99807,
+            "abs_frac_of_total": 0.015720187148077748,
+            "magnitude_share": 0.015720187148077748
+          },
+          {
+            "name": "bounds_penalty",
+            "episode_sum_mean": -0.4951861881718193,
+            "mean": -0.0012808816067377726,
+            "active_rate": 0.004776666666666667,
+            "abs_frac_of_total": 0.005795569787935922,
+            "magnitude_share": 0.005795569787935922
+          },
+          {
+            "name": "time_cost",
+            "episode_sum_mean": -0.38593814432989704,
+            "mean": -0.0009999999999993927,
+            "active_rate": 1.0,
+            "abs_frac_of_total": 0.004524672504817142,
+            "magnitude_share": 0.004524672504817142
+          },
+          {
+            "name": "roughness",
+            "episode_sum_mean": -0.16223065936079428,
+            "mean": -0.0004211388437243007,
+            "active_rate": 0.020673333333333332,
+            "abs_frac_of_total": 0.0019055153469109834,
+            "magnitude_share": 0.0019055153469109834
+          },
+          {
+            "name": "action_cost",
+            "episode_sum_mean": -0.1421308050503181,
+            "mean": -0.0003681821555355141,
+            "active_rate": 1.0,
+            "abs_frac_of_total": 0.0016659036759168607,
+            "magnitude_share": 0.0016659036759168607
+          },
+          {
+            "name": "hard_hit",
+            "episode_sum_mean": -0.04768041237113402,
+            "mean": -0.00012333333333333334,
+            "active_rate": 0.0002466666666666667,
+            "abs_frac_of_total": 0.0005580429422611196,
+            "magnitude_share": 0.0005580429422611196
+          }
+        ]
+      },
+      {
+        "steps": 2100000,
+        "episodes": 767,
+        "mean_generated_reward": 0.106729374835315,
+        "top_components": [
+          {
+            "name": "total_reward",
+            "episode_sum_mean": 41.85873180206102,
+            "mean": 0.106729374835315,
+            "active_rate": 1.0,
+            "abs_frac_of_total": 0.48955767152874924,
+            "magnitude_share": 0.48955767152874924
+          },
+          {
+            "name": "dock_bonus",
+            "episode_sum_mean": 16.404271519483967,
+            "mean": 0.04186035293158419,
+            "active_rate": 0.4801566666666667,
+            "abs_frac_of_total": 0.18418802044461027,
+            "magnitude_share": 0.18418802044461027
+          },
+          {
+            "name": "dock_hold_bonus",
+            "episode_sum_mean": 10.443285528031291,
+            "mean": 0.0266,
+            "active_rate": 0.0017733333333333334,
+            "abs_frac_of_total": 0.11704156799237041,
+            "magnitude_share": 0.11704156799237041
+          },
+          {
+            "name": "dwell",
+            "episode_sum_mean": 10.28479548698143,
+            "mean": 0.026195750896732012,
+            "active_rate": 0.05259333333333333,
+            "abs_frac_of_total": 0.1152628481086864,
+            "magnitude_share": 0.1152628481086864
+          },
+          {
+            "name": "progress",
+            "episode_sum_mean": 5.2829328243052425,
+            "mean": 0.013488761877658156,
+            "active_rate": 0.5707466666666666,
+            "abs_frac_of_total": 0.06487324511331341,
+            "magnitude_share": 0.06487324511331341
+          },
+          {
+            "name": "approach_cargo",
+            "episode_sum_mean": 0.649080620355412,
+            "mean": 0.001663915490792189,
+            "active_rate": 0.99841,
+            "abs_frac_of_total": 0.014808862357445818,
+            "magnitude_share": 0.014808862357445818
+          },
+          {
+            "name": "time_cost",
+            "episode_sum_mean": -0.3917288135593222,
+            "mean": -0.0009999999999993927,
+            "active_rate": 1.0,
+            "abs_frac_of_total": 0.004400058947078922,
+            "magnitude_share": 0.004400058947078922
+          },
+          {
+            "name": "safety_guard",
+            "episode_sum_mean": -0.29335071707953064,
+            "mean": -0.00075,
+            "active_rate": 3e-05,
+            "abs_frac_of_total": 0.0033000442103111958,
+            "magnitude_share": 0.0033000442103111958
+          },
+          {
+            "name": "bounds_penalty",
+            "episode_sum_mean": -0.26865750372487535,
+            "mean": -0.0006868676845232645,
+            "active_rate": 0.00379,
+            "abs_frac_of_total": 0.003022258300747808,
+            "magnitude_share": 0.003022258300747808
+          },
+          {
+            "name": "roughness",
+            "episode_sum_mean": -0.14745630988596262,
+            "mean": -0.00037607549074897257,
+            "active_rate": 0.01983,
+            "abs_frac_of_total": 0.001654754327848118,
+            "magnitude_share": 0.001654754327848118
+          },
+          {
+            "name": "action_cost",
+            "episode_sum_mean": -0.14025379839291474,
+            "mean": -0.0003580250014625936,
+            "active_rate": 1.0,
+            "abs_frac_of_total": 0.001575331110964386,
+            "magnitude_share": 0.001575331110964386
+          },
+          {
+            "name": "hard_hit",
+            "episode_sum_mean": -0.02803129074315515,
+            "mean": -7.166666666666667e-05,
+            "active_rate": 0.00014333333333333334,
+            "abs_frac_of_total": 0.00031533755787418094,
+            "magnitude_share": 0.00031533755787418094
+          }
+        ]
+      },
+      {
+        "steps": 2400000,
+        "episodes": 764,
+        "mean_generated_reward": 0.12358045957997034,
+        "top_components": [
+          {
+            "name": "total_reward",
+            "episode_sum_mean": 48.417139410332766,
+            "mean": 0.12358045957997034,
+            "active_rate": 1.0,
+            "abs_frac_of_total": 0.49038863248476083,
+            "magnitude_share": 0.49038863248476083
+          },
+          {
+            "name": "dock_bonus",
+            "episode_sum_mean": 19.77340426033814,
+            "mean": 0.05039642505221994,
+            "active_rate": 0.5362,
+            "abs_frac_of_total": 0.19437366422875088,
+            "magnitude_share": 0.19437366422875088
+          },
+          {
+            "name": "dock_hold_bonus",
+            "episode_sum_mean": 11.858638743455497,
+            "mean": 0.0303,
+            "active_rate": 0.00202,
+            "abs_frac_of_total": 0.11686388508765307,
+            "magnitude_share": 0.11686388508765307
+          },
+          {
+            "name": "dwell",
+            "episode_sum_mean": 11.643007692125144,
+            "mean": 0.029750329108834267,
+            "active_rate": 0.059673333333333335,
+            "abs_frac_of_total": 0.11474386278200224,
+            "magnitude_share": 0.11474386278200224
+          },
+          {
+            "name": "progress",
+            "episode_sum_mean": 5.634050026083735,
+            "mean": 0.014392904251158859,
+            "active_rate": 0.5357466666666667,
+            "abs_frac_of_total": 0.05830985990563748,
+            "magnitude_share": 0.05830985990563748
+          },
+          {
+            "name": "approach_cargo",
+            "episode_sum_mean": 0.6664470558666453,
+            "mean": 0.001696490292029592,
+            "active_rate": 0.9978666666666667,
+            "abs_frac_of_total": 0.013059565431770882,
+            "magnitude_share": 0.013059565431770882
+          },
+          {
+            "name": "safety_guard",
+            "episode_sum_mean": -0.39267015706806285,
+            "mean": -0.001,
+            "active_rate": 4e-05,
+            "abs_frac_of_total": 0.0038568938972822794,
+            "magnitude_share": 0.0038568938972822794
+          },
+          {
+            "name": "time_cost",
+            "episode_sum_mean": -0.3919450261780106,
+            "mean": -0.0009999999999993927,
+            "active_rate": 1.0,
+            "abs_frac_of_total": 0.0038568938972799375,
+            "magnitude_share": 0.0038568938972799375
+          },
+          {
+            "name": "roughness",
+            "episode_sum_mean": -0.18003799775242477,
+            "mean": -0.0004600396790972369,
+            "active_rate": 0.019196666666666667,
+            "abs_frac_of_total": 0.0017743242308178315,
+            "magnitude_share": 0.0017743242308178315
+          },
+          {
+            "name": "action_cost",
+            "episode_sum_mean": -0.13068750451267488,
+            "mean": -0.00033337041278117636,
+            "active_rate": 1.0,
+            "abs_frac_of_total": 0.0012857743105901935,
+            "magnitude_share": 0.0012857743105901935
+          },
+          {
+            "name": "bounds_penalty",
+            "episode_sum_mean": -0.0963812963500697,
+            "mean": -0.00024545103470484413,
+            "active_rate": 0.0019366666666666666,
+            "abs_frac_of_total": 0.0009466785978347345,
+            "magnitude_share": 0.0009466785978347345
+          },
+          {
+            "name": "hard_hit",
+            "episode_sum_mean": -0.05431937172774869,
+            "mean": -0.00014,
+            "active_rate": 0.00028,
+            "abs_frac_of_total": 0.0005399651456195192,
+            "magnitude_share": 0.0005399651456195192
+          }
+        ]
+      },
+      {
+        "steps": 2700000,
+        "episodes": 763,
+        "mean_generated_reward": 0.14067186242720267,
+        "top_components": [
+          {
+            "name": "total_reward",
+            "episode_sum_mean": 55.35335569027108,
+            "mean": 0.14067186242720267,
+            "active_rate": 1.0,
+            "abs_frac_of_total": 0.49043414109258493,
+            "magnitude_share": 0.49043414109258493
+          },
+          {
+            "name": "dock_bonus",
+            "episode_sum_mean": 23.569622831865434,
+            "mean": 0.059945622326645416,
+            "active_rate": 0.5719433333333334,
+            "abs_frac_of_total": 0.20586519772070117,
+            "magnitude_share": 0.20586519772070117
+          },
+          {
+            "name": "dock_hold_bonus",
+            "episode_sum_mean": 13.387942332896461,
+            "mean": 0.034,
+            "active_rate": 0.002266666666666667,
+            "abs_frac_of_total": 0.11676276683497949,
+            "magnitude_share": 0.11676276683497949
+          },
+          {
+            "name": "dwell",
+            "episode_sum_mean": 13.067786864848468,
+            "mean": 0.033185435799260934,
+            "active_rate": 0.06666666666666667,
+            "abs_frac_of_total": 0.11396539125136135,
+            "magnitude_share": 0.11396539125136135
+          },
+          {
+            "name": "progress",
+            "episode_sum_mean": 5.757626549920572,
+            "mean": 0.01463266479059433,
+            "active_rate": 0.5090833333333333,
+            "abs_frac_of_total": 0.05127999935239615,
+            "magnitude_share": 0.05127999935239615
+          },
+          {
+            "name": "approach_cargo",
+            "episode_sum_mean": 0.5367472101847941,
+            "mean": 0.0013662773728172256,
+            "active_rate": 0.9961066666666667,
+            "abs_frac_of_total": 0.012741056197174649,
+            "magnitude_share": 0.012741056197174649
+          },
+          {
+            "name": "time_cost",
+            "episode_sum_mean": -0.39326998689384024,
+            "mean": -0.0009999999999993927,
+            "active_rate": 1.0,
+            "abs_frac_of_total": 0.0034341990245561347,
+            "magnitude_share": 0.0034341990245561347
+          },
+          {
+            "name": "safety_guard",
+            "episode_sum_mean": -0.2621231979030144,
+            "mean": -0.0006666666666666666,
+            "active_rate": 2.6666666666666667e-05,
+            "abs_frac_of_total": 0.002289466016372147,
+            "magnitude_share": 0.002289466016372147
+          },
+          {
+            "name": "roughness",
+            "episode_sum_mean": -0.17099171399919455,
+            "mean": -0.0004354464625649234,
+            "active_rate": 0.017773333333333332,
+            "abs_frac_of_total": 0.0014954098169877876,
+            "magnitude_share": 0.0014954098169877876
+          },
+          {
+            "name": "action_cost",
+            "episode_sum_mean": -0.12487096782465128,
+            "mean": -0.00031758420378929424,
+            "active_rate": 1.0,
+            "abs_frac_of_total": 0.0010906473628682933,
+            "magnitude_share": 0.0010906473628682933
+          },
+          {
+            "name": "hard_hit",
+            "episode_sum_mean": -0.03800786369593709,
+            "mean": -9.666666666666667e-05,
+            "active_rate": 0.00019333333333333333,
+            "abs_frac_of_total": 0.0003319725723739613,
+            "magnitude_share": 0.0003319725723739613
+          },
+          {
+            "name": "bounds_penalty",
+            "episode_sum_mean": -0.035463895429008754,
+            "mean": -9.01965073744456e-05,
+            "active_rate": 0.00044333333333333334,
+            "abs_frac_of_total": 0.0003097527576438794,
+            "magnitude_share": 0.0003097527576438794
+          }
+        ]
+      },
+      {
+        "steps": 3000000,
+        "episodes": 761,
+        "mean_generated_reward": 0.14220488371713086,
+        "top_components": [
+          {
+            "name": "total_reward",
+            "episode_sum_mean": 56.153537078612636,
+            "mean": 0.14220488371713086,
+            "active_rate": 1.0,
+            "abs_frac_of_total": 0.4900847668906987,
+            "magnitude_share": 0.4900847668906987
+          },
+          {
+            "name": "dock_bonus",
+            "episode_sum_mean": 25.081159358018105,
+            "mean": 0.06358297928039981,
+            "active_rate": 0.57455,
+            "abs_frac_of_total": 0.21351192271561528,
+            "magnitude_share": 0.21351192271561528
+          },
+          {
+            "name": "dock_hold_bonus",
+            "episode_sum_mean": 13.206307490144546,
+            "mean": 0.03345,
+            "active_rate": 0.00223,
+            "abs_frac_of_total": 0.11232524640503794,
+            "magnitude_share": 0.11232524640503794
+          },
+          {
+            "name": "dwell",
+            "episode_sum_mean": 12.924321108594361,
+            "mean": 0.032728960226674875,
+            "active_rate": 0.06584,
+            "abs_frac_of_total": 0.10990399169034205,
+            "magnitude_share": 0.10990399169034205
+          },
+          {
+            "name": "progress",
+            "episode_sum_mean": 5.700685148412526,
+            "mean": 0.014437529227677732,
+            "active_rate": 0.5053233333333333,
+            "abs_frac_of_total": 0.0497662817494774,
+            "magnitude_share": 0.0497662817494774
+          },
+          {
+            "name": "approach_cargo",
+            "episode_sum_mean": 0.4595814267598685,
+            "mean": 0.0011650245897454566,
+            "active_rate": 0.9968433333333333,
+            "abs_frac_of_total": 0.012992610993730797,
+            "magnitude_share": 0.012992610993730797
+          },
+          {
+            "name": "time_cost",
+            "episode_sum_mean": -0.39449145860709606,
+            "mean": -0.0009999999999993927,
+            "active_rate": 1.0,
+            "abs_frac_of_total": 0.0033580043768301863,
+            "magnitude_share": 0.0033580043768301863
+          },
+          {
+            "name": "safety_guard",
+            "episode_sum_mean": -0.39421813403416556,
+            "mean": -0.0010833333333333333,
+            "active_rate": 4.3333333333333334e-05,
+            "abs_frac_of_total": 0.0036378380749015776,
+            "magnitude_share": 0.0036378380749015776
+          },
+          {
+            "name": "roughness",
+            "episode_sum_mean": -0.19577075298144736,
+            "mean": -0.0004965627505073113,
+            "active_rate": 0.01719,
+            "abs_frac_of_total": 0.0016674598895754,
+            "magnitude_share": 0.0016674598895754
+          },
+          {
+            "name": "bounds_penalty",
+            "episode_sum_mean": -0.13126569116945805,
+            "mean": -0.00033297730326652526,
+            "active_rate": 0.00138,
+            "abs_frac_of_total": 0.001118139241754783,
+            "magnitude_share": 0.001118139241754783
+          },
+          {
+            "name": "action_cost",
+            "episode_sum_mean": -0.1241650865427801,
+            "mean": -0.00031485383441059246,
+            "active_rate": 1.0,
+            "abs_frac_of_total": 0.0010572805540131783,
+            "magnitude_share": 0.0010572805540131783
+          },
+          {
+            "name": "hard_hit",
+            "episode_sum_mean": -0.0657030223390276,
+            "mean": -0.00017166666666666667,
+            "active_rate": 0.00034333333333333335,
+            "abs_frac_of_total": 0.0005764574180228654,
+            "magnitude_share": 0.0005764574180228654
+          }
+        ]
+      },
+      {
+        "steps": 3010560,
+        "episodes": 29,
+        "mean_generated_reward": 0.1314446261205486,
+        "top_components": [
+          {
+            "name": "total_reward",
+            "episode_sum_mean": 49.383236275365626,
+            "mean": 0.1314446261205486,
+            "active_rate": 1.0,
+            "abs_frac_of_total": 0.4893239277935861,
+            "magnitude_share": 0.4893239277935861
+          },
+          {
+            "name": "dock_bonus",
+            "episode_sum_mean": 21.00924969860899,
+            "mean": 0.05517322428601387,
+            "active_rate": 0.47547348484848484,
+            "abs_frac_of_total": 0.20126324010430735,
+            "magnitude_share": 0.20126324010430735
+          },
+          {
+            "name": "dock_hold_bonus",
+            "episode_sum_mean": 12.413793103448276,
+            "mean": 0.032670454545454544,
+            "active_rate": 0.002178030303030303,
+            "abs_frac_of_total": 0.11917667713984767,
+            "magnitude_share": 0.11917667713984767
+          },
+          {
+            "name": "dwell",
+            "episode_sum_mean": 11.512498500018284,
+            "mean": 0.030005602453919974,
+            "active_rate": 0.06013257575757576,
+            "abs_frac_of_total": 0.1094557160526243,
+            "magnitude_share": 0.1094557160526243
+          },
+          {
+            "name": "progress",
+            "episode_sum_mean": 5.596123333891918,
+            "mean": 0.014912965442900631,
+            "active_rate": 0.5674242424242424,
+            "abs_frac_of_total": 0.05596145701750633,
+            "magnitude_share": 0.05596145701750633
+          },
+          {
+            "name": "safety_guard",
+            "episode_sum_mean": -0.8620689655172413,
+            "mean": 0.0,
+            "active_rate": 0.0,
+            "abs_frac_of_total": 0.0,
+            "magnitude_share": 0.0
+          },
+          {
+            "name": "approach_cargo",
+            "episode_sum_mean": 0.4906338749258057,
+            "mean": 0.0012952932784499782,
+            "active_rate": 0.9962121212121212,
+            "abs_frac_of_total": 0.015287484563181736,
+            "magnitude_share": 0.015287484563181736
+          },
+          {
+            "name": "time_cost",
+            "episode_sum_mean": -0.37824137931034507,
+            "mean": -0.0009999999999999608,
+            "active_rate": 1.0,
+            "abs_frac_of_total": 0.003647842639410847,
+            "magnitude_share": 0.003647842639410847
+          },
+          {
+            "name": "roughness",
+            "episode_sum_mean": -0.312975986130086,
+            "mean": -0.0009532432804917335,
+            "active_rate": 0.026515151515151516,
+            "abs_frac_of_total": 0.003477281484309755,
+            "magnitude_share": 0.003477281484309755
+          },
+          {
+            "name": "hard_hit",
+            "episode_sum_mean": -0.15517241379310345,
+            "mean": -0.00033143939393939396,
+            "active_rate": 0.0006628787878787879,
+            "abs_frac_of_total": 0.0012090387535926574,
+            "magnitude_share": 0.0012090387535926574
+          },
+          {
+            "name": "action_cost",
+            "episode_sum_mean": -0.12559304764818185,
+            "mean": -0.00032823083942750146,
+            "active_rate": 1.0,
+            "abs_frac_of_total": 0.0011973344516333017,
+            "magnitude_share": 0.0011973344516333017
+          },
+          {
+            "name": "bounds_penalty",
+            "episode_sum_mean": 0.0,
+            "mean": 0.0,
+            "active_rate": 0.0,
+            "abs_frac_of_total": 0.0,
+            "magnitude_share": 0.0
+          }
+        ]
+      }
+    ]
+  },
+  "monitor_snapshots": [
+    {
+      "steps": 300000,
+      "episodes": 750,
+      "mean_generated_reward": 0.0011166067067427017,
+      "top_components": [
+        {
+          "name": "progress",
+          "episode_sum_mean": 0.872109744668007,
+          "mean": 0.0021901431480050087,
+          "active_rate": 0.43646,
+          "abs_frac_of_total": 0.18495625762800075,
+          "magnitude_share": 0.18495625762800075
+        },
+        {
+          "name": "approach_cargo",
+          "episode_sum_mean": 0.47285469627716875,
+          "mean": 0.0011906249771100222,
+          "active_rate": 0.99981,
+          "abs_frac_of_total": 0.19994430453239714,
+          "magnitude_share": 0.19994430453239714
+        },
+        {
+          "name": "total_reward",
+          "episode_sum_mean": 0.4403389770316426,
+          "mean": 0.0011166067067427017,
+          "active_rate": 1.0,
+          "abs_frac_of_total": 0.43467230489159214,
+          "magnitude_share": 0.43467230489159214
+        },
+        {
+          "name": "time_cost",
+          "episode_sum_mean": -0.3994413333333334,
+          "mean": -0.0009999999999993927,
+          "active_rate": 1.0,
+          "abs_frac_of_total": 0.0545526824569424,
+          "magnitude_share": 0.0545526824569424
+        },
+        {
+          "name": "safety_guard",
+          "episode_sum_mean": -0.3333333333333333,
+          "mean": -0.0008333333333333334,
+          "active_rate": 3.3333333333333335e-05,
+          "abs_frac_of_total": 0.04546056871414628,
+          "magnitude_share": 0.04546056871414628
+        },
+        {
+          "name": "bounds_penalty",
+          "episode_sum_mean": -0.16001857964197794,
+          "mean": -0.00040004644910494484,
+          "active_rate": 0.00242,
+          "abs_frac_of_total": 0.02182360690606268,
+          "magnitude_share": 0.02182360690606268
+        },
+        {
+          "name": "action_cost",
+          "episode_sum_mean": -0.1593226518120183,
+          "mean": -0.00039888008143946856,
+          "active_rate": 1.0,
+          "abs_frac_of_total": 0.021759978421179868,
+          "magnitude_share": 0.021759978421179868
+        },
+        {
+          "name": "roughness",
+          "episode_sum_mean": -0.08863122144077075,
+          "mean": -0.00022220569368605757,
+          "active_rate": 0.014113333333333334,
+          "abs_frac_of_total": 0.012121916647787471,
+          "magnitude_share": 0.012121916647787471
+        },
+        {
+          "name": "dock_bonus",
+          "episode_sum_mean": 0.0642483822578823,
+          "mean": 0.00016062095564470577,
+          "active_rate": 0.0053,
+          "abs_frac_of_total": 0.008762303989221586,
+          "magnitude_share": 0.008762303989221586
+        },
+        {
+          "name": "dock_hold_bonus",
+          "episode_sum_mean": 0.06,
+          "mean": 0.00015,
+          "active_rate": 1e-05,
+          "abs_frac_of_total": 0.00818290236854633,
+          "magnitude_share": 0.00818290236854633
+        },
+        {
+          "name": "dwell",
+          "episode_sum_mean": 0.048255729039510094,
+          "mean": 0.00012063932259877523,
+          "active_rate": 0.00025,
+          "abs_frac_of_total": 0.006581198657555617,
+          "magnitude_share": 0.006581198657555617
+        },
+        {
+          "name": "hard_hit",
+          "episode_sum_mean": -0.008666666666666666,
+          "mean": -2.1666666666666667e-05,
+          "active_rate": 4.3333333333333334e-05,
+          "abs_frac_of_total": 0.0011819747865678032,
+          "magnitude_share": 0.0011819747865678032
+        }
+      ]
+    },
+    {
+      "steps": 600000,
+      "episodes": 756,
+      "mean_generated_reward": 0.01874741887144822,
+      "top_components": [
+        {
+          "name": "total_reward",
+          "episode_sum_mean": 7.412628947555537,
+          "mean": 0.01874741887144822,
+          "active_rate": 1.0,
+          "abs_frac_of_total": 0.464908195636166,
+          "magnitude_share": 0.464908195636166
+        },
+        {
+          "name": "progress",
+          "episode_sum_mean": 3.1509120082119284,
+          "mean": 0.008009328273182424,
+          "active_rate": 0.6889833333333333,
+          "abs_frac_of_total": 0.189854794829128,
+          "magnitude_share": 0.189854794829128
+        },
+        {
+          "name": "dock_bonus",
+          "episode_sum_mean": 1.7969300016941896,
+          "mean": 0.0045282998765156755,
+          "active_rate": 0.09960666666666666,
+          "abs_frac_of_total": 0.09163665734312544,
+          "magnitude_share": 0.09163665734312544
+        },
+        {
+          "name": "dock_hold_bonus",
+          "episode_sum_mean": 1.3492063492063493,
+          "mean": 0.0034,
+          "active_rate": 0.00022666666666666666,
+          "abs_frac_of_total": 0.0688038874329943,
+          "magnitude_share": 0.0688038874329943
+        },
+        {
+          "name": "dwell",
+          "episode_sum_mean": 1.3143414821101245,
+          "mean": 0.0033121405349175134,
+          "active_rate": 0.0069433333333333335,
+          "abs_frac_of_total": 0.06702592486080063,
+          "magnitude_share": 0.06702592486080063
+        },
+        {
+          "name": "approach_cargo",
+          "episode_sum_mean": 0.6716422494806538,
+          "mean": 0.0016969000808205212,
+          "active_rate": 0.9992066666666667,
+          "abs_frac_of_total": 0.07176530763282342,
+          "magnitude_share": 0.07176530763282342
+        },
+        {
+          "name": "time_cost",
+          "episode_sum_mean": -0.395410052910053,
+          "mean": -0.0009999999999993927,
+          "active_rate": 1.0,
+          "abs_frac_of_total": 0.020236437480280152,
+          "magnitude_share": 0.020236437480280152
+        },
+        {
+          "name": "action_cost",
+          "episode_sum_mean": -0.15953538874659987,
+          "mean": -0.0004035652996099692,
+          "active_rate": 1.0,
+          "abs_frac_of_total": 0.00816672395477263,
+          "magnitude_share": 0.00816672395477263
+        },
+        {
+          "name": "roughness",
+          "episode_sum_mean": -0.14502881498015435,
+          "mean": -0.0003662038014631371,
+          "active_rate": 0.01998,
+          "abs_frac_of_total": 0.0074106603333542,
+          "magnitude_share": 0.0074106603333542
+        },
+        {
+          "name": "safety_guard",
+          "episode_sum_mean": -0.13227513227513227,
+          "mean": -0.0003333333333333333,
+          "active_rate": 1.3333333333333333e-05,
+          "abs_frac_of_total": 0.006745479160097481,
+          "magnitude_share": 0.006745479160097481
+        },
+        {
+          "name": "bounds_penalty",
+          "episode_sum_mean": -0.038472287080906054,
+          "mean": -9.695016344388326e-05,
+          "active_rate": 0.0006633333333333334,
+          "abs_frac_of_total": 0.001961925921236277,
+          "magnitude_share": 0.001961925921236277
+        },
+        {
+          "name": "hard_hit",
+          "episode_sum_mean": -0.0291005291005291,
+          "mean": -7.333333333333333e-05,
+          "active_rate": 0.00014666666666666666,
+          "abs_frac_of_total": 0.0014840054152214456,
+          "magnitude_share": 0.0014840054152214456
+        }
+      ]
+    },
+    {
+      "steps": 900000,
+      "episodes": 785,
+      "mean_generated_reward": 0.04181617535554455,
+      "top_components": [
+        {
+          "name": "total_reward",
+          "episode_sum_mean": 15.779068751603063,
+          "mean": 0.04181617535554455,
+          "active_rate": 1.0,
+          "abs_frac_of_total": 0.4789793225387128,
+          "magnitude_share": 0.4789793225387128
+        },
+        {
+          "name": "progress",
+          "episode_sum_mean": 4.740987992993182,
+          "mean": 0.012398725889708537,
+          "active_rate": 0.6734366666666667,
+          "abs_frac_of_total": 0.14286337779397573,
+          "magnitude_share": 0.14286337779397573
+        },
+        {
+          "name": "dock_bonus",
+          "episode_sum_mean": 4.543492031277441,
+          "mean": 0.012125321264949387,
+          "active_rate": 0.23082666666666668,
+          "abs_frac_of_total": 0.1187126845342873,
+          "magnitude_share": 0.1187126845342873
+        },
+        {
+          "name": "dock_hold_bonus",
+          "episode_sum_mean": 3.9745222929936306,
+          "mean": 0.01055,
+          "active_rate": 0.0007033333333333334,
+          "abs_frac_of_total": 0.10328953719825079,
+          "magnitude_share": 0.10328953719825079
+        },
+        {
+          "name": "dwell",
+          "episode_sum_mean": 3.2553398831634763,
+          "mean": 0.008667630785504976,
+          "active_rate": 0.017533333333333335,
+          "abs_frac_of_total": 0.08486024383318673,
+          "magnitude_share": 0.08486024383318673
+        },
+        {
+          "name": "approach_cargo",
+          "episode_sum_mean": 0.6440969585229696,
+          "mean": 0.0016844548763905174,
+          "active_rate": 0.99805,
+          "abs_frac_of_total": 0.03363551186768078,
+          "magnitude_share": 0.03363551186768078
+        },
+        {
+          "name": "safety_guard",
+          "episode_sum_mean": -0.4140127388535032,
+          "mean": -0.0010833333333333333,
+          "active_rate": 4.3333333333333334e-05,
+          "abs_frac_of_total": 0.01060635058117899,
+          "magnitude_share": 0.01060635058117899
+        },
+        {
+          "name": "time_cost",
+          "episode_sum_mean": -0.3823936305732486,
+          "mean": -0.0009999999999993927,
+          "active_rate": 1.0,
+          "abs_frac_of_total": 0.009790477459543893,
+          "magnitude_share": 0.009790477459543893
+        },
+        {
+          "name": "bounds_penalty",
+          "episode_sum_mean": -0.3537828068824331,
+          "mean": -0.0009257316780090332,
+          "active_rate": 0.0064533333333333335,
+          "abs_frac_of_total": 0.009063355127138689,
+          "magnitude_share": 0.009063355127138689
+        },
+        {
+          "name": "action_cost",
+          "episode_sum_mean": -0.1467713955715749,
+          "mean": -0.00038363051107045927,
+          "active_rate": 1.0,
+          "abs_frac_of_total": 0.003755925871430916,
+          "magnitude_share": 0.003755925871430916
+        },
+        {
+          "name": "roughness",
+          "episode_sum_mean": -0.1422447950328598,
+          "mean": -0.0003738300826462118,
+          "active_rate": 0.019513333333333334,
+          "abs_frac_of_total": 0.0036599749978493894,
+          "magnitude_share": 0.0036599749978493894
+        },
+        {
+          "name": "hard_hit",
+          "episode_sum_mean": -0.030573248407643312,
+          "mean": -8e-05,
+          "active_rate": 0.00016,
+          "abs_frac_of_total": 0.0007832381967639871,
+          "magnitude_share": 0.0007832381967639871
+        }
+      ]
+    },
+    {
+      "steps": 1200000,
+      "episodes": 788,
+      "mean_generated_reward": 0.058899092798351,
+      "top_components": [
+        {
+          "name": "total_reward",
+          "episode_sum_mean": 22.623847648809573,
+          "mean": 0.058899092798351,
+          "active_rate": 1.0,
+          "abs_frac_of_total": 0.48238564965128095,
+          "magnitude_share": 0.48238564965128095
+        },
+        {
+          "name": "dock_bonus",
+          "episode_sum_mean": 7.831080003773268,
+          "mean": 0.020349116232989822,
+          "active_rate": 0.31808,
+          "abs_frac_of_total": 0.1495341218031393,
+          "magnitude_share": 0.1495341218031393
+        },
+        {
+          "name": "dock_hold_bonus",
+          "episode_sum_mean": 5.615482233502538,
+          "mean": 0.0146,
+          "active_rate": 0.0009733333333333333,
+          "abs_frac_of_total": 0.10728712506867745,
+          "magnitude_share": 0.10728712506867745
+        },
+        {
+          "name": "progress",
+          "episode_sum_mean": 5.038711870442261,
+          "mean": 0.013228559866183593,
+          "active_rate": 0.6107766666666666,
+          "abs_frac_of_total": 0.11197823935870056,
+          "magnitude_share": 0.11197823935870056
+        },
+        {
+          "name": "dwell",
+          "episode_sum_mean": 4.927521792538275,
+          "mean": 0.012793465817173322,
+          "active_rate": 0.02578333333333333,
+          "abs_frac_of_total": 0.09401192925951535,
+          "magnitude_share": 0.09401192925951535
+        },
+        {
+          "name": "approach_cargo",
+          "episode_sum_mean": 0.5983094359674017,
+          "mean": 0.0015690741488007932,
+          "active_rate": 0.99884,
+          "abs_frac_of_total": 0.026311215518889576,
+          "magnitude_share": 0.026311215518889576
+        },
+        {
+          "name": "safety_guard",
+          "episode_sum_mean": -0.41243654822335024,
+          "mean": -0.0010833333333333333,
+          "active_rate": 4.3333333333333334e-05,
+          "abs_frac_of_total": 0.00796080265920552,
+          "magnitude_share": 0.00796080265920552
+        },
+        {
+          "name": "time_cost",
+          "episode_sum_mean": -0.3812093908629442,
+          "mean": -0.0009999999999993927,
+          "active_rate": 1.0,
+          "abs_frac_of_total": 0.007348433223877555,
+          "magnitude_share": 0.007348433223877555
+        },
+        {
+          "name": "bounds_penalty",
+          "episode_sum_mean": -0.3017201459952417,
+          "mean": -0.0007925182501475016,
+          "active_rate": 0.00489,
+          "abs_frac_of_total": 0.005823767439916741,
+          "magnitude_share": 0.005823767439916741
+        },
+        {
+          "name": "roughness",
+          "episode_sum_mean": -0.19491963278224503,
+          "mean": -0.0005109735040515511,
+          "active_rate": 0.024126666666666668,
+          "abs_frac_of_total": 0.003754854673695831,
+          "magnitude_share": 0.003754854673695831
+        },
+        {
+          "name": "action_cost",
+          "episode_sum_mean": -0.14054848008499193,
+          "mean": -0.0003687591470141142,
+          "active_rate": 1.0,
+          "abs_frac_of_total": 0.00270980196752891,
+          "magnitude_share": 0.00270980196752891
+        },
+        {
+          "name": "hard_hit",
+          "episode_sum_mean": -0.04631979695431472,
+          "mean": -0.00012166666666666667,
+          "active_rate": 0.00024333333333333333,
+          "abs_frac_of_total": 0.0008940593755723121,
+          "magnitude_share": 0.0008940593755723121
+        }
+      ]
+    },
+    {
+      "steps": 1500000,
+      "episodes": 794,
+      "mean_generated_reward": 0.07786176155132125,
+      "top_components": [
+        {
+          "name": "total_reward",
+          "episode_sum_mean": 29.387617199055637,
+          "mean": 0.07786176155132125,
+          "active_rate": 1.0,
+          "abs_frac_of_total": 0.4845233442563591,
+          "magnitude_share": 0.4845233442563591
+        },
+        {
+          "name": "dock_bonus",
+          "episode_sum_mean": 10.811589543081066,
+          "mean": 0.028602887164083955,
+          "active_rate": 0.41364666666666666,
+          "abs_frac_of_total": 0.16670620535538,
+          "magnitude_share": 0.16670620535538
+        },
+        {
+          "name": "dock_hold_bonus",
+          "episode_sum_mean": 7.405541561712846,
+          "mean": 0.01965,
+          "active_rate": 0.00131,
+          "abs_frac_of_total": 0.1145260936926165,
+          "magnitude_share": 0.1145260936926165
+        },
+        {
+          "name": "dwell",
+          "episode_sum_mean": 6.557145066352875,
+          "mean": 0.01737612920373678,
+          "active_rate": 0.035146666666666666,
+          "abs_frac_of_total": 0.1012732926820442,
+          "magnitude_share": 0.1012732926820442
+        },
+        {
+          "name": "progress",
+          "episode_sum_mean": 5.388997931259166,
+          "mean": 0.014278933004688781,
+          "active_rate": 0.59118,
+          "abs_frac_of_total": 0.08947027118163778,
+          "magnitude_share": 0.08947027118163778
+        },
+        {
+          "name": "approach_cargo",
+          "episode_sum_mean": 0.5779505577563329,
+          "mean": 0.001536032226950553,
+          "active_rate": 0.9986466666666667,
+          "abs_frac_of_total": 0.021646917103670015,
+          "magnitude_share": 0.021646917103670015
+        },
+        {
+          "name": "time_cost",
+          "episode_sum_mean": -0.37791561712846355,
+          "mean": -0.0009999999999993927,
+          "active_rate": 1.0,
+          "abs_frac_of_total": 0.005828299933462949,
+          "magnitude_share": 0.005828299933462949
+        },
+        {
+          "name": "bounds_penalty",
+          "episode_sum_mean": -0.36359954375764286,
+          "mean": -0.0009623267924785614,
+          "active_rate": 0.004676666666666667,
+          "abs_frac_of_total": 0.005608729180575819,
+          "magnitude_share": 0.005608729180575819
+        },
+        {
+          "name": "safety_guard",
+          "episode_sum_mean": -0.28337531486146095,
+          "mean": -0.00075,
+          "active_rate": 3e-05,
+          "abs_frac_of_total": 0.004371224950099867,
+          "magnitude_share": 0.004371224950099867
+        },
+        {
+          "name": "roughness",
+          "episode_sum_mean": -0.19381269009333701,
+          "mean": -0.0005128973148487885,
+          "active_rate": 0.02327,
+          "abs_frac_of_total": 0.002989319386008335,
+          "magnitude_share": 0.002989319386008335
+        },
+        {
+          "name": "action_cost",
+          "episode_sum_mean": -0.14084664068534145,
+          "mean": -0.00037272334637912974,
+          "active_rate": 1.0,
+          "abs_frac_of_total": 0.0021723434549028886,
+          "magnitude_share": 0.0021723434549028886
+        },
+        {
+          "name": "hard_hit",
+          "episode_sum_mean": -0.057304785894206546,
+          "mean": -0.00015166666666666668,
+          "active_rate": 0.00030333333333333335,
+          "abs_frac_of_total": 0.0008839588232424174,
+          "magnitude_share": 0.0008839588232424174
+        }
+      ]
+    },
+    {
+      "steps": 1800000,
+      "episodes": 776,
+      "mean_generated_reward": 0.10029811700103416,
+      "top_components": [
+        {
+          "name": "total_reward",
+          "episode_sum_mean": 38.58171049809592,
+          "mean": 0.10029811700103416,
+          "active_rate": 1.0,
+          "abs_frac_of_total": 0.48858990338309694,
+          "magnitude_share": 0.48858990338309694
+        },
+        {
+          "name": "dock_bonus",
+          "episode_sum_mean": 15.601081359737858,
+          "mean": 0.04053130573450756,
+          "active_rate": 0.4670666666666667,
+          "abs_frac_of_total": 0.18339088464137507,
+          "magnitude_share": 0.18339088464137507
+        },
+        {
+          "name": "dock_hold_bonus",
+          "episode_sum_mean": 9.664948453608247,
+          "mean": 0.02515,
+          "active_rate": 0.0016766666666666666,
+          "abs_frac_of_total": 0.11379551349622022,
+          "magnitude_share": 0.11379551349622022
+        },
+        {
+          "name": "dwell",
+          "episode_sum_mean": 9.150343644211894,
+          "mean": 0.023846277334392072,
+          "active_rate": 0.04801,
+          "abs_frac_of_total": 0.10789659539723352,
+          "magnitude_share": 0.10789659539723352
+        },
+        {
+          "name": "progress",
+          "episode_sum_mean": 5.29506864072815,
+          "mean": 0.013701708891902429,
+          "active_rate": 0.57429,
+          "abs_frac_of_total": 0.06786197875065132,
+          "magnitude_share": 0.06786197875065132
+        },
+        {
+          "name": "safety_guard",
+          "episode_sum_mean": -0.7087628865979382,
+          "mean": -0.0018333333333333333,
+          "active_rate": 7.333333333333333e-05,
+          "abs_frac_of_total": 0.00829523292550313,
+          "magnitude_share": 0.00829523292550313
+        },
+        {
+          "name": "approach_cargo",
+          "episode_sum_mean": 0.6583586867218024,
+          "mean": 0.0016977645927472194,
+          "active_rate": 0.99807,
+          "abs_frac_of_total": 0.015720187148077748,
+          "magnitude_share": 0.015720187148077748
+        },
+        {
+          "name": "bounds_penalty",
+          "episode_sum_mean": -0.4951861881718193,
+          "mean": -0.0012808816067377726,
+          "active_rate": 0.004776666666666667,
+          "abs_frac_of_total": 0.005795569787935922,
+          "magnitude_share": 0.005795569787935922
+        },
+        {
+          "name": "time_cost",
+          "episode_sum_mean": -0.38593814432989704,
+          "mean": -0.0009999999999993927,
+          "active_rate": 1.0,
+          "abs_frac_of_total": 0.004524672504817142,
+          "magnitude_share": 0.004524672504817142
+        },
+        {
+          "name": "roughness",
+          "episode_sum_mean": -0.16223065936079428,
+          "mean": -0.0004211388437243007,
+          "active_rate": 0.020673333333333332,
+          "abs_frac_of_total": 0.0019055153469109834,
+          "magnitude_share": 0.0019055153469109834
+        },
+        {
+          "name": "action_cost",
+          "episode_sum_mean": -0.1421308050503181,
+          "mean": -0.0003681821555355141,
+          "active_rate": 1.0,
+          "abs_frac_of_total": 0.0016659036759168607,
+          "magnitude_share": 0.0016659036759168607
+        },
+        {
+          "name": "hard_hit",
+          "episode_sum_mean": -0.04768041237113402,
+          "mean": -0.00012333333333333334,
+          "active_rate": 0.0002466666666666667,
+          "abs_frac_of_total": 0.0005580429422611196,
+          "magnitude_share": 0.0005580429422611196
+        }
+      ]
+    },
+    {
+      "steps": 2100000,
+      "episodes": 767,
+      "mean_generated_reward": 0.106729374835315,
+      "top_components": [
+        {
+          "name": "total_reward",
+          "episode_sum_mean": 41.85873180206102,
+          "mean": 0.106729374835315,
+          "active_rate": 1.0,
+          "abs_frac_of_total": 0.48955767152874924,
+          "magnitude_share": 0.48955767152874924
+        },
+        {
+          "name": "dock_bonus",
+          "episode_sum_mean": 16.404271519483967,
+          "mean": 0.04186035293158419,
+          "active_rate": 0.4801566666666667,
+          "abs_frac_of_total": 0.18418802044461027,
+          "magnitude_share": 0.18418802044461027
+        },
+        {
+          "name": "dock_hold_bonus",
+          "episode_sum_mean": 10.443285528031291,
+          "mean": 0.0266,
+          "active_rate": 0.0017733333333333334,
+          "abs_frac_of_total": 0.11704156799237041,
+          "magnitude_share": 0.11704156799237041
+        },
+        {
+          "name": "dwell",
+          "episode_sum_mean": 10.28479548698143,
+          "mean": 0.026195750896732012,
+          "active_rate": 0.05259333333333333,
+          "abs_frac_of_total": 0.1152628481086864,
+          "magnitude_share": 0.1152628481086864
+        },
+        {
+          "name": "progress",
+          "episode_sum_mean": 5.2829328243052425,
+          "mean": 0.013488761877658156,
+          "active_rate": 0.5707466666666666,
+          "abs_frac_of_total": 0.06487324511331341,
+          "magnitude_share": 0.06487324511331341
+        },
+        {
+          "name": "approach_cargo",
+          "episode_sum_mean": 0.649080620355412,
+          "mean": 0.001663915490792189,
+          "active_rate": 0.99841,
+          "abs_frac_of_total": 0.014808862357445818,
+          "magnitude_share": 0.014808862357445818
+        },
+        {
+          "name": "time_cost",
+          "episode_sum_mean": -0.3917288135593222,
+          "mean": -0.0009999999999993927,
+          "active_rate": 1.0,
+          "abs_frac_of_total": 0.004400058947078922,
+          "magnitude_share": 0.004400058947078922
+        },
+        {
+          "name": "safety_guard",
+          "episode_sum_mean": -0.29335071707953064,
+          "mean": -0.00075,
+          "active_rate": 3e-05,
+          "abs_frac_of_total": 0.0033000442103111958,
+          "magnitude_share": 0.0033000442103111958
+        },
+        {
+          "name": "bounds_penalty",
+          "episode_sum_mean": -0.26865750372487535,
+          "mean": -0.0006868676845232645,
+          "active_rate": 0.00379,
+          "abs_frac_of_total": 0.003022258300747808,
+          "magnitude_share": 0.003022258300747808
+        },
+        {
+          "name": "roughness",
+          "episode_sum_mean": -0.14745630988596262,
+          "mean": -0.00037607549074897257,
+          "active_rate": 0.01983,
+          "abs_frac_of_total": 0.001654754327848118,
+          "magnitude_share": 0.001654754327848118
+        },
+        {
+          "name": "action_cost",
+          "episode_sum_mean": -0.14025379839291474,
+          "mean": -0.0003580250014625936,
+          "active_rate": 1.0,
+          "abs_frac_of_total": 0.001575331110964386,
+          "magnitude_share": 0.001575331110964386
+        },
+        {
+          "name": "hard_hit",
+          "episode_sum_mean": -0.02803129074315515,
+          "mean": -7.166666666666667e-05,
+          "active_rate": 0.00014333333333333334,
+          "abs_frac_of_total": 0.00031533755787418094,
+          "magnitude_share": 0.00031533755787418094
+        }
+      ]
+    },
+    {
+      "steps": 2400000,
+      "episodes": 764,
+      "mean_generated_reward": 0.12358045957997034,
+      "top_components": [
+        {
+          "name": "total_reward",
+          "episode_sum_mean": 48.417139410332766,
+          "mean": 0.12358045957997034,
+          "active_rate": 1.0,
+          "abs_frac_of_total": 0.49038863248476083,
+          "magnitude_share": 0.49038863248476083
+        },
+        {
+          "name": "dock_bonus",
+          "episode_sum_mean": 19.77340426033814,
+          "mean": 0.05039642505221994,
+          "active_rate": 0.5362,
+          "abs_frac_of_total": 0.19437366422875088,
+          "magnitude_share": 0.19437366422875088
+        },
+        {
+          "name": "dock_hold_bonus",
+          "episode_sum_mean": 11.858638743455497,
+          "mean": 0.0303,
+          "active_rate": 0.00202,
+          "abs_frac_of_total": 0.11686388508765307,
+          "magnitude_share": 0.11686388508765307
+        },
+        {
+          "name": "dwell",
+          "episode_sum_mean": 11.643007692125144,
+          "mean": 0.029750329108834267,
+          "active_rate": 0.059673333333333335,
+          "abs_frac_of_total": 0.11474386278200224,
+          "magnitude_share": 0.11474386278200224
+        },
+        {
+          "name": "progress",
+          "episode_sum_mean": 5.634050026083735,
+          "mean": 0.014392904251158859,
+          "active_rate": 0.5357466666666667,
+          "abs_frac_of_total": 0.05830985990563748,
+          "magnitude_share": 0.05830985990563748
+        },
+        {
+          "name": "approach_cargo",
+          "episode_sum_mean": 0.6664470558666453,
+          "mean": 0.001696490292029592,
+          "active_rate": 0.9978666666666667,
+          "abs_frac_of_total": 0.013059565431770882,
+          "magnitude_share": 0.013059565431770882
+        },
+        {
+          "name": "safety_guard",
+          "episode_sum_mean": -0.39267015706806285,
+          "mean": -0.001,
+          "active_rate": 4e-05,
+          "abs_frac_of_total": 0.0038568938972822794,
+          "magnitude_share": 0.0038568938972822794
+        },
+        {
+          "name": "time_cost",
+          "episode_sum_mean": -0.3919450261780106,
+          "mean": -0.0009999999999993927,
+          "active_rate": 1.0,
+          "abs_frac_of_total": 0.0038568938972799375,
+          "magnitude_share": 0.0038568938972799375
+        },
+        {
+          "name": "roughness",
+          "episode_sum_mean": -0.18003799775242477,
+          "mean": -0.0004600396790972369,
+          "active_rate": 0.019196666666666667,
+          "abs_frac_of_total": 0.0017743242308178315,
+          "magnitude_share": 0.0017743242308178315
+        },
+        {
+          "name": "action_cost",
+          "episode_sum_mean": -0.13068750451267488,
+          "mean": -0.00033337041278117636,
+          "active_rate": 1.0,
+          "abs_frac_of_total": 0.0012857743105901935,
+          "magnitude_share": 0.0012857743105901935
+        },
+        {
+          "name": "bounds_penalty",
+          "episode_sum_mean": -0.0963812963500697,
+          "mean": -0.00024545103470484413,
+          "active_rate": 0.0019366666666666666,
+          "abs_frac_of_total": 0.0009466785978347345,
+          "magnitude_share": 0.0009466785978347345
+        },
+        {
+          "name": "hard_hit",
+          "episode_sum_mean": -0.05431937172774869,
+          "mean": -0.00014,
+          "active_rate": 0.00028,
+          "abs_frac_of_total": 0.0005399651456195192,
+          "magnitude_share": 0.0005399651456195192
+        }
+      ]
+    },
+    {
+      "steps": 2700000,
+      "episodes": 763,
+      "mean_generated_reward": 0.14067186242720267,
+      "top_components": [
+        {
+          "name": "total_reward",
+          "episode_sum_mean": 55.35335569027108,
+          "mean": 0.14067186242720267,
+          "active_rate": 1.0,
+          "abs_frac_of_total": 0.49043414109258493,
+          "magnitude_share": 0.49043414109258493
+        },
+        {
+          "name": "dock_bonus",
+          "episode_sum_mean": 23.569622831865434,
+          "mean": 0.059945622326645416,
+          "active_rate": 0.5719433333333334,
+          "abs_frac_of_total": 0.20586519772070117,
+          "magnitude_share": 0.20586519772070117
+        },
+        {
+          "name": "dock_hold_bonus",
+          "episode_sum_mean": 13.387942332896461,
+          "mean": 0.034,
+          "active_rate": 0.002266666666666667,
+          "abs_frac_of_total": 0.11676276683497949,
+          "magnitude_share": 0.11676276683497949
+        },
+        {
+          "name": "dwell",
+          "episode_sum_mean": 13.067786864848468,
+          "mean": 0.033185435799260934,
+          "active_rate": 0.06666666666666667,
+          "abs_frac_of_total": 0.11396539125136135,
+          "magnitude_share": 0.11396539125136135
+        },
+        {
+          "name": "progress",
+          "episode_sum_mean": 5.757626549920572,
+          "mean": 0.01463266479059433,
+          "active_rate": 0.5090833333333333,
+          "abs_frac_of_total": 0.05127999935239615,
+          "magnitude_share": 0.05127999935239615
+        },
+        {
+          "name": "approach_cargo",
+          "episode_sum_mean": 0.5367472101847941,
+          "mean": 0.0013662773728172256,
+          "active_rate": 0.9961066666666667,
+          "abs_frac_of_total": 0.012741056197174649,
+          "magnitude_share": 0.012741056197174649
+        },
+        {
+          "name": "time_cost",
+          "episode_sum_mean": -0.39326998689384024,
+          "mean": -0.0009999999999993927,
+          "active_rate": 1.0,
+          "abs_frac_of_total": 0.0034341990245561347,
+          "magnitude_share": 0.0034341990245561347
+        },
+        {
+          "name": "safety_guard",
+          "episode_sum_mean": -0.2621231979030144,
+          "mean": -0.0006666666666666666,
+          "active_rate": 2.6666666666666667e-05,
+          "abs_frac_of_total": 0.002289466016372147,
+          "magnitude_share": 0.002289466016372147
+        },
+        {
+          "name": "roughness",
+          "episode_sum_mean": -0.17099171399919455,
+          "mean": -0.0004354464625649234,
+          "active_rate": 0.017773333333333332,
+          "abs_frac_of_total": 0.0014954098169877876,
+          "magnitude_share": 0.0014954098169877876
+        },
+        {
+          "name": "action_cost",
+          "episode_sum_mean": -0.12487096782465128,
+          "mean": -0.00031758420378929424,
+          "active_rate": 1.0,
+          "abs_frac_of_total": 0.0010906473628682933,
+          "magnitude_share": 0.0010906473628682933
+        },
+        {
+          "name": "hard_hit",
+          "episode_sum_mean": -0.03800786369593709,
+          "mean": -9.666666666666667e-05,
+          "active_rate": 0.00019333333333333333,
+          "abs_frac_of_total": 0.0003319725723739613,
+          "magnitude_share": 0.0003319725723739613
+        },
+        {
+          "name": "bounds_penalty",
+          "episode_sum_mean": -0.035463895429008754,
+          "mean": -9.01965073744456e-05,
+          "active_rate": 0.00044333333333333334,
+          "abs_frac_of_total": 0.0003097527576438794,
+          "magnitude_share": 0.0003097527576438794
+        }
+      ]
+    },
+    {
+      "steps": 3000000,
+      "episodes": 761,
+      "mean_generated_reward": 0.14220488371713086,
+      "top_components": [
+        {
+          "name": "total_reward",
+          "episode_sum_mean": 56.153537078612636,
+          "mean": 0.14220488371713086,
+          "active_rate": 1.0,
+          "abs_frac_of_total": 0.4900847668906987,
+          "magnitude_share": 0.4900847668906987
+        },
+        {
+          "name": "dock_bonus",
+          "episode_sum_mean": 25.081159358018105,
+          "mean": 0.06358297928039981,
+          "active_rate": 0.57455,
+          "abs_frac_of_total": 0.21351192271561528,
+          "magnitude_share": 0.21351192271561528
+        },
+        {
+          "name": "dock_hold_bonus",
+          "episode_sum_mean": 13.206307490144546,
+          "mean": 0.03345,
+          "active_rate": 0.00223,
+          "abs_frac_of_total": 0.11232524640503794,
+          "magnitude_share": 0.11232524640503794
+        },
+        {
+          "name": "dwell",
+          "episode_sum_mean": 12.924321108594361,
+          "mean": 0.032728960226674875,
+          "active_rate": 0.06584,
+          "abs_frac_of_total": 0.10990399169034205,
+          "magnitude_share": 0.10990399169034205
+        },
+        {
+          "name": "progress",
+          "episode_sum_mean": 5.700685148412526,
+          "mean": 0.014437529227677732,
+          "active_rate": 0.5053233333333333,
+          "abs_frac_of_total": 0.0497662817494774,
+          "magnitude_share": 0.0497662817494774
+        },
+        {
+          "name": "approach_cargo",
+          "episode_sum_mean": 0.4595814267598685,
+          "mean": 0.0011650245897454566,
+          "active_rate": 0.9968433333333333,
+          "abs_frac_of_total": 0.012992610993730797,
+          "magnitude_share": 0.012992610993730797
+        },
+        {
+          "name": "time_cost",
+          "episode_sum_mean": -0.39449145860709606,
+          "mean": -0.0009999999999993927,
+          "active_rate": 1.0,
+          "abs_frac_of_total": 0.0033580043768301863,
+          "magnitude_share": 0.0033580043768301863
+        },
+        {
+          "name": "safety_guard",
+          "episode_sum_mean": -0.39421813403416556,
+          "mean": -0.0010833333333333333,
+          "active_rate": 4.3333333333333334e-05,
+          "abs_frac_of_total": 0.0036378380749015776,
+          "magnitude_share": 0.0036378380749015776
+        },
+        {
+          "name": "roughness",
+          "episode_sum_mean": -0.19577075298144736,
+          "mean": -0.0004965627505073113,
+          "active_rate": 0.01719,
+          "abs_frac_of_total": 0.0016674598895754,
+          "magnitude_share": 0.0016674598895754
+        },
+        {
+          "name": "bounds_penalty",
+          "episode_sum_mean": -0.13126569116945805,
+          "mean": -0.00033297730326652526,
+          "active_rate": 0.00138,
+          "abs_frac_of_total": 0.001118139241754783,
+          "magnitude_share": 0.001118139241754783
+        },
+        {
+          "name": "action_cost",
+          "episode_sum_mean": -0.1241650865427801,
+          "mean": -0.00031485383441059246,
+          "active_rate": 1.0,
+          "abs_frac_of_total": 0.0010572805540131783,
+          "magnitude_share": 0.0010572805540131783
+        },
+        {
+          "name": "hard_hit",
+          "episode_sum_mean": -0.0657030223390276,
+          "mean": -0.00017166666666666667,
+          "active_rate": 0.00034333333333333335,
+          "abs_frac_of_total": 0.0005764574180228654,
+          "magnitude_share": 0.0005764574180228654
+        }
+      ]
+    },
+    {
+      "steps": 3010560,
+      "episodes": 29,
+      "mean_generated_reward": 0.1314446261205486,
+      "top_components": [
+        {
+          "name": "total_reward",
+          "episode_sum_mean": 49.383236275365626,
+          "mean": 0.1314446261205486,
+          "active_rate": 1.0,
+          "abs_frac_of_total": 0.4893239277935861,
+          "magnitude_share": 0.4893239277935861
+        },
+        {
+          "name": "dock_bonus",
+          "episode_sum_mean": 21.00924969860899,
+          "mean": 0.05517322428601387,
+          "active_rate": 0.47547348484848484,
+          "abs_frac_of_total": 0.20126324010430735,
+          "magnitude_share": 0.20126324010430735
+        },
+        {
+          "name": "dock_hold_bonus",
+          "episode_sum_mean": 12.413793103448276,
+          "mean": 0.032670454545454544,
+          "active_rate": 0.002178030303030303,
+          "abs_frac_of_total": 0.11917667713984767,
+          "magnitude_share": 0.11917667713984767
+        },
+        {
+          "name": "dwell",
+          "episode_sum_mean": 11.512498500018284,
+          "mean": 0.030005602453919974,
+          "active_rate": 0.06013257575757576,
+          "abs_frac_of_total": 0.1094557160526243,
+          "magnitude_share": 0.1094557160526243
+        },
+        {
+          "name": "progress",
+          "episode_sum_mean": 5.596123333891918,
+          "mean": 0.014912965442900631,
+          "active_rate": 0.5674242424242424,
+          "abs_frac_of_total": 0.05596145701750633,
+          "magnitude_share": 0.05596145701750633
+        },
+        {
+          "name": "safety_guard",
+          "episode_sum_mean": -0.8620689655172413,
+          "mean": 0.0,
+          "active_rate": 0.0,
+          "abs_frac_of_total": 0.0,
+          "magnitude_share": 0.0
+        },
+        {
+          "name": "approach_cargo",
+          "episode_sum_mean": 0.4906338749258057,
+          "mean": 0.0012952932784499782,
+          "active_rate": 0.9962121212121212,
+          "abs_frac_of_total": 0.015287484563181736,
+          "magnitude_share": 0.015287484563181736
+        },
+        {
+          "name": "time_cost",
+          "episode_sum_mean": -0.37824137931034507,
+          "mean": -0.0009999999999999608,
+          "active_rate": 1.0,
+          "abs_frac_of_total": 0.003647842639410847,
+          "magnitude_share": 0.003647842639410847
+        },
+        {
+          "name": "roughness",
+          "episode_sum_mean": -0.312975986130086,
+          "mean": -0.0009532432804917335,
+          "active_rate": 0.026515151515151516,
+          "abs_frac_of_total": 0.003477281484309755,
+          "magnitude_share": 0.003477281484309755
+        },
+        {
+          "name": "hard_hit",
+          "episode_sum_mean": -0.15517241379310345,
+          "mean": -0.00033143939393939396,
+          "active_rate": 0.0006628787878787879,
+          "abs_frac_of_total": 0.0012090387535926574,
+          "magnitude_share": 0.0012090387535926574
+        },
+        {
+          "name": "action_cost",
+          "episode_sum_mean": -0.12559304764818185,
+          "mean": -0.00032823083942750146,
+          "active_rate": 1.0,
+          "abs_frac_of_total": 0.0011973344516333017,
+          "magnitude_share": 0.0011973344516333017
+        },
+        {
+          "name": "bounds_penalty",
+          "episode_sum_mean": 0.0,
+          "mean": 0.0,
+          "active_rate": 0.0,
+          "abs_frac_of_total": 0.0,
+          "magnitude_share": 0.0
+        }
+      ]
+    }
+  ]
+}
